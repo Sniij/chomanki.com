@@ -1,34 +1,9 @@
-import "../globals.css";
-import { Inter } from "@next/font/google";
-import LocalFont from "@next/font/local";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: {
-    default: "chomanki.com",
-    template: "%s | chomanki.com",
-  },
-  description: "chomanki",
-  icons: {
-    shortcut: "/favicon.png",
-  },
-};
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en" >
-      <head>
-      </head>
-      <body
-        className={`bg-black" : undefined
-          }`}
-      >
-        {children}
-      </body>
-    </html>
-  );
+export default function BlogLayout({
+	children,
+}: { children: React.ReactNode }) {
+	return (
+		<div className="relative min-h-screen bg-gradient-to-tl from-zinc-900 via-zinc-400/10 to-zinc-900 ">
+			{children}
+		</div>
+	);
 }
