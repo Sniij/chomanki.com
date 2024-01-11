@@ -7,6 +7,7 @@ import { Redis } from "@upstash/redis";
 import { allBlogs } from "contentlayer/generated";
 import { Article } from "./article";
 import type { Blog } from "@/.contentlayer/generated";
+import Particles from "../components/particles";
 
 const redis = Redis.fromEnv();
 export const revalidate = 60;
@@ -14,12 +15,19 @@ const postsPerPage = 2;
 
   
 interface BlogPageProps {
-blog: Blog[]; 
-currentPage: number;
-totalPages: number;
+    blog?: Blog[]; 
+    currentPage?: number;
+    totalPages?: number;
 }
 
-export default async function BlogPage({ blog, currentPage, totalPages }: BlogPageProps) {
+
+
+export default async function BlogPage({ 
+    blog, 
+    currentPage = 1, 
+    totalPages 
+}: BlogPageProps) {
+
 
     const views = (
         await redis.mget<number[]>(
@@ -47,9 +55,13 @@ export default async function BlogPage({ blog, currentPage, totalPages }: BlogPa
         );
 
 return (
-    <div className="relative pb-16 bg-gradient-to-dr from-black via-zinc-600/20 to-black">
+    <div className="relative pb-16">
         <Navigation />
         <div className="px-6 pt-20 mx-auto space-y-8 max-w-7xl lg:px-8 md:space-y-16 md:pt-24 lg:pt-32">
+        <Particles
+        className="absolute inset-0 -z-10 animate-fade-in"
+        quantity={100}
+         />
             <div className="max-w-2xl mx-auto lg:mx-0">
                 <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl">
                 Blog
