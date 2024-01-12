@@ -5,6 +5,7 @@ import { Header } from "./header";
 import "./mdx.css";
 import { ReportView } from "./view";
 import { Redis } from "@upstash/redis";
+import { CommentSection } from "./comment";
 
 export const revalidate = 60;
 
@@ -18,7 +19,6 @@ const redis = Redis.fromEnv();
 
 export async function generateStaticParams(): Promise<Props["params"][]> {
   return allBlogs
-    .filter((p) => p.published)
     .map((p) => ({
       slug: p.slug,
     }));
@@ -39,11 +39,17 @@ export default async function PostPage({ params }: Props) {
   return (
     <div className="bg-zinc-50 min-h-screen">
       <Header blog={blog} views={views} />
-        <ReportView slug={blog.slug} />
+      <ReportView slug={blog.slug} />
+      <article className="font-bold font-GSans px-4 py-12 mx-auto prose prose-zinc prose-quoteless max-w-4xl">
+        <Mdx code={blog.body.code} />      
+        <div className="mt-20 w-full h-px bg-zinc-800" />
 
-      <article className="px-4 py-12 mx-auto prose prose-zinc prose-quoteless">
-        <Mdx code={blog.body.code} />
       </article>
+
+      <article className="font-bold font-GSans px-4 py-12 mx-auto prose prose-zinc prose-quoteless max-w-4xl">
+        <CommentSection params={{slug}}/>
+      </article>
+
     </div>
   );
 }

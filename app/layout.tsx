@@ -4,7 +4,7 @@ import './globals.css'
 export const metadata: Metadata = {
   title: {
     default:"chomanki.com",
-    template: "chomanki.com | %s"
+    template: "%s | chomanki.com"
   },
   description: 'Backend Developer Manki Cho',
   icons: {

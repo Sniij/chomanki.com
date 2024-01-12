@@ -1,4 +1,5 @@
 "use client";
+import Particles from "@/app/components/particles";
 import { ArrowLeft, Eye, Github } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
@@ -41,10 +42,11 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 	}, []);
 
 	return (
+
 		<header
 			ref={ref}
 			className="relative isolate overflow-hidden bg-gradient-to-tl from-black via-zinc-900 to-black"
-		>
+		>      
 			<div
 				className={`fixed inset-x-0 top-0 z-50 backdrop-blur lg:backdrop-blur-none duration-200 border-b lg:bg-transparent ${
 					isIntersecting
@@ -93,10 +95,10 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 			<div className="container mx-auto relative isolate overflow-hidden  py-24 sm:py-32">
 				<div className="mx-auto max-w-7xl px-6 lg:px-8 text-center flex flex-col items-center">
 					<div className="mx-auto max-w-2xl lg:mx-0">
-						<h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl font-display">
+						<h1 className="text-4xl font-bold font-GSans tracking-tight text-white sm:text-6xl font-display">
 							{blog.title}
 						</h1>
-						<p className="mt-6 text-lg leading-8 text-zinc-300">
+						<p className="mt-6 font-bold font-GSans text-lg leading-8 text-zinc-300">
 							{blog.description}
 						</p>
 					</div>
