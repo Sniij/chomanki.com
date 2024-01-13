@@ -5,7 +5,7 @@ import { Header } from "./header";
 import "./mdx.css";
 import { ReportView } from "./view";
 import { Redis } from "@upstash/redis";
-import { CommentSection } from "./comment";
+import  CommentSection from "./commentsection";
 
 export const revalidate = 60;
 
