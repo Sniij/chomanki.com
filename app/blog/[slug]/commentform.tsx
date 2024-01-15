@@ -1,14 +1,10 @@
 'use client'
 
-
 import { useState, useRef, useEffect } from 'react';
 import { Redis } from "@upstash/redis";
-const url = '${process.env.NEXT_PUBLIC_UPSTASH_REDIS_REST_URL}';
-const token = '${process.env.NEXT_PUBLIC_UPSTASH_REDIS_REST_TOKEN}';
+
 
 const redis = new Redis({
-  url: url,
-  token: token,
 })
 type CommentFormProps = {
   slug: string;

@@ -7,7 +7,7 @@ import { ReportView } from "./view";
 import { Redis } from "@upstash/redis";
 import  CommentSection from "./commentsection";
 
-export const revalidate = 60;
+export const revalidate = 0;
 
 type Props = {
   params: {

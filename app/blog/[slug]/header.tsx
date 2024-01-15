@@ -1,5 +1,4 @@
 "use client";
-import Particles from "@/app/components/particles";
 import { ArrowLeft, Eye, Github } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
@@ -69,7 +68,7 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 								views,
 							)}
 						</span>
-						<Link target="_blank" href="https://github.com/Snnij">
+						<Link target="_blank" href="https://github.com/Sniij">
 							<Github
 								className={`w-6 h-6 duration-200 hover:font-medium ${
 									isIntersecting
