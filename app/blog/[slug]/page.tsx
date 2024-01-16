@@ -5,7 +5,8 @@ import { Header } from "./header";
 import "./mdx.css";
 import { ReportView } from "./view";
 import { Redis } from "@upstash/redis";
-import  CommentSection from "./commentsection";
+import  CommentSection from "./tmp/commentsection";
+import Comment from '@/app/components/comment'
 
 export const revalidate = 0;
 
@@ -47,7 +48,7 @@ export default async function PostPage({ params }: Props) {
       </article>
 
       <article className="font-bold font-GSans px-4 py-12 mx-auto prose prose-zinc prose-quoteless max-w-4xl">
-        <CommentSection params={{slug}}/>
+        <Comment slug={slug} />
       </article>
 
     </div>
