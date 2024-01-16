@@ -6,6 +6,8 @@ import Comment from './comment';
 import CommentForm from './commentform';
 
 const redis = new Redis({
+  url: '',
+  token: '',
 })
 
 type CommentType = {

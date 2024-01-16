@@ -48,7 +48,7 @@ export default async function PostPage({ params }: Props) {
       </article>
 
       <article className="font-bold font-GSans px-4 py-12 mx-auto prose prose-zinc prose-quoteless max-w-4xl">
-        <Comment slug={slug} />
+        <Comment slug={slug}/>
       </article>
 
     </div>

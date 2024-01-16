@@ -1,4 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
+import axiosInstance from './axiosInstance';
+
 
 const axiosClient = axios.create({
     baseURL: "http://127.0.0.1:8080"
@@ -34,12 +36,13 @@ export async function getPageRequest(URL: string, slug: string, page: number){
 
 export async function postRequest(URI: string, payload: CommentRequest) {
 
-    const response = await axiosClient.post(URI, payload)
-    .then(response=>response)
-    .catch(err=>console.error(err));
+    const response = await axiosInstance.post(URI, payload)
+    .then(response => response)
+    .catch(error => console.error(error));
 
     return response;
 }
+
 
 export async function deleteRequest(URI: string, commentId: string){
 

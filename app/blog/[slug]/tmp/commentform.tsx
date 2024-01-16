@@ -5,6 +5,8 @@ import { Redis } from "@upstash/redis";
 
 
 const redis = new Redis({
+  url:'',
+  token: '',
 })
 type CommentFormProps = {
   slug: string;
