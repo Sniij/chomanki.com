@@ -1,0 +1,167 @@
+---
+title: "[java]-abstraction(추상화)"
+description: 객체를 만드는 데 필요한 클래스의 개념을 이해하고, 구성요소와 기본 문법을 설명할 수 있다.
+date: 2024-01-10
+---
+
+
+
+# Abstraction
+
+## GOALS:
+
+- 추상화의 핵심 개념과 목적을 이해하고 설명할 수 있다.
+- abstract 제어자가 내포하는 의미를 이해하고, 어떻게 사용하는지 설명할 수 있다.
+- 추상 클래스의 핵심 개념과 문법을 이해할 수 있다.
+- final 키워드를 이해하고 설명할 수 있다.
+- 자바 추상화에서 핵심적인 역할을 수행하는 인터페이스의 핵심 내용과 그 활용을 이해할 수 있다.
+- 추상 클래스와 인터페이스의 차이를 설명할 수 있다.
+
+---
+
+ 자바에서 추상화는 객체의 공통적인 속성과 기능을 추출하여 정의하는 것이다. 앞서 공부했던 상속은 상위 클래스를 사용하여 하위 클래스를 정의했다면, 추상화는 반대로 기존 클래스들의 공통요소들을 뽑아 상위 클래스를 만들어 내는 것이다.
+
+ 자바에서 추상화는 추상 클래스와 인터페이스라는 문법 요소를 사용해서 구현한다.
+
+---
+
+### abstract 제어자
+
+먼저 알아야 할 개념은 abstract 제어자다. 이는 사전적 의미로 미완성을 뜻하는데 자바에서도 직관적으로 이 뜻을 이용한다. 
+일단 아래 코드를 보면서 이해를 더해보자.
+
+```java
+
+abstract class AbstractEx{
+	abstract void exMethod();
+}
+
+```
+
+abstract 제어자가 클래스와 method 앞에 붙으며 현재 추상 메서드를 갖고 있는 추상 클래스가 되었고, 이는 아직 미완성이라는 뜻이다. 미안성이라는 뜻은? 완성시켜야지! 해당 클래스를 사용하기 위해선 exMethod를 완성시켜 줘야한다. 이게 무슨 소리냐고? 이 클래스 자체로는 객체 생성이 불가하다는 것이다. 일단 따라오면서 더 이해를 해보자.
+
+---
+
+## 추상 클래스
+
+일단 **추상 클래스란 메서드 시그니처만 존재하고, 바디가 선언되어 있지 않은 추상 메서드를 포함하는 미완성 클래스**이다.
+
+왜 바디가 없는 메소드를 만들어 놓는지 이해하려면 상속 관계에 있어 추상 클래스의 도움이 어떻게 이뤄지는지 생각해보아야 한다. 앞서 예전에 상위 클래스에게서 상속받은 메서드를 오버라이딩을 통해 내용을 구현하여 완성 시킨 적이 있었다. 이와 같은 유용성으로 사용하는 것이다. **상속받는 하위 클래스에서 이런 추상 메서드가 존재한다면 구체적인 내용을 직접 설계할 수 있어 유연하게 대응할 수 있는 장점이 있다.**
+
+---
+
+### final 키워드
+
+인터페이스를 배우기에 필수인 키워드다. final는 필드, 지역 변수, 클래스 앞에 위치할 수 있으며 위치에 따라 의미가 조금씩 달라진다.
+
+---
+        <table className="bg-zinc-50">
+          <tr>
+            <td>위치</td>
+            <td>의미</td>
+          </tr>
+          <tr>
+            <td>변수</td>
+            <td>값 변경이 불가한 상수(PI, e 등)</td>
+          </tr>
+          <tr>
+            <td>메서드</td>
+            <td>오버라이딩 불가</td>
+          </tr>
+          <tr>
+            <td>클래스</td>
+            <td>변경 또는 확장 불가능한 클래스. 상속 또한 불가</td>
+          </tr>
+        </table> 
+---
+
+위의 테이블을 보면 알겠지만, 최종.docx, 진짜_최종.docx, 이게_진짜_최종.docx 같이 “최종”과 비슷한 맥락으로 사용된다고 생각한다.
+
+---
+
+## 인터페이스
+
+ 보통 컴퓨터 프로그래밍에서 말하는 인터페이스는 “서로 다른 두 시스템, 장치, 소프트웨어 따위를 서로 이어주는 부분 또는 그런 접속 장치” 라고 정의한다.
+
+ 자바에서 인터페이스는 추상화를 구현하는 데 활용된다. 앞서 공부했던 추상 클래스와 같이 사용되지만, 추상 클래스에 비해 더 높은 추상성을 갖는다. 추상 클래스는 앞서 미완성 설계도에 비유했다면, 인터페이스는 스케치 정도에 빗대어 표현할 수 있다. 예제 코드를 보면 알겠지만 추상 클래스는 최소 하나의 추상 메서드를 포함하지만, 인터페이스는 추상 메서드와 상수만을 멤버로 가질 수 있다는 구조적 차이점이 있다.
+
+---
+
+### 인터페이스의 기본 구조
+
+```java
+
+public interface InterfaceEx {
+    public static final int rock =  1; // 인터페이스 인스턴스 변수 정의
+    final int scissors = 2; // public static 생략
+    static int paper = 3; // public & final 생략
+
+    public abstract String getPlayingNum();
+		void call() //public abstract 생략 
+}
+
+```
+
+ 위의 코드를 보면 알겠지만, class 키워드 자리에 interface 키워드가 들어가고, 내부의 모든 필드가 public static final 로 정의되고, default method 외의 모든 메서드가 public abstract 로 정의된다.
+
+---
+
+### 인터페이스의 구현
+
+```java
+
+class 클래스명 implements 인터페이스명1, 인터페이스명2,.. {
+		... // 인터페이스에 정의된 모든 추상메서드 구현
+}
+
+```
+
+ 인터페이스의 실제 구현은 다른 클래스에서 implements 키워드를 통하여 가져와서 인터페이스에 정의된 모든 추상 메서드를 구현해야 한다. implements는 여러 인터페이스를 다중으로 갖고와 구현할 수 있다는 점에서 extends와 차이점이 있다.
+
+---
+
+### 인터페이스의 활용 예제
+
+```java
+
+interface Cover { // 인터페이스 정의
+    public abstract void call();
+}
+
+public class Interface4 {
+    public static void main(String[] args) {
+        User user = new User();
+//        Provider provider = new Provider();
+//        user.callProvider(new Provider());
+        user.callProvider(new Provider2());
+    }
+}
+
+class User {
+    public void callProvider(Cover cover) { // 매개변수의 다형성 활용
+        cover.call();
+    }
+}
+
+class Provider implements Cover {
+    public void call() {
+        System.out.println("무야호~");
+    }
+}
+
+class Provider2 implements Cover {
+    public void call() {
+        System.out.println("야호~");
+    }
+}
+
+//출력값
+야호~
+
+```
+
+  위의 코드를 먼저 보면, Cover를 interface화 시켜 User 클래스에서의 메서드가 코드의 수정을 영원히 해도 되지 않아도 된다. 왜냐하면 interface인 Cover를 argument로 받고 있는데, Cover를 implements한 클래스는 추상 메서드인 call()을 무조건 완성시켜야 하기에 User클래스의 메서드는 수정이 필요가 없어진다.  
+
+![[JAVA]객체지향심화-Abstraction(추상화)-1](https://github.com/Sniij/chomanki.com/blob/main/content/blog/images/abstraction-1.png)
+
+ 위의 예제 코드를 그림으로 보면 이렇게 User 클래스가 Provider의 Interface에 의존하고 있음을 알 수 있다.

@@ -101,7 +101,6 @@ export default function Comment({ slug }: CommentProps) {
                         >      <p className="mx-10"> 작성 </p>
                     </button>
                 </form>
-
                     <button onClick={() => setPage(page - 1)}> Previous </button>
                     <button onClick={() => setPage(page + 1)}> Next </button>
                 </div>

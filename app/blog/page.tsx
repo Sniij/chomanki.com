@@ -6,27 +6,13 @@ import { Eye } from "lucide-react";
 import { Redis } from "@upstash/redis";
 import { allBlogs } from "contentlayer/generated";
 import { Article } from "./article";
-import type { Blog } from "@/.contentlayer/generated";
 import Particles from "../components/particles";
 
 const redis = Redis.fromEnv();
 export const revalidate = 60;
-const postsPerPage = 2;
-
-  
-interface BlogPageProps {
-    blog?: Blog[]; 
-    currentPage?: number;
-    totalPages?: number;
-}
 
 
-
-export default async function BlogPage({ 
-    blog, 
-    currentPage = 1, 
-    totalPages 
-}: BlogPageProps) {
+export default async function BlogPage({ }) {
 
 
     const views = (
@@ -46,8 +32,7 @@ export default async function BlogPage({
     const top3 = sortedByViews[2];
 
     const rest = sortedByViews
-       // .slice(3) // Top1, Top2 제외
-       // .filter((p) => p.published)
+        .slice(3) // Top1~Top3 제외
         .sort(
           (a, b) =>
             new Date(b.date ?? Number.POSITIVE_INFINITY).getTime() -
