@@ -1,7 +1,7 @@
 ---
 title: "[java]-abstraction(추상화)"
 description: 객체를 만드는 데 필요한 클래스의 개념을 이해하고, 구성요소와 기본 문법을 설명할 수 있다.
-date: 2024-01-10
+date: 2024-01-19
 ---
 
 
@@ -54,26 +54,10 @@ abstract 제어자가 클래스와 method 앞에 붙으며 현재 추상 메서�
 
 인터페이스를 배우기에 필수인 키워드다. final는 필드, 지역 변수, 클래스 앞에 위치할 수 있으며 위치에 따라 의미가 조금씩 달라진다.
 
----
-        <table className="bg-zinc-50">
-          <tr>
-            <td>위치</td>
-            <td>의미</td>
-          </tr>
-          <tr>
-            <td>변수</td>
-            <td>값 변경이 불가한 상수(PI, e 등)</td>
-          </tr>
-          <tr>
-            <td>메서드</td>
-            <td>오버라이딩 불가</td>
-          </tr>
-          <tr>
-            <td>클래스</td>
-            <td>변경 또는 확장 불가능한 클래스. 상속 또한 불가</td>
-          </tr>
-        </table> 
----
+위치 &nbsp;&nbsp; 의미<br/>
+변수 &nbsp;&nbsp; 값 변경이 불가한 상수(PI, e 등)<br/>
+메서드 &nbsp;&nbsp; 오버라이딩 불가<br/>
+클래스 &nbsp;&nbsp; 변경 또는 확장 불가능한 클래스. 상속 또한 불가<br/>
 
 위의 테이블을 보면 알겠지만, 최종.docx, 진짜_최종.docx, 이게_진짜_최종.docx 같이 “최종”과 비슷한 맥락으로 사용된다고 생각한다.
 
@@ -162,6 +146,6 @@ class Provider2 implements Cover {
 
   위의 코드를 먼저 보면, Cover를 interface화 시켜 User 클래스에서의 메서드가 코드의 수정을 영원히 해도 되지 않아도 된다. 왜냐하면 interface인 Cover를 argument로 받고 있는데, Cover를 implements한 클래스는 추상 메서드인 call()을 무조건 완성시켜야 하기에 User클래스의 메서드는 수정이 필요가 없어진다.  
 
-![[JAVA]객체지향심화-Abstraction(추상화)-1](https://github.com/Sniij/chomanki.com/blob/main/content/blog/images/abstraction-1.png)
+![Abstraction(추상화)-1](https://github.com/Sniij/chomanki.com/blob/main/content/blog/java-oop-abstraction/abstraction-1?raw=true)
 
  위의 예제 코드를 그림으로 보면 이렇게 User 클래스가 Provider의 Interface에 의존하고 있음을 알 수 있다.

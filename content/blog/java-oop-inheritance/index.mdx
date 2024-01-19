@@ -1,0 +1,175 @@
+---
+title: "[java]-Inheritance(상속)"
+description: 상위-하위 클래스의 상속 관계를 이해하고, 장점을 설명할 수 있다.
+date: 2024-01-19
+---
+
+
+
+# Inheritance
+
+## GOALS:
+
+- 상위-하위 클래스의 상속 관계를 이해하고, 장점을 설명할 수 있다.
+- extends 키워드에 관하여 설명할 수 있다.
+- 포함관계와 상속관계의 차이를 설명할 수 있다.
+- 상속 관계에서 사용할 수 있는 method overiding의 정의, 성립 조건, 장점을 이해하고 이를 활용할 수 있다.
+- super와 super()의 차이를 설명할 수 있다.
+- Object 클래스가 JAVA 클래스의 상속계층도에서 최상단에 위치한다는 사실을 이해할 수 있다.
+
+## : 기존의 클래스를 받아서 새롭게 작성하는 문법
+
+ **따라서 상위 클래스를 inheritance받은 하위 클래스의 member개수는 상위 클래스의 그것과 비교했을 때 같거나 더 많을 수밖에 없다.**
+
+그래서 사실 상위 클래스를 extends(확장)되었다는 표현이 더 어울리긴 한다.
+
+아래의 사진을 보며 그 관계를 이해해보자.
+
+![inheritance-1](https://github.com/Sniij/chomanki.com/blob/main/content/blog/java-oop-inheritance/inheritance-1?raw=true)
+
+먼저 Programmer, Dancer, Singer 각각의 클래스를 보면, 사실 모두 사람이기 때문에 이름,나이, 하는 것(learn, walk, eat)이 공통적인 속성으로 갖고 있을 것이다. 그렇다면 사람의 공통적인 속성을 생각해서 Person이라는 하나의 클래스로 member를 만든다면, 각 클래스에서 중복적으로 사용 할 필요가 없어진다.
+
+---
+
+그렇다면 위의 말을 정리해서 아래 예제를 보면서 inheritance의 개념을 더 이해해봅시다.
+
+```java
+class Person{
+	String name;
+	int age;
+
+	void learn(){
+		System.out.println("learn");
+	};
+	void walk(){
+		System.out.println("walk");
+	};
+	void eat(){
+		System.out.println("eat");
+	};
+}
+
+class Programmer extends Person{
+    String companyName;
+
+    void coding(){
+        System.out.println("Coding!");
+    }
+}
+
+class Dancer extends Person{
+    String groupName;
+
+    void dancing(){
+        System.out.println("Dancing!");
+    }
+}
+
+class Singer extends Person{
+    String bandName;
+
+    void singing(){
+        System.out.println("Singing!");
+    }
+}
+
+public class test {
+    public static void main(String []args){
+        Programmer p1 = new Programmer();
+        p1.name = "David";
+        p1.age  = 22;
+        p1.companyName = "Code-states";
+
+        Dancer d1 = new Dancer();
+        d1.name = "Jon";
+        d1.age  = 20;
+        d1.groupName = "danE";
+
+        Singer s1 = new Singer();
+        s1.name = "Taylor";
+        s1.age  = 23;
+        s1.bandName = "RNR";
+
+        p1.coding();
+        p1.learn();
+        d1.dancing();
+        d1.eat();
+        s1.singing();
+        s1.walk();
+    }
+}
+```
+
+스스로 출력을 예상해보자.
+
+---
+
+## Method Overriding
+
+### Inheritance받은 method와 동일한 이름의 method를 재정의 하는 것.
+
+만약 inheritance받은 method를 그대로 사용하지 않고, 수정을 하고 싶을 수도 있다. 예를 들어 위의 예제 코드에서 Programmer가 singing도할 수 있으니 아래와 같이 구성할 수 있다.
+
+```java
+class Programmer extends Singer{
+    String companyName;
+
+    void coding(){
+        System.out.println("Coding!");
+    }
+
+    @Override
+    void singing() {
+        System.out.println("Programmer singing!");
+    }
+}
+
+class Dancer{
+    String groupName;
+
+    void dancing(){
+        System.out.println("Dancing!");
+    }
+}
+
+class Singer{
+    String bandName;
+
+    void singing(){
+        System.out.println("Singing!");
+    }
+}
+
+public class test {
+    public static void main(String []args){
+        Programmer p1 = new Programmer();
+        Dancer d1 = new Dancer();
+        Singer s1 = new Singer();
+
+        p1.singing();
+    }
+}
+```
+
+대신 method overriding은 까다로운 조건들이 있다.
+
+- Method의 선언부(method 이름, parameter, 반환 타입)이 상위 클래스와 일치해야한다.
+- 접근 제어자의 범위가 상위 클래스의 method보다 넓거나 같아야 한다.
+- 예외는 상위 클래스의 method보다 많이 선언할 수 없다.
+
+---
+
+## super 키워드와 super()
+
+앞서 this 와 this()를 this는 자신의 객체를 가리키고, this()method는 자신의 constructor 호출을 의미한다고 했다.
+
+super와 super()도 이와 비슷하다. super는 상위 클래스의 객체를 가리키고, super()는 상위 클래스의 constructor를 호출하는 것이다.
+
+---
+
+## 클래스의 정점, Object 클래스
+
+**Object 클래스**는 자바의 최상위 클래스이다. 그래서 자바에서의 모든 클래느는 **Object 클래스로부터 확장된다.** 
+
+그래서 우리는 어떤 클래스를 만들기만 해도,
+toString(), equals(), hashCode(), wait(), notify()… 같은 method들을 정의하지 않고 사용할 수 있는 것이다.
