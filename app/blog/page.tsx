@@ -9,7 +9,7 @@ import { Article } from "./article";
 import Particles from "../components/particles";
 
 const redis = Redis.fromEnv();
-export const revalidate = 60;
+export const revalidate = 0;
 
 
 export default async function BlogPage({ }) {

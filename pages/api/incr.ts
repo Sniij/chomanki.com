@@ -24,5 +24,5 @@ export default async function incr(req: NextRequest): Promise<NextResponse> {
   }
   
   const count = await redis.incr(["pageviews", "blog", slug].join(":"));
-  return new NextResponse(JSON.stringify({count: count.toString}), { status: 202 });
+  return new NextResponse(JSON.stringify({count: count}), { status: 202 });
 }
