@@ -12,4 +12,5 @@ module.exports = withContentlayer({
     images: {
         domains: ['lh3.googleusercontent.com'],
     },
+    reactStrictMode: false,
 });

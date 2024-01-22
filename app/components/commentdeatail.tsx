@@ -1,15 +1,26 @@
 import Image from "next/image";
 
+type UserProfile = {
+    id:string;
+    nickname: string;
+    imgUrl: string;
+}
+
 type CommentProps = {
     comment: {
+        id: string;
         content: string;
         createdAt: string;
+        userId: string;
         imgUrl: string;
         nickname: string;
+        isMine: boolean;
     };
+    deleteComment: (id: string) => void;
 };
     
-export default function CommentDetail({ comment }: CommentProps) {
+export default function CommentDetail({ comment, deleteComment }: CommentProps) {
+    console.log(comment.isMine);
 
     return (
         <div className="p-4 border rounded shadow bg-zinc-100">
@@ -25,7 +36,15 @@ export default function CommentDetail({ comment }: CommentProps) {
                     {comment.content}
                 <div className="mt-8 w-full h-px bg-gray-400" />
             </div>
-            <h4 className="mx-8 text-sm font-bold">{comment.createdAt.slice(0,16).replace("T","  ")} </h4>
+            <h4 className="flex mx-8 text-sm font-bold">{comment.createdAt.slice(0,16).replace("T","  ")}
+            {comment.isMine && (
+                <a className="relative ml-3 right no-underline" onClick={() => deleteComment(comment.id)}>
+                    삭제
+                </a> 
+            )}
+            </h4>
+            
+
         </div>
     )
 }

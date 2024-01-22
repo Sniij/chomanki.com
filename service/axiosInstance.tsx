@@ -10,7 +10,6 @@ instance.interceptors.request.use(config => {
   const jsessionId = Cookies.get('JSESSIONID');  
   if (jsessionId) {
     config.headers.Cookie = `JSESSIONID=${jsessionId}`;
-    console.log("JSESSIONID = "+jsessionId);
   }
   return config;
 });

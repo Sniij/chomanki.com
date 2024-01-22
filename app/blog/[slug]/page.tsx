@@ -36,7 +36,6 @@ export default async function PostPage({ params }: Props) {
 
   const cookieStore = cookies();
   const JSESSIONID = cookieStore.get('JSESSIONID')?.value ?? "";
-  console.log(JSESSIONID);
 
   const views =
     (await redis.get<number>(["pageviews", "blog", slug].join(":"))) ?? 0;

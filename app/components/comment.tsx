@@ -7,6 +7,7 @@ import CommentDetail from '../components/commentdeatail'
 import Image from "next/image";
 
 type UserProfile = {
+    id:string;
     nickname: string;
     imgUrl: string;
 }
@@ -21,6 +22,8 @@ interface Comment {
     slug: string;
     content: string;
     createdAt: string;
+    isMine: boolean;
+    userId: string;
     imgUrl: string;
     nickname: string;
 }
@@ -40,13 +43,13 @@ async function getUser(jsessionid: string): Promise<UserProfile> {
     const response = await getUserProfile(jsessionid);
     const imgUrl:string = response.imgUrl;
     const nickname:string = response.nickname;
-
+    const id:string = response.userId;
     console.log(response);
     let obj:UserProfile = {
+        id: id,
         nickname: nickname,
         imgUrl: imgUrl
     }
-    console.log(obj);
 
     return obj; 
 }
@@ -56,7 +59,7 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
     const [page, setPage] = useState<number>(1);
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-    const [userProfile, setUserProfile] = useState<UserProfile>({imgUrl: '', nickname:''});
+    const [userProfile, setUserProfile] = useState<UserProfile>({imgUrl: '', nickname:'', id:''});
 
     useEffect(() => {
       if (textareaRef.current) {
@@ -66,9 +69,7 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
     }, [content]);
 
     useEffect(() => {
-        getCommentList(page);
         refreshIsLogedIn();
-        
     }, [page]);
 
     async function refreshIsLogedIn(){
@@ -80,13 +81,28 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
         }else{
             setIsLoggedIn(false);
         }
+
+        await getCommentList(page);
     }
 
     
     async function getCommentList(page: number){
         const comments = await getPageRequest(`/comment`, slug, page);
+        console.log(comments);
         if (comments && Array.isArray(comments)) {
-            setCommentList(comments);
+            if(jsessionid){
+                const user = await getUser(jsessionid);
+                setCommentList(comments.map(comment => ({
+                    ...comment,
+                    isMine: comment.userId === user.id ? true : false
+                })));
+            }else{
+                setCommentList(comments.map(comment => ({
+                    ...comment,
+                    isMine: false
+                })));
+            }
+
         }
     }
 
@@ -123,7 +139,7 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
             <div className="text-xl font-bold"> Comments </div>
                 <div className="space-y-4">
                     {commentList.map((comment) => (
-                            <CommentDetail key={comment.id} comment={comment} />
+                            <CommentDetail key={comment.id} comment={comment} deleteComment={deleteComment}/>
                         ))}
                 </div>
                 <div>

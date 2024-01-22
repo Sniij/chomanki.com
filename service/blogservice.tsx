@@ -46,9 +46,9 @@ export async function postRequest(URI: string, payload: CommentRequest) {
 
 export async function deleteRequest(URI: string, commentId: string){
 
-    const response = await axiosClient.delete(URI, {
+    const response = await axiosInstance.delete(URI, {
         params:{
-            commentId
+            commentId: commentId
         }
     })
     .then(response=>response)
