@@ -6,6 +6,7 @@ import "./mdx.css";
 import { ReportView } from "./view";
 import { Redis } from "@upstash/redis";
 import Comment from '@/app/components/comment'
+import {cookies} from 'next/headers';
 
 export const revalidate = 0;
 
@@ -33,8 +34,13 @@ export default async function PostPage({ params }: Props) {
     notFound();
   }
 
+  const cookieStore = cookies();
+  const JSESSIONID = cookieStore.get('JSESSIONID')?.value ?? "";
+  console.log(JSESSIONID);
+
   const views =
     (await redis.get<number>(["pageviews", "blog", slug].join(":"))) ?? 0;
+
 
   return (
     <div className="bg-zinc-50 min-h-screen">
@@ -47,7 +53,7 @@ export default async function PostPage({ params }: Props) {
       </article>
 
       <article className="font-bold font-GSans px-4 py-12 mx-auto prose prose-zinc prose-quoteless max-w-4xl">
-        <Comment slug={slug}/>
+        <Comment slug={slug} jsessionid={JSESSIONID}/>
       </article>
 
     </div>

@@ -153,7 +153,17 @@ const components = {
 		/>
 	),
 	Image,
-	AngleBracket
+	AngleBracket,
+	code: ({ className, ...props }) => (
+		<code
+				className={clsx(
+					"py-0.5 px-1.5 rounded-md text-red-400",
+				className,
+		)}
+		{...props}
+		/>
+	),
+
 };
 
 interface MdxProps {
@@ -165,7 +175,7 @@ export function Mdx({ code }: MdxProps) {
 
 	return (
 		<div className="mdx">
-			<Component components={components} />
-		</div>
+			<Component components={components}/>
+	  	</div>
 	);
 }

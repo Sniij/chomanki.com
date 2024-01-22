@@ -25,7 +25,7 @@ export default function CommentDetail({ comment }: CommentProps) {
                     {comment.content}
                 <div className="mt-8 w-full h-px bg-gray-400" />
             </div>
-        <h4 className="mx-8 text-sm font-bold">{comment.createdAt.slice(0,16).replace("T","  ")} </h4>
+            <h4 className="mx-8 text-sm font-bold">{comment.createdAt.slice(0,16).replace("T","  ")} </h4>
         </div>
     )
 }
