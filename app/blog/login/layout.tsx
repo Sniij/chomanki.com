@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
-import '../globals.css'
 
 export const metadata: Metadata = {
 	title: {
 	  default:"chomanki.com",
-	  template: "Blog | chomanki.com"
+	  template: "%s | chomanki.com"
 	},
 	description: 'Backend Developer Manki Cho',
 	icons: {

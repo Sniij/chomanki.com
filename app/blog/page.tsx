@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import { Navigation } from "../components/nav";
+import Navigation from "../components/nav";
 import { Card } from "../components/card";
 import { Eye } from "lucide-react";
 import { Redis } from "@upstash/redis";
@@ -13,7 +13,6 @@ export const revalidate = 0;
 
 
 export default async function BlogPage({ }) {
-
 
     const views = (
         await redis.mget<number[]>(
@@ -58,7 +57,8 @@ return (
                 <div className="w-full h-px bg-zinc-800" />
                     <div className="grid grid-cols-1 gap-8 mx-auto lg:grid-cols-2 ">
                         <Card>
-                            <Link href={`/blog/${top1.slug}`}>
+                            <Link href={`/blog/${top1.slug}`}
+                            >
                                 <article className="relative w-full h-full p-4 md:p-8">
                                     <div className="flex items-center justify-between gap-2">
                                         <div className="text-xs text-zinc-100">

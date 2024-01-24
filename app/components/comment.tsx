@@ -3,8 +3,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { usePathname } from 'next/navigation';
 import { getPageRequest, postRequest, deleteRequest, getUserProfile } from '@/service/blogservice'
-import CommentDetail from '../components/commentdeatail'
+import CommentDetail from '../components/commentdetail'
 import Image from "next/image";
+import { Card } from "../components/card";
 
 type UserProfile = {
     id:string;
@@ -28,9 +29,7 @@ interface Comment {
     nickname: string;
 }
 
-interface CommentListInfo {
-    page: number;
-    size: number;
+interface PageInfo {
     totalElements: number;
     totalPages: number;
 }
@@ -39,19 +38,12 @@ interface CommentRequest {
     slug?: string;
     content?: string;
 }
-async function getUser(jsessionid: string): Promise<UserProfile> {
-    const response = await getUserProfile(jsessionid);
-    const imgUrl:string = response.imgUrl;
-    const nickname:string = response.nickname;
-    const id:string = response.userId;
-    console.log(response);
-    let obj:UserProfile = {
-        id: id,
-        nickname: nickname,
-        imgUrl: imgUrl
-    }
 
-    return obj; 
+export async function getUser() {
+    const response = await getUserProfile();
+    
+    return response; 
+    
 }
 export default function Comment({ slug, jsessionid }: CommentProps) {
     const [commentList, setCommentList] = useState<Comment[]>([]);
@@ -59,42 +51,90 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
     const [page, setPage] = useState<number>(1);
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-    const [userProfile, setUserProfile] = useState<UserProfile>({imgUrl: '', nickname:'', id:''});
+    const [userProfile, setUserProfile] = useState<UserProfile>();
+    const [pageInfo, setPageInfo] = useState<PageInfo>({totalElements:0, totalPages:0});
 
     useEffect(() => {
-      if (textareaRef.current) {
-        textareaRef.current.style.height = 'auto';
-        textareaRef.current.style.height = `${textareaRef.current.scrollHeight+30}px`;
-      }
+        if (textareaRef.current) {
+            textareaRef.current.style.height = 'auto';
+            textareaRef.current.style.height = `${textareaRef.current.scrollHeight+30}px`;
+        }
     }, [content]);
 
+
     useEffect(() => {
-        refreshIsLogedIn();
+        refreshIsLoggedIn();
     }, [page]);
 
-    async function refreshIsLogedIn(){
-        if(jsessionid){
-            setIsLoggedIn(true);
-            const user = await getUser(jsessionid);
-            if(user)
-                setUserProfile(user);
-        }else{
-            setIsLoggedIn(false);
-        }
+    useEffect(() => {
+        getCommentList(page);
+    }, [page,isLoggedIn]);
 
-        await getCommentList(page);
+    const renderingPage = () => {
+        const result  = [];
+        for(let i = 1; i <= pageInfo.totalPages; i++){
+            if(i===page){
+            result.push(
+                <button key={i} onClick={() => setPage(i)}
+                    className="duration-150"
+                >
+                    <div 
+                    className="border rounded-md w-7 h-7">
+                        <p className="mt-1 text-sm ">{i}</p>
+                    </div>
+                </button>
+                )}
+            else{
+                result.push(
+                    <button key={i} onClick={() => setPage(i)}
+                        className="duration-150"
+                    >
+                        <div 
+                        className="border rounded-md border-zinc-600 w-7 h-7">
+                            <p className="mt-1 text-sm ">{i}</p>
+                        </div>
+                    </button>
+                    )
+            }
+        }
+        return result;
     }
 
+    async function refreshIsLoggedIn(){
+        let isLoggedIn = false;
+        let user: UserProfile = { id: '', nickname: '', imgUrl: '' };
+    
+        if(jsessionid){
+            const res = await getUser();
+            if(res.status === 200){
+                user = {
+                    id: res.data.data.userId,
+                    nickname: res.data.data.nickname,
+                    imgUrl: res.data.data.imgUrl,
+                };
+                isLoggedIn = true;
+                console.log(user);
+            }else{
+                alert("정보를 불러오는데 실패하였습니다. ");
+            }
+        }
+    
+        setUserProfile(user);
+        setIsLoggedIn(isLoggedIn);
+    }
     
     async function getCommentList(page: number){
-        const comments = await getPageRequest(`/comment`, slug, page);
+        const result = await getPageRequest(`/comment`, slug, page);
+        const comments: Comment[] = result.data;
+        const pageinfo: PageInfo = result.pageInfo;
+        console.log(result);
         console.log(comments);
+        console.log(pageinfo);
         if (comments && Array.isArray(comments)) {
-            if(jsessionid){
-                const user = await getUser(jsessionid);
+            if(isLoggedIn && userProfile){
                 setCommentList(comments.map(comment => ({
                     ...comment,
-                    isMine: comment.userId === user.id ? true : false
+                    isMine: comment.userId === userProfile.id ? true : false,
                 })));
             }else{
                 setCommentList(comments.map(comment => ({
@@ -102,7 +142,9 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
                     isMine: false
                 })));
             }
-
+            setPageInfo(pageinfo);
+        } else{
+            alert("댓글 불러오기를 실패하였습니다.");
         }
     }
 
@@ -115,77 +157,115 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
 
         const response = await postRequest(`/comment`, obj );
 
-        if (response) {
-            const comment: Comment = response.data;
-
+        if (response.status === 201) {
+            const comment:Comment = {
+                id: response.data.data.id,
+                slug: response.data.data.slug,
+                content: response.data.data.content,
+                createdAt: response.data.data.createdAt,
+                isMine: true,
+                userId: response.data.data.userId,
+                imgUrl: response.data.data.imgUrl,
+                nickname: response.data.data.nickname
+            };
             setContent("");
-            await getCommentList(page);
+            commentList.push(comment);
+            setCommentList(commentList);
+        } else {
+            alert("작성에 실패하였습니다.");
         }
     }
 
     async function deleteComment(id: string){
         const response = await deleteRequest(`/comment`, id);
-        if (response) {
+        if (response.status === 204) {
             setCommentList(commentList.filter(comment => comment.id !== id));
+        }else{
+            alert("댓글 삭제를 실패하였습니다.");
         }
     }
 
 
     const pathname = usePathname();
-    const loginUrl = `http://localhost:8080/V1login`;
+    const loginUrl = `http://localhost:8080/auth/login`;
 
     return (
-        <div className="space-y-8">
+        <div className="text-gray-300 space-y-8">
             <div className="text-xl font-bold"> Comments </div>
-                <div className="space-y-4">
+                <div className="space-y-4 ">
                     {commentList.map((comment) => (
                             <CommentDetail key={comment.id} comment={comment} deleteComment={deleteComment}/>
                         ))}
                 </div>
+                    <div className="flex justify-center gap-3">
+                    <button onClick={() => setPage(page - 1)}> Prev </button>
+                        <div className="flex justify-center gap-3">
+                                {renderingPage()
+                                
+                                .map(component=>(
+                                    <div key={component.key}
+                                        className="duration-300 rounded-md bg-zinc-800/50 hover:bg-zinc-800 "
+                                    >
+                                        {component}
+                                    </div>
+                                ))
+                                
+                                }
+                        </div>
+                    <button onClick={() => setPage(page + 1)}> Next </button>
+                    </div>
                 <div>
-                <div className="p-4 border rounded shadow bg-zinc-100">
-                    <h3 className="my-4 ml-8 font-bold font-GSans tracking-tight sm:text-xl font-display flex">Post Comment  
-                    </h3>
-                    <div className="mx-8 mt-0 mb-3 w-100 h-px bg-gray-400" />
-
-                { isLoggedIn &&
-                        <div className="mx-8 mb-0 flex">
-                        <Image className="mt-1 mb-5 rounded-md border border-zinc-200" src={userProfile.imgUrl} alt={userProfile.nickname} width={40} height={40}/>
-                                <h3 className="mx-5 mt-5 text-base font-bold">{userProfile.nickname}
-                                </h3>
+                <div className="p-4 rounded-lg bg-zinc-900/50 text-gray-300 hover:bg-zinc-900">
+                    <div className="flex text-gray-300 my-4 ml-8 font-bold font-GSans tracking-tight sm:text-xl font-display">
+                        Post comment  
+                    </div>
+                    { isLoggedIn && userProfile &&
+                            <div className="mx-8 flex">
+                            <h4 className="mr-5 mt-3 text-gray-300 text-sm font-bold"> {" Current Account | "} </h4>
+                            <Image className="mt-1 text-gray-300 rounded-lg border border-zinc-200" src={userProfile.imgUrl} alt={userProfile.nickname} width={25} height={25}/>
+                            <h4 className="mt-2 mx-3 text-gray-300 text-base font-bold hover:text-blue-500">{userProfile.nickname} </h4>
                             </div>
-                }
+                    }
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    if(typeof window !== 'undefined') {
+                        if(window.confirm("댓글을 작성하시겠습니까?")) {
+                            postComment(content);
+                        }
+                    }}
+                    }
+                    className="flex mx-8 space-x-4">
 
-            <form onSubmit={(e) => postComment(content)} className="flex mx-8 space-x-4">
                     <textarea
                         ref={textareaRef}
                         value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        className="w-9/12 break-words text-ellipsis overflow-hidden flex-grow h-32 p-2 border rounded shadow resize-y"
-                        disabled={!isLoggedIn}
+                        onChange={(e) => {
+                            if (e.target.value.length <= 500) {
+                                setContent(e.target.value);
+                            }
+                        }}
+                        className="w-9/12 min-h-32 bg-zinc-900/50 hover:bg-zinc-900 text-gray-300 break-words text-ellipsis overflow-hidden flex-grow h-32 p-2 border rounded-lg resize-y"
+                        disabled={!isLoggedIn}  
                     />
+                    <p className="text-xs">{`${content.length}/500`}</p>
                     { isLoggedIn &&
                     <button
                     type="submit"
-                    disabled={!content.trim() || !isLoggedIn}
-                    className={`h-20 rounded shadow hover:bg-gray-700 ${!content.trim() ? 'bg-gray-700 text-gray-500' : 'bg-gray-600 text-white'}`}
-                    >      <p className=" mx-10"> 작성 </p>
+                    disabled={!content.trim()}
+                    className={` border rounded-lg  ${!content.trim() ? 'bg-zinc-900/50 text-gray-600' : 'bg-zinc-900/50 text-blue-500 hover:bg-zinc-800'}`}
+                    >      <p className="font-bold mx-7"> post </p>
                     </button>
                      }
                     { !isLoggedIn &&
                     <a 
-                    href={loginUrl+`?requesturl=http://localhost:3000${pathname}`}
+                        href={loginUrl+`?requesturl=http://localhost:3000${pathname}`}
+                        className="w-85 h-85"
                     >
-                        <Image className="my-auto rounded shadow hover:bg-gray-300" src='/signingoogle_sq.png' alt="sign in with Google" width={100} height={100}/>
+                        <Image className="rounded-lg" src='/signingoogle_sq_bl.png' alt="sign in with Google" width={100} height={50}/>
                     </a>
                      }
                 </form>
         </div>
-    
-
-                
-                    <button onClick={() => setPage(page - 1)}> Previous </button>
-                    <button onClick={() => setPage(page + 1)}> Next </button>
                 </div>
         </div>
     );

@@ -44,7 +44,7 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 
 		<header
 			ref={ref}
-			className="relative isolate overflow-hidden bg-gradient-to-tl from-black via-zinc-900 to-black"
+			className="bg-bg-ex bg-cover relative isolate overflow-hidden"
 		>      
 			<div
 				className={`fixed inset-x-0 top-0 z-50 backdrop-blur-sm lg:backdrop-blur-sm duration-200 border-b lg:bg-transparent ${
@@ -91,6 +91,7 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 					</Link>
 				</div>
 			</div>
+			<div className="bg-black opacity-70 ">
 			<div className="container mx-auto relative isolate overflow-hidden  py-24 sm:py-32">
 				<div className="mx-auto max-w-7xl px-6 lg:px-8 text-center flex flex-col items-center">
 					<div className="mx-auto max-w-2xl lg:mx-0">
@@ -112,7 +113,8 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 						</div>
 					</div>
 				</div>
-			</div>
+			</div>		</div>
 		</header>
+
 	);
 };

@@ -3,7 +3,6 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMDXComponent } from "next-contentlayer/hooks";
-import AngleBracket from './anglebracket';
 
 function clsx(...args: any) {
 	return args.filter(Boolean).join(" ");
@@ -12,7 +11,7 @@ const components = {
 	h1: ({ className, ...props }) => (
 		<h1
 			className={clsx(
-				"mt-2 scroll-m-20 text-4xl font-bold font-GSans tracking-tight",
+				"text-gray-300 mt-2 scroll-m-20 text-4xl font-bold font-GSans tracking-tight",
 				className,
 			)}
 			{...props}
@@ -21,7 +20,7 @@ const components = {
 	h2: ({ className, ...props }) => (
 		<h2
 			className={clsx(
-				"mt-10 scroll-m-20 border-b border-b-zinc-800 pb-1 text-3xl font-bold font-GSans tracking-tight first:mt-0",
+				"text-gray-300 mt-10 scroll-m-20 border-b border-b-zinc-300 pb-1 text-3xl font-bold font-GSans tracking-tight first:mt-0",
 				className,
 			)}
 			{...props}
@@ -30,7 +29,7 @@ const components = {
 	h3: ({ className, ...props }) => (
 		<h3
 			className={clsx(
-				"mt-8 scroll-m-20 text-2xl font-bold font-GSans tracking-tight",
+				"text-gray-300 mt-8 scroll-m-20 text-2xl font-bold font-GSans tracking-tight",
 				className,
 			)}
 			{...props}
@@ -39,7 +38,7 @@ const components = {
 	h4: ({ className, ...props }) => (
 		<h4
 			className={clsx(
-				"mt-8 scroll-m-20 text-xl font-bold font-GSans tracking-tight",
+				"text-gray-300 mt-8 scroll-m-20 text-xl font-bold font-GSans tracking-tight",
 				className,
 			)}
 			{...props}
@@ -48,7 +47,7 @@ const components = {
 	h5: ({ className, ...props }) => (
 		<h5
 			className={clsx(
-				"mt-8 scroll-m-20 text-lg font-bold font-GSans tracking-tight",
+				"text-gray-300 mt-8 scroll-m-20 text-lg font-bold font-GSans tracking-tight",
 				className,
 			)}
 			{...props}
@@ -57,7 +56,7 @@ const components = {
 	h6: ({ className, ...props }) => (
 		<h6
 			className={clsx(
-				"mt-8 scroll-m-20 text-base font-bold font-GSans tracking-tight",
+				"text-gray-300 mt-8 scroll-m-20 text-base font-bold font-GSans tracking-tight",
 				className,
 			)}
 			{...props}
@@ -66,7 +65,7 @@ const components = {
 	a: ({ className, ...props }) => (
 		<Link
 			className={clsx(
-				"font-medium text-zinc-900 underline underline-offset-4",
+				"text-gray-300 font-medium text-zinc-900 underline underline-offset-4",
 				className,
 			)}
 			{...props}
@@ -109,17 +108,17 @@ const components = {
 		/>
 	),
 	hr: ({ ...props }) => (
-		<hr className="my-4 border-zinc-200 md:my-8" {...props} />
+		<hr className="text-gray-300 bg-zinc-900/20 my-4 border-zinc-200 md:my-8" {...props} />
 	),
 	table: ({ className, ...props }: React.HTMLAttributes<HTMLTableElement>) => (
-		<div className="w-full my-6 overflow-y-auto">
+		<div className="text-gray-300 bg-zinc-900/20  w-full my-6 overflow-y-auto">
 			<table className={clsx("w-full", className)} {...props} />
 		</div>
 	),
 	tr: ({ className, ...props }: React.HTMLAttributes<HTMLTableRowElement>) => (
 		<tr
 			className={clsx(
-				"m-0 border-t border-zinc-300 p-0 even:bg-zinc-100",
+				"bg-zinc-900/20 text-gray-300 m-0 border-t border-zinc-300 p-0 even:bg-zinc-900/20",
 				className,
 			)}
 			{...props}
@@ -128,7 +127,7 @@ const components = {
 	th: ({ className, ...props }) => (
 		<th
 			className={clsx(
-				"border border-zinc-200 px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right",
+				"text-gray-300 bg-zinc-900/20 border border-zinc-200 px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right",
 				className,
 			)}
 			{...props}
@@ -137,7 +136,7 @@ const components = {
 	td: ({ className, ...props }) => (
 		<td
 			className={clsx(
-				"border border-zinc-200 px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right",
+				"text-gray-300 bg-zinc-900/20 border border-zinc-200 px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right",
 				className,
 			)}
 			{...props}
@@ -146,14 +145,13 @@ const components = {
 	pre: ({ className, ...props }) => (
 		<pre
 			className={clsx(
-				"mt-6 mb-4 overflow-x-auto rounded-lg bg-zinc-900 py-4",
+				"mt-6 mb-4 text-gray-300 bg-zinc-900/20 overflow-x-auto rounded-lg py-4",
 				className,
 			)}
 			{...props}
 		/>
 	),
 	Image,
-	AngleBracket,
 	code: ({ className, ...props }) => (
 		<code
 				className={clsx(

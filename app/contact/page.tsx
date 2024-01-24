@@ -1,7 +1,7 @@
 "use client";
-import { Github, Mail, Phone, Twitter } from "lucide-react";
+import { Github, Mail, Phone } from "lucide-react";
 import Link from "next/link";
-import { Navigation } from "../components/nav";
+import  Navigation from "../components/nav";
 import { Card } from "../components/card";
 
 const socials = [
@@ -25,7 +25,7 @@ const socials = [
 	},
 ];
 
-export default function Example() {
+export default function Contact() {
 	return (
 		<div className=" bg-gradient-to-tl from-zinc-900/0 via-zinc-900 to-zinc-900/0">
 			<Navigation />

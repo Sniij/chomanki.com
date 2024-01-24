@@ -11,13 +11,27 @@ interface CommentRequest {
     slug?: string;
     content?: string;
 }
+interface ServerResponse<T> {
+	status: number;
+	data: T;
+}
+interface ServerStatusResponse {
+	status: number;
+}
+interface UserProfile {
+    userId:string;
+    nickname: string;
+    imgUrl: string;
+}
 
-export async function getRequestBlog(URI: string){
-    const response = await axiosClient.get(URI)
-    .then(response=>response.data)
-    .catch(err=>console.error(err));
-
-    return response;
+interface CommentResponse {
+    id: string;
+    slug: string;
+    createdAt: string;
+    content: string;
+    nickname: string;
+    imgUrl: string;
+    userId: string;
 }
 
 export async function getPageRequest(URL: string, slug: string, page: number){
@@ -28,7 +42,7 @@ export async function getPageRequest(URL: string, slug: string, page: number){
             page
         }
     })
-    .then(response=>response.data.data)
+    .then(response=>response.data)
     .catch(err=>console.error(err));
 
     return response;
@@ -36,9 +50,9 @@ export async function getPageRequest(URL: string, slug: string, page: number){
 
 export async function postRequest(URI: string, payload: CommentRequest) {
 
-    const response = await axiosInstance.post(URI, payload)
-    .then(response => response)
-    .catch(error => console.error(error));
+    const response = await axiosInstance
+    .post<ServerResponse<CommentResponse>>(URI, payload)
+    .catch(err =>err)
 
     return response;
 }
@@ -46,35 +60,23 @@ export async function postRequest(URI: string, payload: CommentRequest) {
 
 export async function deleteRequest(URI: string, commentId: string){
 
-    const response = await axiosInstance.delete(URI, {
+    const response = await axiosInstance
+    .delete<ServerStatusResponse>(URI, {
         params:{
             commentId: commentId
         }
     })
-    .then(response=>response)
-    .catch(err=>console.error(err));
+    .catch(err =>err)
 
-    return response;
-
-}
-
-export async function loginRequest(URI: string, request: string){
-
-    const response = await axiosClient.get(URI, {
-        headers: {
-            'requesturl': request
-        }
-    })
-    .then(response=>response)
-    .catch(err=>console.error(err));
     return response;
 }
 
-export async function getUserProfile(jsessionid: string){
+export async function getUserProfile(){
+
     const response = await axiosInstance
-    .get("/")
-    .then(response=>response.data.data)
-    .catch(err=>console.error(err));
+    .get<ServerResponse<UserProfile>>("/user")
+    .then(response => response)
+    .catch(err =>err)
 
     return response;
 }

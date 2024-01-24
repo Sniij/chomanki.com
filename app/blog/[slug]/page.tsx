@@ -42,13 +42,13 @@ export default async function PostPage({ params }: Props) {
 
 
   return (
-    <div className="bg-zinc-50 min-h-screen">
+    <div className="bg-zinc-900/20  min-h-screen">
         <ReportView slug={blog.slug} />
 
       <Header blog={blog} views={views} />
-      <article className="font-bold font-GSans px-4 py-12 mx-auto prose prose-zinc prose-quoteless max-w-4xl">
-        <Mdx code={blog.body.code} />     
-        <div className="mt-20 w-full h-px bg-zinc-800" />
+      <article className=" text-gray-300 font-bold font-GSans px-4 py-12 mx-auto prose prose-zinc prose-quoteless max-w-4xl">
+        <Mdx code={blog.body.code} />
+        <div className="mt-20 w-full h-px bg-gray-300" />
       </article>
 
       <article className="font-bold font-GSans px-4 py-12 mx-auto prose prose-zinc prose-quoteless max-w-4xl">
