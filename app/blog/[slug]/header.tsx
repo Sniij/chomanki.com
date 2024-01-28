@@ -2,6 +2,8 @@
 import { ArrowLeft, Eye, Github } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
+import { useSearchParams,useRouter } from 'next/navigation'
+import { getCookies, getCookie, setCookie, deleteCookie } from 'cookies-next';
 
 type Props = {
 	blog: {
@@ -16,6 +18,10 @@ type Props = {
 export const Header: React.FC<Props> = ({ blog, views }) => {
 	const ref = useRef<HTMLElement>(null);
 	const [isIntersecting, setIntersecting] = useState(true);
+	const searchParams = useSearchParams();
+	const [accessToken, setAccessToken] = useState<string>();
+	const [refreshToken, setRefreshToken] = useState<string>();
+	const router = useRouter();
 
 	const links: { label: string; href: string }[] = [];
 	if (blog.repository) {
@@ -30,12 +36,36 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 			href: blog.url,
 		});
 	}
+
+	useEffect(()=>{
+
+		if(accessToken){
+			setCookie("accessToken",accessToken);
+		}
+		if(refreshToken){
+			setCookie("refreshToken",refreshToken);
+		}
+		if(accessToken && refreshToken)
+			router.push(window.location.pathname);
+
+		
+	},[accessToken, refreshToken])
+
 	useEffect(() => {
 		if (!ref.current) return;
 		const observer = new IntersectionObserver(([entry]) =>
 			setIntersecting(entry.isIntersecting),
 		);
+		if(searchParams){
+			const searchAccessToken = searchParams.get('accessToken');
+			const searchRefreshToken = searchParams.get('refreshToken');
 
+			if(searchAccessToken)
+				setAccessToken(searchAccessToken);
+			if(searchRefreshToken)
+				setRefreshToken(searchRefreshToken);
+
+		}
 		observer.observe(ref.current);
 		return () => observer.disconnect();
 	}, []);

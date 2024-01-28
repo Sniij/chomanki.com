@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import React from "react";
 import Navigation from "../components/nav";
@@ -7,6 +8,8 @@ import { Redis } from "@upstash/redis";
 import { allBlogs } from "contentlayer/generated";
 import { Article } from "./article";
 import Particles from "../components/particles";
+import {cookies} from 'next/headers';
+
 
 const redis = Redis.fromEnv();
 export const revalidate = 0;
@@ -40,7 +43,7 @@ export default async function BlogPage({ }) {
 
 return (
     <div className="relative pb-16">
-        <Navigation />
+        <Navigation/>
         <div className="px-6 pt-20 mx-auto space-y-8 max-w-7xl lg:px-8 md:space-y-16 md:pt-24 lg:pt-32">
         <Particles
         className="absolute inset-0 -z-10 animate-fade-in"

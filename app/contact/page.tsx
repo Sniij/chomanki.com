@@ -3,6 +3,7 @@ import { Github, Mail, Phone } from "lucide-react";
 import Link from "next/link";
 import  Navigation from "../components/nav";
 import { Card } from "../components/card";
+import {cookies} from 'next/headers';
 
 const socials = [
 	{
@@ -26,6 +27,9 @@ const socials = [
 ];
 
 export default function Contact() {
+
+
+	
 	return (
 		<div className=" bg-gradient-to-tl from-zinc-900/0 via-zinc-900 to-zinc-900/0">
 			<Navigation />

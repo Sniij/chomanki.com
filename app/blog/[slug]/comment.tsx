@@ -3,9 +3,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { usePathname } from 'next/navigation';
 import { getPageRequest, postRequest, deleteRequest, getUserProfile } from '@/service/blogservice'
-import CommentDetail from '../components/commentdetail'
+import CommentDetail from '@/app/components/commentdetail'
 import Image from "next/image";
-import { Card } from "../components/card";
+import { Card } from "@/app/components/card";
+import Link from "next/link";
+
 
 type UserProfile = {
     id:string;
@@ -54,6 +56,7 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
     const [userProfile, setUserProfile] = useState<UserProfile>();
     const [pageInfo, setPageInfo] = useState<PageInfo>({totalElements:0, totalPages:0});
 
+
     useEffect(() => {
         if (textareaRef.current) {
             textareaRef.current.style.height = 'auto';
@@ -77,9 +80,10 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
             result.push(
                 <button key={i} onClick={() => setPage(i)}
                     className="duration-150"
+                    disabled
                 >
                     <div 
-                    className="border rounded-md w-7 h-7">
+                    className="text-blue-500 border rounded-md w-7 h-7">
                         <p className="mt-1 text-sm ">{i}</p>
                     </div>
                 </button>
@@ -90,7 +94,7 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
                         className="duration-150"
                     >
                         <div 
-                        className="border rounded-md border-zinc-600 w-7 h-7">
+                        className=" border rounded-md border-zinc-600 w-7 h-7">
                             <p className="mt-1 text-sm ">{i}</p>
                         </div>
                     </button>
@@ -127,9 +131,7 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
         const result = await getPageRequest(`/comment`, slug, page);
         const comments: Comment[] = result.data;
         const pageinfo: PageInfo = result.pageInfo;
-        console.log(result);
-        console.log(comments);
-        console.log(pageinfo);
+
         if (comments && Array.isArray(comments)) {
             if(isLoggedIn && userProfile){
                 setCommentList(comments.map(comment => ({
@@ -185,9 +187,8 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
         }
     }
 
-
     const pathname = usePathname();
-    const loginUrl = `http://localhost:8080/auth/login`;
+    const loginUrl = `https://blog.chomanki.com/auth/login`;
 
     return (
         <div className="text-gray-300 space-y-8">
@@ -198,13 +199,18 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
                         ))}
                 </div>
                     <div className="flex justify-center gap-3">
-                    <button onClick={() => setPage(page - 1)}> Prev </button>
+                    <button onClick={() => setPage(page - 1)}
+                            disabled={page===1}  
+                            className={`${page===1 ? 'text-zinc-400':'duration-150 hover:text-blue-500'}`}
+                    >
+                        Prev 
+                    </button>
                         <div className="flex justify-center gap-3">
                                 {renderingPage()
                                 
                                 .map(component=>(
                                     <div key={component.key}
-                                        className="duration-300 rounded-md bg-zinc-800/50 hover:bg-zinc-800 "
+                                        className="lg:hover:scale-105 transition-transform ease-in-out duration-300 rounded-md bg-zinc-800/50 hover:bg-zinc-800 hover:text-blue-500"
                                     >
                                         {component}
                                     </div>
@@ -212,10 +218,15 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
                                 
                                 }
                         </div>
-                    <button onClick={() => setPage(page + 1)}> Next </button>
+                    <button onClick={() => setPage(page + 1)}
+                            disabled={page===pageInfo.totalPages}  
+                            className={`${page===pageInfo.totalPages ? 'text-zinc-400':'duration-150 hover:text-blue-500'}`}
+                    > 
+                        Next 
+                    </button>
                     </div>
                 <div>
-                <div className="p-4 rounded-lg bg-zinc-900/50 text-gray-300 hover:bg-zinc-900">
+                <div className="duration-150 p-4 rounded-lg bg-zinc-900/50 text-gray-300 hover:bg-zinc-900">
                     <div className="flex text-gray-300 my-4 ml-8 font-bold font-GSans tracking-tight sm:text-xl font-display">
                         Post comment  
                     </div>
@@ -223,7 +234,7 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
                             <div className="mx-8 flex">
                             <h4 className="mr-5 mt-3 text-gray-300 text-sm font-bold"> {" Current Account | "} </h4>
                             <Image className="mt-1 text-gray-300 rounded-lg border border-zinc-200" src={userProfile.imgUrl} alt={userProfile.nickname} width={25} height={25}/>
-                            <h4 className="mt-2 mx-3 text-gray-300 text-base font-bold hover:text-blue-500">{userProfile.nickname} </h4>
+                            <h4 className="duration-150 mt-2 mx-3 text-gray-300 text-base font-bold hover:text-blue-500">{userProfile.nickname} </h4>
                             </div>
                     }
                 <form onSubmit={(e) => {
@@ -252,17 +263,21 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
                     <button
                     type="submit"
                     disabled={!content.trim()}
-                    className={` border rounded-lg  ${!content.trim() ? 'bg-zinc-900/50 text-gray-600' : 'bg-zinc-900/50 text-blue-500 hover:bg-zinc-800'}`}
+                    className={`duration-150 border rounded-lg  ${!content.trim() ? 'bg-zinc-900/50 text-gray-600' : 'bg-zinc-900/50 text-blue-500 hover:bg-zinc-800'}`}
                     >      <p className="font-bold mx-7"> post </p>
                     </button>
                      }
                     { !isLoggedIn &&
-                    <a 
-                        href={loginUrl+`?requesturl=http://localhost:3000${pathname}`}
-                        className="w-85 h-85"
-                    >
-                        <Image className="rounded-lg" src='/signingoogle_sq_bl.png' alt="sign in with Google" width={100} height={50}/>
-                    </a>
+                        <div className="w-2/12 border rounded-lg duration-150 bg-zinc-900/50 hover:bg-zinc-900">
+                                <Link href={`/blog/login`} 
+                                >
+                                    <div className="flex items-center justify-center w-full h-full text-gray-300 hover:text-blue-500 duration-150">
+                                            <p>Login</p>
+                                    </div>
+                                        
+                                </Link>
+                        </div>
+            
                      }
                 </form>
         </div>

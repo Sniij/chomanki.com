@@ -3,7 +3,10 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
-
+import { useSearchParams } from 'next/navigation'
+import { cookies } from 'next/headers'
+import { getCookies, getCookie, setCookie, deleteCookie } from 'cookies-next';
+import { useRouter } from 'next/navigation'
 
 
 type UserProfile = {
@@ -12,14 +15,47 @@ type UserProfile = {
     imgUrl: string;
 }
 
+
 export default function Navigation() {
 	const ref = useRef<HTMLElement>(null);
 	const [isIntersecting, setIntersecting] = useState(true);
+	const searchParams = useSearchParams();
+	const [accessToken, setAccessToken] = useState<string>();
+	const [refreshToken, setRefreshToken] = useState<string>();
+	const router = useRouter();
+
+
+	useEffect(()=>{
+
+		if(accessToken){
+			setCookie("accessToken",accessToken);
+		}
+		if(refreshToken){
+			setCookie("refreshToken",refreshToken);
+		}
+		if(accessToken && refreshToken)
+			router.push(window.location.pathname);
+
+		
+	},[accessToken, refreshToken])
+
+
 	useEffect(() => {
 		if (!ref.current) return;
 		const observer = new IntersectionObserver(([entry]) =>
 			setIntersecting(entry.isIntersecting),
 		);
+		if(searchParams){
+			const searchAccessToken = searchParams.get('accessToken');
+			const searchRefreshToken = searchParams.get('refreshToken');
+
+			if(searchAccessToken)
+				setAccessToken(searchAccessToken);
+			if(searchRefreshToken)
+				setRefreshToken(searchRefreshToken);
+
+		}
+
 		observer.observe(ref.current);
 		return () => observer.disconnect();
 	}, []);

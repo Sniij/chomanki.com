@@ -7,9 +7,9 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(config => {
-  const jsessionId = Cookies.get('JSESSIONID');  
-  if (jsessionId) {
-    config.headers.Cookie = `JSESSIONID=${jsessionId}`;
+  const accessToken = Cookies.get('accessToken');  
+  if (accessToken) {
+    config.headers.Cookie = `accessToken=${accessToken}`;
   }
   return config;
 });

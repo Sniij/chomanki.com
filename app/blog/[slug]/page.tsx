@@ -5,7 +5,7 @@ import { Header } from "./header";
 import "./mdx.css";
 import { ReportView } from "./view";
 import { Redis } from "@upstash/redis";
-import Comment from '@/app/components/comment'
+import Comment from '@/app/blog/[slug]/comment'
 import {cookies} from 'next/headers';
 
 export const revalidate = 0;
@@ -27,6 +27,8 @@ export async function generateStaticParams(): Promise<Props["params"][]> {
 
 export default async function PostPage({ params }: Props) {
 
+
+
   const slug = params?.slug;
   const blog = allBlogs.find((blog) => blog.slug === slug);
 
@@ -35,7 +37,10 @@ export default async function PostPage({ params }: Props) {
   }
 
   const cookieStore = cookies();
+
   const JSESSIONID = cookieStore.get('JSESSIONID')?.value ?? "";
+  const accessToken = cookieStore.get('accessToken')?.value ?? "";
+  const refreshToken = cookieStore.get('refreshToken')?.value ?? "";
 
   const views =
     (await redis.get<number>(["pageviews", "blog", slug].join(":"))) ?? 0;

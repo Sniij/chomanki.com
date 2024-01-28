@@ -1,35 +1,34 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
-import { getPageRequest } from '@/service/blogservice'
+import React  from "react";
 import Link from "next/link";
-import { Navigation } from "../../components/nav";
-import { Card } from "../../components/card";
-
-
+import Navigation from "@/app/components/nav";
+import { Card } from "@/app/components/card";
+import {cookies} from 'next/headers';
 
 export default function Login() {
 
 
 
     return (
-		<div className=" bg-gradient-to-tl from-zinc-900/0 via-zinc-900 to-zinc-900/0">
-			<Navigation />
-            <div className="container flex items-center justify-center min-h-screen px-4 mx-auto">
-				<div className="grid w-full grid-cols-1 gap-8 mx-auto mt-32 sm:mt-0 sm:grid-cols-3 lg:gap-16">
 
+
+        <div className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-900 to-black">
+        <Navigation />
+            <div className="h-screen flex w-9/12 items-center justify-center">
+
+            <div className="max-w-screen-sm w-full flex flex-col gap-y-2 rounded-lg p-4 bg-base-200">
+                <h2 className="text-2xl font-bold mb-4">Login with Google</h2>
                     <Card>
-                        <Link
-                            href="#"
-                            target="_blank"
-                            className="p-4 relative flex flex-col items-center gap-4 duration-700 group md:gap-8 md:py-24  lg:pb-48  md:p-16"
-                        >
-                            Sign in with Google
-                        </Link>
+                            <Link
+                                href={"http://localhost:8080/auth/login"}
+                                className="p-4 relative flex flex-col items-center gap-4 duration-700 group md:gap-8 md:py-24 md:p-16"
+                            >
+                                    <div className="flex justify-center text-gray-300 hover:text-blue-500 duration-150">
+                                        Login with Google
+                                    </div>
+                            </Link>
                     </Card>
-
-				</div>
-			</div>
+            </div>
+            </div>
         </div>
   );
 
