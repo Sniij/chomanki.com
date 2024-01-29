@@ -38,7 +38,7 @@ module.exports = {
 					"radial-gradient(50% 50% at 50% 50%, var(--tw-gradient-stops))",
 				"bg-ex": "url('/bg-1.jpg')",
 				"bg-signgoogle": "url('/signingoogle_sq_bl.png')",
-
+				"bg-sniij": "url('/sniij.png')",
 			},
 			animation: {
 				"fade-in": "fade-in 3s ease-in-out forwards",

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
+import { getCookies, getCookie, setCookie, deleteCookie } from 'cookies-next';
 
 const instance = axios.create({
   baseURL: 'http://localhost:8080',
@@ -7,10 +7,7 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(config => {
-  const accessToken = Cookies.get('accessToken');  
-  if (accessToken) {
-    config.headers.Cookie = `accessToken=${accessToken}`;
-  }
+    config.withCredentials= true;
   return config;
 });
 

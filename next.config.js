@@ -10,7 +10,7 @@ module.exports = withContentlayer({
         redisToken: '${process.env.UPSTASH_REDIS_REST_TOKEN}'
     },
     images: {
-        domains: ['lh3.googleusercontent.com'],
+        domains: ['lh3.googleusercontent.com','avatars.githubusercontent.com'],
     },
     reactStrictMode: false,
 });

@@ -7,6 +7,8 @@ import CommentDetail from '@/app/components/commentdetail'
 import Image from "next/image";
 import { Card } from "@/app/components/card";
 import Link from "next/link";
+import { useRouter } from 'next/navigation'
+import { getCookie, setCookie,deleteCookie } from "cookies-next";
 
 
 type UserProfile = {
@@ -17,7 +19,6 @@ type UserProfile = {
 
 interface CommentProps {
     slug: string;
-    jsessionid: string;
 }
 
 interface Comment {
@@ -47,7 +48,7 @@ export async function getUser() {
     return response; 
     
 }
-export default function Comment({ slug, jsessionid }: CommentProps) {
+export default function Comment({ slug }: CommentProps) {
     const [commentList, setCommentList] = useState<Comment[]>([]);
     const [content, setContent] = useState<string>("");
     const [page, setPage] = useState<number>(1);
@@ -55,7 +56,8 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [userProfile, setUserProfile] = useState<UserProfile>();
     const [pageInfo, setPageInfo] = useState<PageInfo>({totalElements:0, totalPages:0});
-
+    const [accessToken, setAccessToken] = useState<string>("");
+    const router = useRouter();
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -64,6 +66,12 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
         }
     }, [content]);
 
+
+    useEffect(() => {
+        if(accessToken){
+            setCookie("accessToken",accessToken)
+        }
+    }, [accessToken]);
 
     useEffect(() => {
         refreshIsLoggedIn();
@@ -107,9 +115,11 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
     async function refreshIsLoggedIn(){
         let isLoggedIn = false;
         let user: UserProfile = { id: '', nickname: '', imgUrl: '' };
-    
-        if(jsessionid){
+        const token = getCookie("accessToken") ?? "";
+        if( token ){
+            setAccessToken(token);
             const res = await getUser();
+            console.log(res);
             if(res.status === 200){
                 user = {
                     id: res.data.data.userId,
@@ -119,7 +129,8 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
                 isLoggedIn = true;
                 console.log(user);
             }else{
-                alert("정보를 불러오는데 실패하였습니다. ");
+                alert("로그인 정보가 만료되었습니다. 로그인 화면으로 넘어갑니다.");
+                router.push("/blog/login")
             }
         }
     
@@ -129,23 +140,32 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
     
     async function getCommentList(page: number){
         const result = await getPageRequest(`/comment`, slug, page);
-        const comments: Comment[] = result.data;
-        const pageinfo: PageInfo = result.pageInfo;
+        console.log(result);
 
-        if (comments && Array.isArray(comments)) {
-            if(isLoggedIn && userProfile){
-                setCommentList(comments.map(comment => ({
-                    ...comment,
-                    isMine: comment.userId === userProfile.id ? true : false,
-                })));
-            }else{
-                setCommentList(comments.map(comment => ({
-                    ...comment,
-                    isMine: false
-                })));
+        if(result){
+            console.log(result);
+            if(result.status===200){
+                console.log(result);
+
+                const comments: Comment[] = result.data.data;
+                const pageinfo: PageInfo = result.data.pageInfo;
+
+                if(comments && Array.isArray(comments)){
+                    if(isLoggedIn && userProfile){
+                        setCommentList(comments.map(comment => ({
+                            ...comment,
+                            isMine: comment.userId === userProfile.id ? true : false,
+                        })));
+                    }else{
+                        setCommentList(comments.map(comment => ({
+                            ...comment,
+                            isMine: false
+                        })));
+                    }
+                    setPageInfo(pageinfo);
+                }
             }
-            setPageInfo(pageinfo);
-        } else{
+        }else{
             alert("댓글 불러오기를 실패하였습니다.");
         }
     }
@@ -187,8 +207,6 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
         }
     }
 
-    const pathname = usePathname();
-    const loginUrl = `https://blog.chomanki.com/auth/login`;
 
     return (
         <div className="text-gray-300 space-y-8">
@@ -200,14 +218,13 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
                 </div>
                     <div className="flex justify-center gap-3">
                     <button onClick={() => setPage(page - 1)}
-                            disabled={page===1}  
-                            className={`${page===1 ? 'text-zinc-400':'duration-150 hover:text-blue-500'}`}
+                            disabled={page===1 || pageInfo.totalPages===0}  
+                            className={`${page===1 || pageInfo.totalPages===0 ? 'text-zinc-400':'duration-150 hover:text-blue-500'}`}
                     >
                         Prev 
                     </button>
                         <div className="flex justify-center gap-3">
                                 {renderingPage()
-                                
                                 .map(component=>(
                                     <div key={component.key}
                                         className="lg:hover:scale-105 transition-transform ease-in-out duration-300 rounded-md bg-zinc-800/50 hover:bg-zinc-800 hover:text-blue-500"
@@ -219,8 +236,8 @@ export default function Comment({ slug, jsessionid }: CommentProps) {
                                 }
                         </div>
                     <button onClick={() => setPage(page + 1)}
-                            disabled={page===pageInfo.totalPages}  
-                            className={`${page===pageInfo.totalPages ? 'text-zinc-400':'duration-150 hover:text-blue-500'}`}
+                            disabled={page===pageInfo.totalPages || pageInfo.totalPages===0}  
+                            className={`${page===pageInfo.totalPages || pageInfo.totalPages===0 ? 'text-zinc-400':'duration-150 hover:text-blue-500'}`}
                     > 
                         Next 
                     </button>

@@ -22,6 +22,7 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 	const [accessToken, setAccessToken] = useState<string>();
 	const [refreshToken, setRefreshToken] = useState<string>();
 	const router = useRouter();
+	const [redirect, setRedirect] = useState<string>("/blog");
 
 	const links: { label: string; href: string }[] = [];
 	if (blog.repository) {
@@ -37,6 +38,9 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 		});
 	}
 
+
+	
+
 	useEffect(()=>{
 
 		if(accessToken){
@@ -45,11 +49,20 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 		if(refreshToken){
 			setCookie("refreshToken",refreshToken);
 		}
-		if(accessToken && refreshToken)
+		if(accessToken && refreshToken){
 			router.push(window.location.pathname);
+			router.refresh();
+		}
+		},[accessToken, refreshToken])
 
-		
-	},[accessToken, refreshToken])
+	async function handleLogout() {
+		deleteCookie("accessToken");
+		deleteCookie("refreshToken");
+		deleteCookie("JSESSIONID");
+		router.push(window.location.pathname);
+		router.refresh();
+	}
+
 
 	useEffect(() => {
 		if (!ref.current) return;
@@ -64,8 +77,13 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 				setAccessToken(searchAccessToken);
 			if(searchRefreshToken)
 				setRefreshToken(searchRefreshToken);
-
 		}
+		const token = getCookie("accessToken") ?? "";
+		if(token){
+			setAccessToken(token);
+		}
+		const current = getCookie("currentPage") ?? "/blog"
+		setRedirect(current);
 		observer.observe(ref.current);
 		return () => observer.disconnect();
 	}, []);
@@ -90,7 +108,7 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 							className={`duration-200 hover:font-medium flex items-center gap-1 ${
 								isIntersecting
 									? " text-zinc-400 hover:text-zinc-100"
-									: "text-zinc-600 hover:text-zinc-900"
+									: "text-zinc-600 hover:text-blue-500"
 							} `}
 						>
 							<Eye className="w-5 h-5" />{" "}
@@ -103,10 +121,35 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 								className={`w-6 h-6 duration-200 hover:font-medium ${
 									isIntersecting
 										? " text-zinc-400 hover:text-zinc-100"
-										: "text-zinc-600 hover:text-zinc-900"
+										: "text-zinc-600 hover:text-blue-500"
 								} `}
 							/>
 						</Link>
+						{ !accessToken &&
+							<Link
+							href="/blog/login"
+							className={`duration-200 hover:font-medium ${
+								isIntersecting
+									? " text-zinc-400 hover:text-zinc-100"
+									: "text-zinc-600 hover:text-blue-500"
+							} `}
+							>
+								Login 
+							</Link>
+						}
+						{	accessToken &&
+							<Link
+							onClick={handleLogout}
+							href={redirect}
+							className={`duration-200 hover:font-medium ${
+								isIntersecting
+									? " text-zinc-400 hover:text-zinc-100"
+									: "text-zinc-600 hover:text-blue-500"
+							} `}
+							>
+								Logout
+							</Link>
+						}
 					</div>
 
 					<Link
@@ -114,11 +157,12 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 						className={`duration-200 hover:font-medium ${
 							isIntersecting
 								? " text-zinc-400 hover:text-zinc-100"
-								: "text-zinc-600 hover:text-zinc-900"
+								: "text-zinc-600 hover:text-blue-500"
 						} `}
 					>
 						<ArrowLeft className="w-6 h-6 " />
 					</Link>
+
 				</div>
 			</div>
 			<div className="bg-black opacity-70 ">

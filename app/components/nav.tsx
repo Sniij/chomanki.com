@@ -4,7 +4,6 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams } from 'next/navigation'
-import { cookies } from 'next/headers'
 import { getCookies, getCookie, setCookie, deleteCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation'
 
@@ -23,21 +22,30 @@ export default function Navigation() {
 	const [accessToken, setAccessToken] = useState<string>();
 	const [refreshToken, setRefreshToken] = useState<string>();
 	const router = useRouter();
+	const [redirect, setRedirect] = useState<string>("/blog");
 
 
 	useEffect(()=>{
 
 		if(accessToken){
 			setCookie("accessToken",accessToken);
+			setAccessToken(accessToken);
 		}
 		if(refreshToken){
 			setCookie("refreshToken",refreshToken);
+			setRefreshToken(refreshToken);
 		}
 		if(accessToken && refreshToken)
 			router.push(window.location.pathname);
 
 		
 	},[accessToken, refreshToken])
+
+	async function handleLogout() {
+		deleteCookie("accessToken");
+		deleteCookie("refreshToken");
+		deleteCookie("JSESSIONID");
+	}
 
 
 	useEffect(() => {
@@ -55,7 +63,13 @@ export default function Navigation() {
 				setRefreshToken(searchRefreshToken);
 
 		}
+		const token = getCookie("accessToken") ?? "";
+		if(token){
+			setAccessToken(token);
+		}
 
+		const current = getCookie("currentPage") ?? "/blog"
+		setRedirect(current);
 		observer.observe(ref.current);
 		return () => observer.disconnect();
 	}, []);
@@ -89,12 +103,24 @@ export default function Navigation() {
 						>
 							Contact
 						</Link>
-						<Link
-							href="/"
+						{ !accessToken &&
+							<Link
+							href="/blog/login"
 							className="duration-200 text-zinc-400 hover:text-zinc-100"
-						>
-							Logout
-						</Link>
+							>
+								Login 
+							</Link>
+						}
+						{	accessToken &&
+							<Link
+							onClick={handleLogout}
+							href={redirect}
+							className="duration-200 text-zinc-400 hover:text-zinc-100"
+							>
+								Logout
+							</Link>
+						}
+
 					</div>
 
 					<Link

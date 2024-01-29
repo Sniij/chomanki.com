@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import axiosInstance from './axiosInstance';
+import { getCookies, getCookie, setCookie, deleteCookie } from 'cookies-next';
 
 const axiosClient = axios.create({
     baseURL: "http://127.0.0.1:8080",
@@ -36,13 +37,13 @@ interface CommentResponse {
 
 export async function getPageRequest(URL: string, slug: string, page: number){
 
-    const response = await axiosClient.get(URL, {
+    const response = await axiosInstance.get(URL, {
         params:{
             slug,
             page
         }
     })
-    .then(response=>response.data)
+    .then(response=>response)
     .catch(err=>console.error(err));
 
     return response;
@@ -51,7 +52,10 @@ export async function getPageRequest(URL: string, slug: string, page: number){
 export async function postRequest(URI: string, payload: CommentRequest) {
 
     const response = await axiosInstance
-    .post<ServerResponse<CommentResponse>>(URI, payload)
+    .post<ServerResponse<CommentResponse>>(URI, payload,{
+
+    }   
+    )
     .catch(err =>err)
 
     return response;
@@ -64,7 +68,8 @@ export async function deleteRequest(URI: string, commentId: string){
     .delete<ServerStatusResponse>(URI, {
         params:{
             commentId: commentId
-        }
+        },
+
     })
     .catch(err =>err)
 
@@ -72,9 +77,11 @@ export async function deleteRequest(URI: string, commentId: string){
 }
 
 export async function getUserProfile(){
-
+    console.log(getCookie('accessToken'))
     const response = await axiosInstance
-    .get<ServerResponse<UserProfile>>("/user")
+    .get<ServerResponse<UserProfile>>("/user",{
+
+    })
     .then(response => response)
     .catch(err =>err)
 
