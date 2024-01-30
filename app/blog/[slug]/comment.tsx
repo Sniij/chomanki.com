@@ -42,8 +42,8 @@ interface CommentRequest {
     content?: string;
 }
 
-export async function getUser() {
-    const response = await getUserProfile();
+export async function getUser(accessToken: string){
+    const response = await getUserProfile(accessToken);
     
     return response; 
     
@@ -75,7 +75,7 @@ export default function Comment({ slug }: CommentProps) {
 
             if( token ){
                 setAccessToken(token);
-                const res = await getUser();
+                const res = await getUser(token);
                 console.log(res);
                 if(res.status === 200){
                     const user = {
@@ -141,7 +141,7 @@ export default function Comment({ slug }: CommentProps) {
         const token = getCookie("accessToken") ?? "";
         if( token ){
             setAccessToken(token);
-            const res = await getUser();
+            const res = await getUser(token);
             console.log(res);
             if(res.status === 200){
                 user = {

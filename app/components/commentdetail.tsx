@@ -23,7 +23,7 @@ export default function CommentDetail({ comment, deleteComment }: CommentProps) 
 
     return (
         <div className="p-4 rounded-lg duration-150 bg-zinc-900/50 text-gray-300 hover:bg-zinc-900">
-            <div className="justify-start mx-8 mb-0 flex ">
+            <div className="justify-start mx-8 mb-0 flex text-pretty ">
                 <Image className="mt-3 sm:w-15 rounded-lg border border-zinc-100 text-gray-300" src={comment.imgUrl} alt={comment.nickname} width={30} height={40}/>
                 <h3 className="duration-150 ml-5 mr-1 mt-5 sm:text-base text-sm text-gray-300 text-base font-bold hover:text-blue-500">{comment.nickname}
                 </h3>
@@ -47,7 +47,7 @@ export default function CommentDetail({ comment, deleteComment }: CommentProps) 
             </div>
 
             <div className="mx-8 mt-0 mb-5">
-                    <div className="duration-150 text-zinc-400 text-base font-GSans hover:text-zinc-300 ">
+                    <div className="duration-150 text-zinc-400 text-base font-bold hover:text-zinc-300 text-wrap ">
                         {comment.content} 
                     </div>
             </div>

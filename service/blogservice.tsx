@@ -76,9 +76,15 @@ export async function deleteRequest(URI: string, commentId: string){
     return response;
 }
 
-export async function getUserProfile(){
+export async function getUserProfile(accessToken: string){
+
+    setCookie("accessToken", accessToken);
+
     const response = await axiosInstance
     .get<ServerResponse<UserProfile>>("/user",{
+        headers:{
+            Authorization: accessToken,
+        },
 
     })
     .then(response => response)
