@@ -65,7 +65,7 @@ const components = {
 	a: ({ className, ...props }) => (
 		<Link
 			className={clsx(
-				"text-gray-300 font-medium text-zinc-900 underline underline-offset-4",
+				"text-gray-300 font-medium text-zinc-100 underline underline-offset-4",
 				className,
 			)}
 			{...props}
@@ -89,7 +89,7 @@ const components = {
 	blockquote: ({ className, ...props }) => (
 		<blockquote
 			className={clsx(
-				"mt-6 border-l-2 border-zinc-300 pl-6 italic text-zinc-800 [&>*]:text-zinc-600",
+				"mt-6 border-l-2 border-zinc-300 pl-6 italic text-zinc-200 [&>*]:text-zinc-100",
 				className,
 			)}
 			{...props}

@@ -232,6 +232,13 @@ export default function Comment({ slug }: CommentProps) {
                     {commentList.map((comment) => (
                             <CommentDetail key={comment.id} comment={comment} deleteComment={deleteComment}/>
                         ))}
+                    {commentList.length === 0 && 
+                                <div className="p-4 rounded-lg duration-150 bg-zinc-900/50 text-gray-300 hover:bg-zinc-900">
+                                <div className="flex flex-col items-center">
+                                    <p className=" duration-150 hover:text-blue-500"> 첫번째 댓글을 남겨주세요 :) </p>
+                                </div>
+                            </div>
+                    }
                 </div>
                     <div className="flex justify-center gap-3">
                     <button onClick={() => setPage(page - 1)}
@@ -306,7 +313,7 @@ export default function Comment({ slug }: CommentProps) {
                                 <Link href={`/blog/login`} 
                                 >
                                     <div className="flex items-center justify-center w-full h-full text-gray-300 hover:text-blue-500 duration-150">
-                                            <p>Login</p>
+                                            <p className=" sm:text-base text-xs">Login</p>
                                     </div>
                                         
                                 </Link>
