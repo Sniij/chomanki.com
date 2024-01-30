@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getCookies, getCookie, setCookie, deleteCookie } from 'cookies-next';
 
 const instance = axios.create({
-  baseURL: 'https://blog.chomanki.com',
+  baseURL: 'https://server.blog.chomanki.com',
   withCredentials: true,
 });
 
