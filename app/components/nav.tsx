@@ -29,23 +29,31 @@ export default function Navigation() {
 
 		if(accessToken){
 			setCookie("accessToken",accessToken);
-			setAccessToken(accessToken);
+		}else{
+			setAccessToken("");
 		}
 		if(refreshToken){
 			setCookie("refreshToken",refreshToken);
-			setRefreshToken(refreshToken);
+		}else{
+			setRefreshToken("")
 		}
-		if(accessToken && refreshToken)
+		if(accessToken && refreshToken){
 			router.push(window.location.pathname);
-
-		
-	},[accessToken, refreshToken])
+			router.refresh();
+		}
+		},[accessToken, refreshToken])
 
 	async function handleLogout() {
 		deleteCookie("accessToken");
 		deleteCookie("refreshToken");
 		deleteCookie("JSESSIONID");
+		setAccessToken("");
+		setRefreshToken("");
+		router.push("/blog");
+		router.refresh();
+
 	}
+
 
 
 	useEffect(() => {

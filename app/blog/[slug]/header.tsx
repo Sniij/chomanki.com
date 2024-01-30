@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams,useRouter } from 'next/navigation'
 import { getCookies, getCookie, setCookie, deleteCookie } from 'cookies-next';
+import Logout from "@/app/components/logout"
 
 type Props = {
 	blog: {
@@ -45,9 +46,13 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 
 		if(accessToken){
 			setCookie("accessToken",accessToken);
+		}else{
+			setAccessToken("");
 		}
 		if(refreshToken){
 			setCookie("refreshToken",refreshToken);
+		}else{
+			setRefreshToken("")
 		}
 		if(accessToken && refreshToken){
 			router.push(window.location.pathname);
@@ -59,8 +64,10 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 		deleteCookie("accessToken");
 		deleteCookie("refreshToken");
 		deleteCookie("JSESSIONID");
-		router.push(window.location.pathname);
-		router.refresh();
+		setAccessToken("");
+		setRefreshToken("");
+		const current = getCookie("currentPage") ?? "/blog";
+		router.push(current);
 	}
 
 
@@ -138,7 +145,7 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 							</Link>
 						}
 						{	accessToken &&
-							<Link
+							<a
 							onClick={handleLogout}
 							href={redirect}
 							className={`duration-200 hover:font-medium ${
@@ -148,7 +155,7 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 							} `}
 							>
 								Logout
-							</Link>
+							</a>
 						}
 					</div>
 

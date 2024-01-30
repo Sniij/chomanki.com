@@ -77,7 +77,6 @@ export async function deleteRequest(URI: string, commentId: string){
 }
 
 export async function getUserProfile(){
-    console.log(getCookie('accessToken'))
     const response = await axiosInstance
     .get<ServerResponse<UserProfile>>("/user",{
 

@@ -12,11 +12,15 @@ export function middleware(req: NextRequest) {
   const prevPage = cookies.get('currentPage')?.value;
   const res = NextResponse.next()
   res.cookies.set('currentPage', currentPage, {
-    secure: false
+    maxAge: 60 * 60 * 24, // 1 day
+    path: '/',
+    secure: true
   })
   if (prevPage && currentPage != prevPage) {
     res.cookies.set('prevPage', prevPage, {
-      secure: false
+      maxAge: 60 * 60 * 24, // 1 day
+      path: '/',
+      secure: true
     })
   }
 

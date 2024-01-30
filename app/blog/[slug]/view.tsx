@@ -4,9 +4,10 @@ import { useEffect } from 'react';
 
 export const ReportView: React.FC<{ slug: string }> = ({ slug }) => {
     
-    useEffect(() => {
+    useEffect(() => {  
 
-    const visitedPages: { [key: string]: boolean } = JSON.parse(localStorage.getItem('visitedPages') || '{}');
+    const now = new Date();
+    const visitedPages: { [key: string]: boolean } = JSON.parse(sessionStorage.getItem('visitedPages') || '{}');
 
         if (!visitedPages[slug]) {
             fetch('/api/incr', {
@@ -17,7 +18,7 @@ export const ReportView: React.FC<{ slug: string }> = ({ slug }) => {
                 body: JSON.stringify({ slug: slug })
             });
             visitedPages[slug] = true;
-            localStorage.setItem('visitedPages', JSON.stringify(visitedPages));
+            sessionStorage.setItem('visitedPages', JSON.stringify(visitedPages));
         }
     }, [slug]);
 

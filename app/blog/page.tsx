@@ -17,6 +17,7 @@ export const revalidate = 0;
 
 export default async function BlogPage({ }) {
 
+
     const views = (
         await redis.mget<number[]>(
             ...allBlogs.map((p) => ["pageviews", "blog", p.slug].join(":")),

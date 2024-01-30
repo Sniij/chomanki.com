@@ -59,6 +59,7 @@ export default function Comment({ slug }: CommentProps) {
     const [accessToken, setAccessToken] = useState<string>("");
     const router = useRouter();
 
+
     useEffect(() => {
         if (textareaRef.current) {
             textareaRef.current.style.height = 'auto';
@@ -68,17 +69,39 @@ export default function Comment({ slug }: CommentProps) {
 
 
     useEffect(() => {
-        if(accessToken){
-            setCookie("accessToken",accessToken)
-        }
+        const fetchUser = async () => {
+            const token = accessToken ?? "";
+            console.log(token);
+
+            if( token ){
+                setAccessToken(token);
+                const res = await getUser();
+                console.log(res);
+                if(res.status === 200){
+                    const user = {
+                        id: res.data.data.userId,
+                        nickname: res.data.data.nickname,
+                        imgUrl: res.data.data.imgUrl,
+                    };
+                    setUserProfile(user);
+                    setIsLoggedIn(true);
+
+                }else{
+                    alert("로그인 정보가 만료되었습니다. 로그인 화면으로 넘어갑니다.");
+                    router.push("/blog/login")
+                }
+            }
+        };
+        
+        fetchUser();
     }, [accessToken]);
 
-    useEffect(() => {
-        refreshIsLoggedIn();
-    }, [page]);
 
     useEffect(() => {
         getCommentList(page);
+        const token = getCookie("accessToken") ?? "";
+        setAccessToken(token);
+    
     }, [page,isLoggedIn]);
 
     const renderingPage = () => {
@@ -127,7 +150,6 @@ export default function Comment({ slug }: CommentProps) {
                     imgUrl: res.data.data.imgUrl,
                 };
                 isLoggedIn = true;
-                console.log(user);
             }else{
                 alert("로그인 정보가 만료되었습니다. 로그인 화면으로 넘어갑니다.");
                 router.push("/blog/login")
@@ -140,13 +162,8 @@ export default function Comment({ slug }: CommentProps) {
     
     async function getCommentList(page: number){
         const result = await getPageRequest(`/comment`, slug, page);
-        console.log(result);
-
         if(result){
-            console.log(result);
             if(result.status===200){
-                console.log(result);
-
                 const comments: Comment[] = result.data.data;
                 const pageinfo: PageInfo = result.data.pageInfo;
 
