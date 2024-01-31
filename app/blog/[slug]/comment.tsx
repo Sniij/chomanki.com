@@ -19,6 +19,7 @@ type UserProfile = {
 
 interface CommentProps {
     slug: string;
+    jsessionId: string;
 }
 
 interface Comment {
@@ -42,13 +43,13 @@ interface CommentRequest {
     content?: string;
 }
 
-export async function getUser(accessToken: string){
-    const response = await getUserProfile(accessToken);
+export async function getUser(jsessionid: string){
+    const response = await getUserProfile(jsessionid);
     
     return response; 
     
 }
-export default function Comment({ slug }: CommentProps) {
+export default function Comment({ slug, jsessionId }: CommentProps) {
     const [commentList, setCommentList] = useState<Comment[]>([]);
     const [content, setContent] = useState<string>("");
     const [page, setPage] = useState<number>(1);
@@ -59,7 +60,7 @@ export default function Comment({ slug }: CommentProps) {
     const [accessToken, setAccessToken] = useState<string>("");
     const router = useRouter();
 
-
+    const [JSESSIONID, setJsessionId] = useState<string>("");
     useEffect(() => {
         if (textareaRef.current) {
             textareaRef.current.style.height = 'auto';
@@ -96,12 +97,42 @@ export default function Comment({ slug }: CommentProps) {
         fetchUser();
     }, [accessToken]);
 
+    useEffect(() => {
+        const fetchUser = async () => {
+            const jsessionid = JSESSIONID ?? "";
+            console.log(JSESSIONID);
+
+            if( jsessionid ){
+                setJsessionId(jsessionid);
+                const res = await getUser(jsessionid);
+                console.log(res);
+                if(res.status === 200){
+                    const user = {
+                        id: res.data.data.userId,
+                        nickname: res.data.data.nickname,
+                        imgUrl: res.data.data.imgUrl,
+                    };
+                    setUserProfile(user);
+                    setIsLoggedIn(true);
+
+                }else{
+                    alert("로그인 정보가 만료되었습니다. 로그인 화면으로 넘어갑니다.");
+                    router.push("/blog/login")
+                }
+            }
+        };
+        
+        fetchUser();
+    }, [JSESSIONID]);
 
     useEffect(() => {
         getCommentList(page);
         const token = getCookie("accessToken") ?? "";
         setAccessToken(token);
-    
+
+
+        console.log(jsessionId);
+        setJsessionId(jsessionId);
     }, [page,isLoggedIn]);
 
     const renderingPage = () => {

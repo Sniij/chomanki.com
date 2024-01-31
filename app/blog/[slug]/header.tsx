@@ -19,7 +19,6 @@ type Props = {
 export const Header: React.FC<Props> = ({ blog, views }) => {
 	const ref = useRef<HTMLElement>(null);
 	const [isIntersecting, setIntersecting] = useState(true);
-	const searchParams = useSearchParams();
 	const [accessToken, setAccessToken] = useState<string>();
 	const [refreshToken, setRefreshToken] = useState<string>();
 	const router = useRouter();
@@ -58,14 +57,10 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 			router.push(window.location.pathname);
 			router.refresh();
 		}
-		},[accessToken, refreshToken])
+	},[accessToken, refreshToken])
 
 	async function handleLogout() {
-		deleteCookie("accessToken");
-		deleteCookie("refreshToken");
 		deleteCookie("JSESSIONID");
-		setAccessToken("");
-		setRefreshToken("");
 		const current = getCookie("currentPage") ?? "/blog";
 		router.push(current);
 	}
@@ -76,19 +71,8 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 		const observer = new IntersectionObserver(([entry]) =>
 			setIntersecting(entry.isIntersecting),
 		);
-		if(searchParams){
-			const searchAccessToken = searchParams.get('accessToken');
-			const searchRefreshToken = searchParams.get('refreshToken');
+		
 
-			if(searchAccessToken)
-				setAccessToken(searchAccessToken);
-			if(searchRefreshToken)
-				setRefreshToken(searchRefreshToken);
-		}
-		const token = getCookie("accessToken") ?? "";
-		if(token){
-			setAccessToken(token);
-		}
 		const current = getCookie("currentPage") ?? "/blog"
 		setRedirect(current);
 		observer.observe(ref.current);

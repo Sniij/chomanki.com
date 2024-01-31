@@ -82,10 +82,6 @@ export async function getUserProfile(accessToken: string){
 
     const response = await axiosInstance
     .get<ServerResponse<UserProfile>>("/user",{
-        headers:{
-            Authorization: accessToken,
-        },
-
     })
     .then(response => response)
     .catch(err =>err)
