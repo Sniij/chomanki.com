@@ -2,6 +2,15 @@ import axios, { AxiosResponse } from 'axios';
 import axiosInstance from './axiosInstance';
 
 
+const LOCAL_BASE_URL = process.env.NEXT_PUBLIC_LOCAL_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+
+const axiosClient = axios.create({
+    baseURL: BASE_URL,
+    withCredentials: true,
+});
+
 interface CommentRequest {
     slug?: string;
     content?: string;
@@ -33,8 +42,7 @@ interface CommentResponse {
 }
 
 export async function getPageRequest(URL: string, slug: string, page: number){
-    console.log(URL)
-    const response = await axiosInstance.get(URL, {
+    const response = await axiosClient.get(URL, {
         params:{
             slug,
             page
@@ -48,7 +56,7 @@ export async function getPageRequest(URL: string, slug: string, page: number){
 
 export async function postRequest(URI: string, payload: CommentRequest, userId: string,accessToken:string) {
 
-    const response = await axiosInstance
+    const response = await axiosClient
     .post<ServerResponse<CommentResponse>>(URI, payload,{
         params:{
             userId: userId
@@ -65,7 +73,7 @@ export async function postRequest(URI: string, payload: CommentRequest, userId: 
 
 export async function deleteRequest(URI: string, commentId: string, userId: string, accessToken:string){
 
-    const response = await axiosInstance
+    const response = await axiosClient
     .delete<ServerStatusResponse>(URI, {
         params:{
             commentId: commentId,
@@ -82,7 +90,7 @@ export async function deleteRequest(URI: string, commentId: string, userId: stri
 
 export async function getUserProfile(accessToken: string){
 
-    const response = await axiosInstance
+    const response = await axiosClient
     .get<ServerResponse<UserProfile>>("/user", {
         headers:{
             Authorization: "Bearer " + accessToken
@@ -97,7 +105,7 @@ export async function getUserProfile(accessToken: string){
 
 export async function getAccessTokenByRefreshToken(refreshToken: string){
 
-    const response = await axiosInstance
+    const response = await axiosClient
     .get<ServerResponse<RefreshResponse>>("/auth/refresh", {
         headers:{
             Refresh: refreshToken
