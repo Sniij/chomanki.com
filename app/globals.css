@@ -33,6 +33,12 @@ body {
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'GSansLight';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff');
+  font-weight: light;
+  font-style: normal;
+}
 
 
 @layer base {

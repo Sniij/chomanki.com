@@ -11,7 +11,7 @@ const components = {
 	h1: ({ className, ...props }) => (
 		<h1
 			className={clsx(
-				"text-gray-300 mt-2 scroll-m-20 text-4xl font-bold font-GSans tracking-tight",
+				"text-gray-300 mt-2 scroll-m-20 text-4xl font-bold  tracking-tight",
 				className,
 			)}
 			{...props}
@@ -20,7 +20,7 @@ const components = {
 	h2: ({ className, ...props }) => (
 		<h2
 			className={clsx(
-				"text-gray-300 mt-10 scroll-m-20 border-b border-b-zinc-300 pb-1 text-3xl font-bold font-GSans tracking-tight first:mt-0",
+				"text-gray-300 mt-10 scroll-m-20 border-b border-b-zinc-300 pb-1 text-3xl font-bold  tracking-tight first:mt-0",
 				className,
 			)}
 			{...props}
@@ -29,7 +29,7 @@ const components = {
 	h3: ({ className, ...props }) => (
 		<h3
 			className={clsx(
-				"text-gray-300 mt-8 scroll-m-20 text-2xl font-bold font-GSans tracking-tight",
+				"text-gray-300 mt-8 scroll-m-20 text-2xl font-bold  tracking-tight",
 				className,
 			)}
 			{...props}
@@ -38,7 +38,7 @@ const components = {
 	h4: ({ className, ...props }) => (
 		<h4
 			className={clsx(
-				"text-gray-300 mt-8 scroll-m-20 text-xl font-bold font-GSans tracking-tight",
+				"text-gray-300 mt-8 scroll-m-20 text-xl font-bold tracking-tight",
 				className,
 			)}
 			{...props}
@@ -47,7 +47,7 @@ const components = {
 	h5: ({ className, ...props }) => (
 		<h5
 			className={clsx(
-				"text-gray-300 mt-8 scroll-m-20 text-lg font-bold font-GSans tracking-tight",
+				"text-gray-300 mt-8 scroll-m-20 text-lg font-bold tracking-tight",
 				className,
 			)}
 			{...props}
@@ -56,7 +56,7 @@ const components = {
 	h6: ({ className, ...props }) => (
 		<h6
 			className={clsx(
-				"text-gray-300 mt-8 scroll-m-20 text-base font-bold font-GSans tracking-tight",
+				"text-gray-300 mt-8 scroll-m-20 text-base font-bold  tracking-tight",
 				className,
 			)}
 			{...props}
@@ -172,8 +172,10 @@ export function Mdx({ code }: MdxProps) {
 	const Component = useMDXComponent(code);
 
 	return (
-		<div className="mdx">
-			<Component components={components}/>
-	  	</div>
+		<div className="md:mx-2 mx-5">
+			<div className="mdx">
+				<Component components={components}/>
+			</div>
+		</div>
 	);
 }

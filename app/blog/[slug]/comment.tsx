@@ -180,6 +180,7 @@ export default function Comment({ slug }: CommentProps) {
                     nickname: response.data.data.nickname
                 };
                 setContent("");
+                //router.push(`/blog/`+slug+`page=`+page);
                 commentList.push(comment);
                 setCommentList(commentList);
             } else {
@@ -247,7 +248,7 @@ export default function Comment({ slug }: CommentProps) {
                     </button>
                     </div>
                 <div>
-                <div className="duration-150 p-4 rounded-lg bg-zinc-900/50 text-gray-300 hover:bg-zinc-900">
+                <div className="relative duration-150 p-4 rounded-lg bg-zinc-900/50 text-gray-300 hover:bg-zinc-900">
                     <div className="flex text-gray-300 my-4 ml-8 font-bold font-GSans tracking-tight sm:text-xl font-display">
                         Post comment  
                     </div>
@@ -258,51 +259,51 @@ export default function Comment({ slug }: CommentProps) {
                             <h4 className="duration-150 mt-2 mx-3 text-gray-300 text-base font-bold hover:text-blue-500">{userProfile.nickname} </h4>
                             </div>
                     }
-                <form onSubmit={(e) => {
-                    e.preventDefault();
-                    if(typeof window !== 'undefined') {
-                        if(window.confirm("댓글을 작성하시겠습니까?")) {
-                            postComment(content);
-                        }
-                    }}
-                    }
-                    className="flex mx-8 space-x-4">
 
-                    <textarea
-                        ref={textareaRef}
-                        value={content}
-                        onChange={(e) => {
-                            if (e.target.value.length <= 500) {
-                                setContent(e.target.value);
+                    <form onSubmit={(e) => {
+                        e.preventDefault();
+                        if(typeof window !== 'undefined') {
+                            if(window.confirm("댓글을 작성하시겠습니까?")) {
+                                postComment(content);
                             }
                         }}
-                        className="w-9/12 min-h-32 bg-zinc-900/50 hover:bg-zinc-900 text-gray-300 break-words text-ellipsis overflow-hidden flex-grow h-32 p-2 border rounded-lg resize-y"
-                        disabled={!isLoggedIn}  
-                    />
-                    <p className="text-xs">{`${content.length}/500`}</p>
-                    { isLoggedIn &&
-                    <button
-                    type="submit"
-                    disabled={!content.trim()}
-                    className={`duration-150 border rounded-lg  ${!content.trim() ? 'bg-zinc-900/50 text-gray-600' : 'bg-zinc-900/50 text-blue-500 hover:bg-zinc-800'}`}
-                    >      <p className="font-bold mx-7"> post </p>
-                    </button>
-                     }
-                    { !isLoggedIn &&
-                        <div className="w-2/12 border rounded-lg duration-150 bg-zinc-900/50 hover:bg-zinc-900">
-                                <Link href={`/blog/login`} 
-                                >
-                                    <div className="flex items-center justify-center w-full h-full text-gray-300 hover:text-blue-500 duration-150">
-                                            <p className=" sm:text-base text-xs">Login</p>
-                                    </div>
-                                        
-                                </Link>
-                        </div>
-            
-                     }
-                </form>
-        </div>
+                        }
+                        className="mx-6 space-x-4">
+                        <textarea
+                            ref={textareaRef}
+                            value={content}
+                            onChange={(e) => {
+                                if (e.target.value.length <= 500) {
+                                    setContent(e.target.value);
+                                }
+                            }}
+                            className="w-full min-h-32 bg-zinc-900/50 hover:bg-zinc-900 text-gray-300 break-words text-ellipsis overflow-hidden flex-grow h-32 p-2 border rounded-lg resize-y"
+                            disabled={!isLoggedIn}  
+                        />
+                        <div className="flex mx-6 w-full">
+                        <p className="text-xs">{`${content.length}/500`}</p>
+                        { isLoggedIn &&
+                        <div className="absolute bottom-3 right-10 w-32 h-10 border rounded-lg duration-150 bg-zinc-900/50 hover:bg-zinc-900">
+                        <button
+                        type="submit"
+                        disabled={!content.trim()}
+                        className={`flex items-center justify-center h-full w-full border rounded-lg  ${!content.trim() ? 'bg-zinc-900/50 text-gray-600' : 'bg-zinc-900/50 text-blue-500 hover:bg-zinc-800'}`}
+                        >      <p className="font-bold sm:text-base text-xs"> post </p>
+                        </button></div>
+                        }
+                        { !isLoggedIn &&
+                            <div className="absolute bottom-3 right-10 w-32 h-10 border rounded-lg duration-150 bg-zinc-900/50 hover:bg-zinc-900">
+                            <Link href={`/blog/login`}>
+                                <div className="flex items-center justify-center w-full h-full text-gray-300 hover:text-blue-500 duration-150">
+                                    <p className="font-bold sm:text-base text-xs">Login</p>
+                                </div>
+                            </Link> 
+                            </div>
+                        }
+                    </div>
+                    </form>
                 </div>
+            </div>
         </div>
     );
 }

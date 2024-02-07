@@ -9,6 +9,7 @@ import Comment from '@/app/blog/[slug]/comment'
 
 export const revalidate = 0;
 
+
 type Props = {
   params: {
     slug: string;
@@ -22,6 +23,12 @@ export async function generateStaticParams(): Promise<Props["params"][]> {
     .map((p) => ({
       slug: p.slug,
     }));
+}
+
+export const generateMetadata = async ({ params }: Props) => {
+  return {
+      title: params.slug
+  }
 }
 
 export default async function PostPage({ params }: Props) {

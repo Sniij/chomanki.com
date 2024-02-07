@@ -14,6 +14,9 @@ import {cookies} from 'next/headers';
 const redis = Redis.fromEnv();
 export const revalidate = 0;
 
+export const metadata = {
+	title: 'blog'
+}
 
 export default async function BlogPage({ }) {
 
@@ -87,7 +90,7 @@ return (
 
                                     <h2
                                     id="featured-post"
-                                    className="mt-4 text-3xl font-bold text-zinc-100 group-hover:text-white sm:text-4xl font-display"
+                                    className="mt-4 text-2xl font-bold text-zinc-100 group-hover:text-white md:text-4xl"
                                     >
                                         {top1.title}
                                     </h2>

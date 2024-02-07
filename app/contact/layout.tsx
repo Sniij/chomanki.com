@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
 	title: {
 	  default:"chomanki.com",
-	  template: "Contact | chomanki.com"
+	  template: "%s | chomanki.com"
 	},
 	description: 'Backend Developer Manki Cho',
 	icons: {

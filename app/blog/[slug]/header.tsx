@@ -121,7 +121,7 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 						: "bg-white/10  border-zinc-200 lg:border-transparent"
 				}`}
 			>
-				<div className="container flex flex-row-reverse items-center justify-between p-6 mx-auto">
+				<div className="container flex flex-row-reverse items-center justify-between p-6 mx-auto font-bold">
 					<div className="flex justify-between gap-8">
 						<span
 							title="View counter for this page"

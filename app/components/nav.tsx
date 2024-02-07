@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams } from 'next/navigation'
 import { getCookies, getCookie, setCookie, deleteCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation'
+import { getAccessTokenByRefreshToken } from '@/service/blogservice'
 
 
 type UserProfile = {
@@ -43,7 +44,19 @@ export default function Navigation() {
 
 	}
 
-
+	async function getAccessToken(refreshToken:string) {
+		const res= await getAccessTokenByRefreshToken(refreshToken);
+		if(res.status === 201){
+			const refreshAccessToken = res.data.data.accessToken;
+			setAccessToken(refreshAccessToken);
+			setCookie("accessToken",refreshAccessToken, {
+				maxAge: 60 * 60
+			});
+		}else{
+			alert("로그인 정보가 만료되었습니다. 로그인 페이지로 넘어갑니다.");
+			router.push("/blog/login");
+		}
+	}
 
 	useEffect(() => {
 		if (!ref.current) return;
@@ -56,6 +69,8 @@ export default function Navigation() {
 		if(accesstoken){
 			setAccessToken(accesstoken);
 			setRefreshToken(refreshtoken);
+		}else if(!accesstoken && refreshtoken){
+			getAccessToken(refreshtoken);
 		}
 
 		if(searchParams){
