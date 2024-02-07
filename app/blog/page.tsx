@@ -55,7 +55,8 @@ return (
                 Blog
                 </h2>
                 <p className="font-GSans text-lg mt-4 text-zinc-400">
-                저만의 기록 공간입니다.
+                새로운 지식을 배우는 것은 또 다른 내가 되는 것, <br/>
+                배움은 타고난 운명을 거스르는 힘입니다.
                 </p>
             </div>
                 <div className="w-full h-px bg-zinc-800" />

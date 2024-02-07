@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams,useRouter } from 'next/navigation'
 import { getCookies, getCookie, setCookie, deleteCookie } from 'cookies-next';
 import Logout from "@/app/components/logout"
+import { getAccessTokenByRefreshToken } from '@/service/blogservice'
 
 type Props = {
 	blog: {
@@ -19,10 +20,11 @@ type Props = {
 export const Header: React.FC<Props> = ({ blog, views }) => {
 	const ref = useRef<HTMLElement>(null);
 	const [isIntersecting, setIntersecting] = useState(true);
-	const [accessToken, setAccessToken] = useState<string>();
-	const [refreshToken, setRefreshToken] = useState<string>();
+	const [accessToken, setAccessToken] = useState<string>("");
+	const [refreshToken, setRefreshToken] = useState<string>("");
 	const router = useRouter();
 	const [redirect, setRedirect] = useState<string>("/blog");
+	const searchParams = useSearchParams();
 
 	const links: { label: string; href: string }[] = [];
 	if (blog.repository) {
@@ -39,20 +41,7 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 	}
 
 
-	
-
 	useEffect(()=>{
-
-		if(accessToken){
-			setCookie("accessToken",accessToken);
-		}else{
-			setAccessToken("");
-		}
-		if(refreshToken){
-			setCookie("refreshToken",refreshToken);
-		}else{
-			setRefreshToken("")
-		}
 		if(accessToken && refreshToken){
 			router.push(window.location.pathname);
 			router.refresh();
@@ -60,11 +49,27 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 	},[accessToken, refreshToken])
 
 	async function handleLogout() {
-		deleteCookie("JSESSIONID");
+		deleteCookie("accessToken");
+		deleteCookie("refreshToken");
+		setAccessToken("");
+		setRefreshToken("");
 		const current = getCookie("currentPage") ?? "/blog";
 		router.push(current);
 	}
 
+	async function getAccessToken(refreshToken:string) {
+		const res= await getAccessTokenByRefreshToken(refreshToken);
+		if(res.status === 201){
+			const refreshAccessToken = res.data.data.accessToken;
+			setAccessToken(refreshAccessToken);
+			setCookie("accessToken",refreshAccessToken, {
+				maxAge: 60 * 60
+			});
+		}else{
+			alert("로그인 정보가 만료되었습니다. 로그인 페이지로 넘어갑니다.");
+			router.push("/blog/login");
+		}
+	}
 
 	useEffect(() => {
 		if (!ref.current) return;
@@ -72,6 +77,30 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 			setIntersecting(entry.isIntersecting),
 		);
 		
+		const accesstoken = getCookie("accessToken") ?? "";
+		const refreshtoken = getCookie("refreshToken") ?? "";
+		if(accesstoken){
+			setAccessToken(accesstoken);
+			setRefreshToken(refreshtoken);
+		}else if(!accesstoken && refreshtoken){
+			getAccessToken(refreshtoken);
+		}
+
+		if(searchParams){
+			const searchAccessToken = searchParams.get('accessToken');
+			const searchRefreshToken = searchParams.get('refreshToken');
+			const expiresIn = parseInt(searchParams.get('expiresIn') ?? "60");
+			if(searchAccessToken && searchRefreshToken){
+				setCookie("accessToken",searchAccessToken, {
+					maxAge: expiresIn * 60
+				});
+				setAccessToken(searchAccessToken);
+				setCookie("refreshToken",searchRefreshToken, {
+					maxAge: 10080 * 60
+				});
+				setRefreshToken(searchRefreshToken);
+			}
+		}
 
 		const current = getCookie("currentPage") ?? "/blog"
 		setRedirect(current);

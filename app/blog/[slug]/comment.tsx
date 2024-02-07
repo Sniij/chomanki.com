@@ -19,7 +19,6 @@ type UserProfile = {
 
 interface CommentProps {
     slug: string;
-    jsessionId: string;
 }
 
 interface Comment {
@@ -43,24 +42,23 @@ interface CommentRequest {
     content?: string;
 }
 
-export async function getUser(jsessionid: string){
-    const response = await getUserProfile(jsessionid);
+export async function getUser(accessToken: string){
+    const response = await getUserProfile(accessToken);
     
     return response; 
     
 }
-export default function Comment({ slug, jsessionId }: CommentProps) {
+export default function Comment({ slug }: CommentProps) {
     const [commentList, setCommentList] = useState<Comment[]>([]);
     const [content, setContent] = useState<string>("");
     const [page, setPage] = useState<number>(1);
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const [accessToken, setAccessToken] = useState<string>();
     const [userProfile, setUserProfile] = useState<UserProfile>();
     const [pageInfo, setPageInfo] = useState<PageInfo>({totalElements:0, totalPages:0});
-    const [accessToken, setAccessToken] = useState<string>("");
     const router = useRouter();
 
-    const [JSESSIONID, setJsessionId] = useState<string>("");
     useEffect(() => {
         if (textareaRef.current) {
             textareaRef.current.style.height = 'auto';
@@ -70,14 +68,12 @@ export default function Comment({ slug, jsessionId }: CommentProps) {
 
 
     useEffect(() => {
-        const fetchUser = async () => {
-            const token = accessToken ?? "";
-            console.log(token);
 
-            if( token ){
-                setAccessToken(token);
-                const res = await getUser(token);
-                console.log(res);
+
+        const fetchUser = async () => {
+
+            if( accessToken ){
+                const res = await getUser(accessToken);
                 if(res.status === 200){
                     const user = {
                         id: res.data.data.userId,
@@ -97,42 +93,11 @@ export default function Comment({ slug, jsessionId }: CommentProps) {
         fetchUser();
     }, [accessToken]);
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            const jsessionid = JSESSIONID ?? "";
-            console.log(JSESSIONID);
-
-            if( jsessionid ){
-                setJsessionId(jsessionid);
-                const res = await getUser(jsessionid);
-                console.log(res);
-                if(res.status === 200){
-                    const user = {
-                        id: res.data.data.userId,
-                        nickname: res.data.data.nickname,
-                        imgUrl: res.data.data.imgUrl,
-                    };
-                    setUserProfile(user);
-                    setIsLoggedIn(true);
-
-                }else{
-                    alert("로그인 정보가 만료되었습니다. 로그인 화면으로 넘어갑니다.");
-                    router.push("/blog/login")
-                }
-            }
-        };
-        
-        fetchUser();
-    }, [JSESSIONID]);
 
     useEffect(() => {
+        const accesstoken = getCookie("accessToken") ?? "";
+        if(accesstoken) setAccessToken(accesstoken);
         getCommentList(page);
-        const token = getCookie("accessToken") ?? "";
-        setAccessToken(token);
-
-
-        console.log(jsessionId);
-        setJsessionId(jsessionId);
     }, [page,isLoggedIn]);
 
     const renderingPage = () => {
@@ -166,30 +131,6 @@ export default function Comment({ slug, jsessionId }: CommentProps) {
         return result;
     }
 
-    async function refreshIsLoggedIn(){
-        let isLoggedIn = false;
-        let user: UserProfile = { id: '', nickname: '', imgUrl: '' };
-        const token = getCookie("accessToken") ?? "";
-        if( token ){
-            setAccessToken(token);
-            const res = await getUser(token);
-            console.log(res);
-            if(res.status === 200){
-                user = {
-                    id: res.data.data.userId,
-                    nickname: res.data.data.nickname,
-                    imgUrl: res.data.data.imgUrl,
-                };
-                isLoggedIn = true;
-            }else{
-                alert("로그인 정보가 만료되었습니다. 로그인 화면으로 넘어갑니다.");
-                router.push("/blog/login")
-            }
-        }
-    
-        setUserProfile(user);
-        setIsLoggedIn(isLoggedIn);
-    }
     
     async function getCommentList(page: number){
         const result = await getPageRequest(`/comment`, slug, page);
@@ -219,40 +160,48 @@ export default function Comment({ slug, jsessionId }: CommentProps) {
     }
 
     async function postComment(content: string){
-
-        let obj: CommentRequest = {
-            slug: slug,
-            content: content
-        };
-
-        const response = await postRequest(`/comment`, obj );
-
-        if (response.status === 201) {
-            const comment:Comment = {
-                id: response.data.data.id,
-                slug: response.data.data.slug,
-                content: response.data.data.content,
-                createdAt: response.data.data.createdAt,
-                isMine: true,
-                userId: response.data.data.userId,
-                imgUrl: response.data.data.imgUrl,
-                nickname: response.data.data.nickname
+        
+        if(accessToken && userProfile?.id){
+            let obj: CommentRequest = {
+                slug: slug,
+                content: content
             };
-            setContent("");
-            commentList.push(comment);
-            setCommentList(commentList);
-        } else {
+            const response = await postRequest(`/comment`, obj, userProfile?.id, accessToken );
+
+            if (response.status === 201) {
+                const comment:Comment = {
+                    id: response.data.data.id,
+                    slug: response.data.data.slug,
+                    content: response.data.data.content,
+                    createdAt: response.data.data.createdAt,
+                    isMine: true,
+                    userId: response.data.data.userId,
+                    imgUrl: response.data.data.imgUrl,
+                    nickname: response.data.data.nickname
+                };
+                setContent("");
+                commentList.push(comment);
+                setCommentList(commentList);
+            } else {
+                alert("작성에 실패하였습니다.");
+            }
+        }else{
             alert("작성에 실패하였습니다.");
         }
     }
 
     async function deleteComment(id: string){
-        const response = await deleteRequest(`/comment`, id);
-        if (response.status === 204) {
-            setCommentList(commentList.filter(comment => comment.id !== id));
+        if(accessToken && userProfile?.id){
+            const response = await deleteRequest(`/comment`, id, userProfile?.id, accessToken);
+            if (response.status === 204) {
+                setCommentList(commentList.filter(comment => comment.id !== id));
+            }else{
+                alert("댓글 삭제를 실패하였습니다.");
+            }
         }else{
             alert("댓글 삭제를 실패하였습니다.");
         }
+
     }
 
 

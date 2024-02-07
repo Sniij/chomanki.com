@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
 	title: {
 	  default:"chomanki.com",
-	  template: "Contact | chomanki.com"
+	  template: "%s | chomanki.com"
 	},
 	description: 'Backend Developer Manki Cho',
 	icons: {
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   }
   
 
-export default function ContactLayout({
+export default function BlogLayout({
 	children,
 }: { children: React.ReactNode }) {
 	return (

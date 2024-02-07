@@ -21,32 +21,21 @@ export default function Navigation() {
 	const searchParams = useSearchParams();
 	const [accessToken, setAccessToken] = useState<string>();
 	const [refreshToken, setRefreshToken] = useState<string>();
+	const [expiresIn, setExpriesIn] = useState<number>(60);
 	const router = useRouter();
 	const [redirect, setRedirect] = useState<string>("/blog");
 
 
 	useEffect(()=>{
-
-		if(accessToken){
-			setCookie("accessToken",accessToken);
-		}else{
-			setAccessToken("");
-		}
-		if(refreshToken){
-			setCookie("refreshToken",refreshToken);
-		}else{
-			setRefreshToken("")
-		}
 		if(accessToken && refreshToken){
 			router.push(window.location.pathname);
 			router.refresh();
 		}
-		},[accessToken, refreshToken])
+	},[accessToken, refreshToken])
 
 	async function handleLogout() {
 		deleteCookie("accessToken");
 		deleteCookie("refreshToken");
-		deleteCookie("JSESSIONID");
 		setAccessToken("");
 		setRefreshToken("");
 		router.push("/blog");
@@ -61,19 +50,28 @@ export default function Navigation() {
 		const observer = new IntersectionObserver(([entry]) =>
 			setIntersecting(entry.isIntersecting),
 		);
+
+		const accesstoken = getCookie("accessToken") ?? "";
+		const refreshtoken = getCookie("refreshToken") ?? "";
+		if(accesstoken){
+			setAccessToken(accesstoken);
+			setRefreshToken(refreshtoken);
+		}
+
 		if(searchParams){
 			const searchAccessToken = searchParams.get('accessToken');
 			const searchRefreshToken = searchParams.get('refreshToken');
-
-			if(searchAccessToken)
+			const expiresIn = parseInt(searchParams.get('expiresIn') ?? "60");
+			if(searchAccessToken && searchRefreshToken){
+				setCookie("accessToken",searchAccessToken, {
+					maxAge: expiresIn * 60
+				});
 				setAccessToken(searchAccessToken);
-			if(searchRefreshToken)
+				setCookie("refreshToken",searchRefreshToken, {
+					maxAge: 10080 * 60
+				});
 				setRefreshToken(searchRefreshToken);
-
-		}
-		const token = getCookie("accessToken") ?? "";
-		if(token){
-			setAccessToken(token);
+			}
 		}
 
 		const current = getCookie("currentPage") ?? "/blog"
