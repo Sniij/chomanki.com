@@ -52,7 +52,6 @@ export default function Navigation() {
 			setCookie("accessToken",refreshAccessToken, {
 				maxAge: 60 * 60,
 				path: '/',
-				domain: 'chomanki.com',
 				httpOnly: true,
 				secure: true,
 				sameSite: true,
@@ -86,7 +85,6 @@ export default function Navigation() {
 				setCookie("accessToken",searchAccessToken, {
 					maxAge: expiresIn * 60,
 					path: '/',
-					domain: 'chomanki.com',
 					httpOnly: true,
 					secure: true,
 					sameSite: true,
@@ -95,7 +93,6 @@ export default function Navigation() {
 				setCookie("refreshToken",searchRefreshToken, {
 					maxAge: 10080 * 60,
 					path: '/',
-					domain: 'chomanki.com',
 					httpOnly: true,
 					secure: true,
 					sameSite: true,

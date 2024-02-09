@@ -14,7 +14,6 @@ export function middleware(req: NextRequest) {
   res.cookies.set('currentPage', currentPage, {
     maxAge: 60 * 60 * 24, // 1 day
     path: '/',
-    domain: 'chomanki.com',
     httpOnly: true,
     secure: true,
     sameSite: true
@@ -23,7 +22,6 @@ export function middleware(req: NextRequest) {
     res.cookies.set('prevPage', prevPage, {
       maxAge: 60 * 60 * 24, // 1 day
       path: '/',
-      domain: 'chomanki.com',
       httpOnly: true,
       secure: true,
       sameSite: true

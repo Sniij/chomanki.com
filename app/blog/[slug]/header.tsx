@@ -65,7 +65,6 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 			setCookie("accessToken",refreshAccessToken, {
 				maxAge: 60 * 60,
 				path: '/',
-				domain: 'chomanki.com',
 				httpOnly: true,
 				secure: true,
 				sameSite: true,
@@ -99,7 +98,6 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 				setCookie("accessToken",searchAccessToken, {
 					maxAge: expiresIn * 60,
 					path: '/',
-					domain: 'chomanki.com',
 					httpOnly: true,
 					secure: true,
 					sameSite: true,
@@ -108,7 +106,6 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 				setCookie("refreshToken",searchRefreshToken, {
 					maxAge: 10080 * 60,
 					path: '/',
-					domain: 'chomanki.com',
 					httpOnly: true,
 					secure: true,
 					sameSite: true,
