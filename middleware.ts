@@ -16,7 +16,8 @@ export function middleware(req: NextRequest) {
     path: '/',
     domain: 'chomanki.com',
     httpOnly: true,
-    secure: true
+    secure: true,
+    sameSite: true
   })
   if (prevPage && currentPage != prevPage) {
     res.cookies.set('prevPage', prevPage, {
@@ -24,7 +25,8 @@ export function middleware(req: NextRequest) {
       path: '/',
       domain: 'chomanki.com',
       httpOnly: true,
-      secure: true
+      secure: true,
+      sameSite: true
     })
   }
 
