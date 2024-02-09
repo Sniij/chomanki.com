@@ -14,17 +14,13 @@ export function middleware(req: NextRequest) {
   res.cookies.set('currentPage', currentPage, {
     maxAge: 60 * 60 * 24, // 1 day
     path: '/',
-    httpOnly: true,
-    secure: true,
-    sameSite: true
+    secure: true
   })
   if (prevPage && currentPage != prevPage) {
     res.cookies.set('prevPage', prevPage, {
       maxAge: 60 * 60 * 24, // 1 day
       path: '/',
-      httpOnly: true,
-      secure: true,
-      sameSite: true
+      secure: true
     })
   }
 
