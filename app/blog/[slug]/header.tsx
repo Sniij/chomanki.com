@@ -63,7 +63,12 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 			const refreshAccessToken = res.data.data.accessToken;
 			setAccessToken(refreshAccessToken);
 			setCookie("accessToken",refreshAccessToken, {
-				maxAge: 60 * 60
+				maxAge: 60 * 60,
+				path: '/',
+				domain: 'chomanki.com',
+				httpOnly: true,
+				secure: true,
+				sameSite: true,
 			});
 		}else{
 			alert("로그인 정보가 만료되었습니다. 로그인 페이지로 넘어갑니다.");
@@ -92,11 +97,21 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 			const expiresIn = parseInt(searchParams.get('expiresIn') ?? "60");
 			if(searchAccessToken && searchRefreshToken){
 				setCookie("accessToken",searchAccessToken, {
-					maxAge: expiresIn * 60
+					maxAge: expiresIn * 60,
+					path: '/',
+					domain: 'chomanki.com',
+					httpOnly: true,
+					secure: true,
+					sameSite: true,
 				});
 				setAccessToken(searchAccessToken);
 				setCookie("refreshToken",searchRefreshToken, {
-					maxAge: 10080 * 60
+					maxAge: 10080 * 60,
+					path: '/',
+					domain: 'chomanki.com',
+					httpOnly: true,
+					secure: true,
+					sameSite: true,
 				});
 				setRefreshToken(searchRefreshToken);
 			}
