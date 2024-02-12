@@ -1,13 +1,13 @@
 import Link from "next/link";
 import React from "react";
 import Particles from "./components/particles";
-import {cookies} from 'next/headers';
 
 const navigation = [
   { name: "Blog", href: "/blog" },
   { name: "Portfolio", href: "https://www.chomanki.com" },
   { name: "Contact", href: "/contact" },
 ];
+
 
 export default function Home() {
 
