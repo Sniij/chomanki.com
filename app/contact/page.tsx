@@ -2,7 +2,6 @@ import { Github, Mail, Phone } from "lucide-react";
 import Link from "next/link";
 import  Navigation from "../components/nav";
 import { Card } from "../components/card";
-import {cookies} from 'next/headers';
 
 export const metadata = {
 	title: 'contact'
@@ -30,7 +29,6 @@ const socials = [
 ];
 
 export default function Contact() {
-
 
 	
 	return (

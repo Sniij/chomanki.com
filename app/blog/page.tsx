@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import React from "react";
 import Navigation from "../components/nav";
@@ -8,7 +7,6 @@ import { Redis } from "@upstash/redis";
 import { allBlogs } from "contentlayer/generated";
 import { Article } from "./article";
 import Particles from "../components/particles";
-import {cookies} from 'next/headers';
 
 
 const redis = Redis.fromEnv();

@@ -59,6 +59,7 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 
 	async function getAccessToken(refreshToken:string) {
 		const res= await getAccessTokenByRefreshToken(refreshToken);
+		console.log(res);
 		if(res.status === 201){
 			const refreshAccessToken = res.data.data.accessToken;
 			setAccessToken(refreshAccessToken);
