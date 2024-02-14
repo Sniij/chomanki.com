@@ -54,7 +54,7 @@ export async function getPageRequest(URL: string, slug: string, page: number){
     return response;
 }
 
-export async function postRequest(URI: string, payload: CommentRequest, userId: string,accessToken:string) {
+export async function postRequest(URI: string, payload: CommentRequest, userId: string, accessToken:string) {
 
     const response = await axiosClient
     .post<ServerResponse<CommentResponse>>(URI, payload,{

@@ -13,6 +13,7 @@ type Props = {
 		title: string;
 		description: string;
 		repository?: string;
+		slug: string;
 	};
 
 	views: number;
@@ -39,7 +40,7 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 			href: blog.url,
 		});
 	}
-
+	
 
 	useEffect(()=>{
 		if(accessToken && refreshToken){
@@ -66,8 +67,10 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 				maxAge: 60 * 60
 			});
 		}else{
-			alert("로그인 정보가 만료되었습니다. 로그인 페이지로 넘어갑니다.");
-			router.push("/blog/login");
+			deleteCookie("accessToken");
+			deleteCookie("refreshToken");
+			setAccessToken("");
+			setRefreshToken("");
 		}
 	}
 
