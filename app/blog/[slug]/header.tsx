@@ -54,8 +54,9 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 		deleteCookie("refreshToken");
 		setAccessToken("");
 		setRefreshToken("");
-		const current = getCookie("currentPage") ?? "/blog";
+		const current = sessionStorage.getItem('currentPage') ?? "/blog";
 		router.push(current);
+		router.refresh();
 	}
 
 	async function getAccessToken(refreshToken:string) {
@@ -105,7 +106,7 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 			}
 		}
 
-		const current = getCookie("currentPage") ?? "/blog"
+		const current = sessionStorage.getItem('currentPage') ?? "/blog";
 		setRedirect(current);
 		observer.observe(ref.current);
 		return () => observer.disconnect();

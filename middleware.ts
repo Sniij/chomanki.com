@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server'
 
 export function middleware(req: NextRequest) {
-  const cookies = req.cookies;
+
   const currentPage = req.nextUrl.pathname;
   
   if(currentPage.includes('.jpg') || currentPage.includes('_') || currentPage.includes('api') ||
@@ -9,19 +9,13 @@ export function middleware(req: NextRequest) {
   ) 
     return NextResponse.next();
 
-  const prevPage = cookies.get('currentPage')?.value;
-  const res = NextResponse.next()
-  res.cookies.set('currentPage', currentPage, {
-    maxAge: 60 * 60 * 24, // 1 day
-    path: '/',
-    secure: true
-  })
+  const prevPage = sessionStorage.getItem('currentPage');
+  const res = NextResponse.next();
+
+  sessionStorage.setItem('currentPage', currentPage);
+
   if (prevPage && currentPage != prevPage) {
-    res.cookies.set('prevPage', prevPage, {
-      maxAge: 60 * 60 * 24, // 1 day
-      path: '/',
-      secure: true
-    })
+    sessionStorage.setItem('prevPage', prevPage);
   }
 
   return res;

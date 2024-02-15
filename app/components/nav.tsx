@@ -41,7 +41,6 @@ export default function Navigation() {
 		setRefreshToken("");
 		router.push("/blog");
 		router.refresh();
-
 	}
 
 	async function getAccessToken(refreshToken:string) {
@@ -91,7 +90,7 @@ export default function Navigation() {
 			}
 		}
 
-		const current = getCookie("currentPage") ?? "/blog"
+		const current = sessionStorage.getItem('currentPage') ?? "/blog";
 		setRedirect(current);
 		observer.observe(ref.current);
 		return () => observer.disconnect();

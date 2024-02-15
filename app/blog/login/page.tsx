@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function Login() {
 
-    const prevPage = getCookie('prevPage') ?? "/blog";
+    const prevPage = sessionStorage.getItem('prevPage') ?? "/blog";
     
     const LOCAL_BASE_URL = process.env.NEXT_PUBLIC_LOCAL_BASE_URL;
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
