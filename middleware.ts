@@ -14,7 +14,7 @@ export function middleware(req: NextRequest) {
   res.cookies.set('currentPage', currentPage, {
     maxAge: 60 * 60 * 24, // 1 day
     path: '/',
-    secure: false,
+    secure: true,
     sameSite: 'none'
 
   })
@@ -22,7 +22,7 @@ export function middleware(req: NextRequest) {
     res.cookies.set('prevPage', prevPage, {
       maxAge: 60 * 60 * 24, // 1 day
       path: '/',
-      secure: false,
+      secure: true,
       sameSite: 'none'
     })
   }
