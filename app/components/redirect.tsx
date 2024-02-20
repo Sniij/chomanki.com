@@ -25,7 +25,7 @@ export default function Redirect() {
                             <h2 className="mt-20 mx-8 mb-12 md:text-3xl text-2xl tracking-tight">Log in to your account</h2>
                     </div>
                     <div className="">
-                    <Link href= { LOCAL_BASE_URL + "/auth/login/github?prevPage=" + redirect}>
+                    <Link href= { BASE_URL + "/auth/login/github?prevPage=" + redirect}>
                     <button type="button" 
                     className="py-2 px-4 mx-4 flex justify-center items-center bg-gray-600 hover:bg-gray-700 focus:ring-gray-500 focus:ring-offset-gray-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="mr-2" viewBox="0 0 1792 1792">
@@ -35,7 +35,7 @@ export default function Redirect() {
                     </button></Link>
                     </div>
                     <div className="mt-4">
-                    <Link href={ LOCAL_BASE_URL + "/auth/login/google?prevPage=" + redirect}>
+                    <Link href={ BASE_URL + "/auth/login/google?prevPage=" + redirect}>
                     <button type="button" 
                     className="py-2 px-4 mx-4 flex justify-center items-center  bg-blue-600 hover:bg-blue-700 focus:ring-red-500 focus:ring-offset-red-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
                     <svg width="30" height="30" fill="currentColor" className="mr-2" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
