@@ -105,8 +105,7 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 			}
 		}
 
-		const current = getCookie("currentPage") ?? "/blog"
-		setRedirect(current);
+		setRedirect(blog.slug);
 		observer.observe(ref.current);
 		return () => observer.disconnect();
 	}, []);
@@ -150,7 +149,7 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 						</Link>
 						{ !accessToken &&
 							<Link
-							href="/blog/login"
+							href={"/blog/login?redirect="+redirect}
 							className={`duration-200 hover:font-medium ${
 								isIntersecting
 									? " text-zinc-400 hover:text-zinc-100"

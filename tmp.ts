@@ -16,7 +16,6 @@ export function middleware(req: NextRequest) {
     path: '/',
     secure: true,
     sameSite: 'none'
-
   })
   if (prevPage && currentPage != prevPage) {
     res.cookies.set('prevPage', prevPage, {

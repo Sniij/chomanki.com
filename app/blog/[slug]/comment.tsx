@@ -293,7 +293,7 @@ export default function Comment({ slug }: CommentProps) {
                         }
                         { !isLoggedIn &&
                             <div className="absolute bottom-3 right-10 w-32 h-10 border rounded-lg duration-150 bg-zinc-900/50 hover:bg-zinc-900">
-                            <Link href={`/blog/login`}>
+                            <Link href={`/blog/login?redirect=`+slug}>
                                 <div className="flex items-center justify-center w-full h-full text-gray-300 hover:text-blue-500 duration-150">
                                     <p className="font-bold sm:text-base text-xs">Login</p>
                                 </div>
