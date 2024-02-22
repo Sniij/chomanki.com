@@ -19,7 +19,7 @@ export default function Redirect() {
 
 
     return (
-        <div className="flex w-screen h-screen  font-GSansLight font-bold overflow-hidden bg-gradient-to-tl from-black via-zinc-900 to-black">
+        <div className="flex w-screen h-screen font-GSansLight font-bold overflow-hidden bg-gradient-to-tl from-black via-zinc-900 to-black">
             <div className="lg:w-4/12 w-full z-1 bg-zinc-100 flex flex-col items-center justify-center text-black ">
                     <div className="">
                             <h2 className="mt-20 mx-8 mb-12 md:text-3xl text-2xl tracking-tight">Log in to your account</h2>
@@ -53,7 +53,7 @@ export default function Redirect() {
             </div>
             <div className=" lg:w-9/12 hidden lg:flex flex-col items-center justify-center">
                     <div className="">
-                    <h1 className="mt-16 z-10 text-2xl text-center text-transparent duration-700 bg-white cursor-default text-edge-outline animate-title font-display sm:text-4xl md:text-7xl whitespace-nowrap bg-clip-text ">
+                    <h1 className="mt-16 z-10 text-8xl text-center text-transparent duration-700 bg-white cursor-default text-edge-outline animate-title font-display whitespace-nowrap bg-clip-text ">
                         chomanki.com
                     </h1>
                     </div>

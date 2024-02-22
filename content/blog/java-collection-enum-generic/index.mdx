@@ -18,7 +18,8 @@ date: 2024-01-19
 
 Enum : enumerated type은 여러 상수들을 보다 편리하게 선언할 수 있도록 함.
 
-자바에서 상수는 final 키워드를 이용하여 선언했었다. 다만 근데 이 키워드로 상수를 할당하면, 상수명이 중복되는 경우가 생긴다.
+자바에서 상수는 final 키워드를 이용하여 선언했었다.  
+다만 근데 이 키워드로 상수를 할당하면, 상수명이 중복되는 경우가 생긴다.
 
 ```java
 public static final int SPRING = 1;
@@ -46,14 +47,17 @@ interface Frameworks {
 }
 ```
 
-다만 이렇게 했을 경우, Season.SPING == Frameworks.DJANGO 가 true가 나와 타입 안정성이 떨어진다. 그래서 객체의 생성으로 방지를 할 수 있지만 코드가 길어져 만들어진 것이 enum 키워드가 생겼다. 예를 들어서
+다만 이렇게 했을 경우, Season.SPING == Frameworks.DJANGO 가 true가 나와 타입 안정성이 떨어진다.  
+그래서 객체의 생성으로 방지를 할 수 있지만 코드가 길어져 만들어진 것이 enum 키워드가 생겼다.  
+예를 들어서
 
 ```java
 enum Seasons { SPRING, SUMMER, FALL, WINTER }
 enum Frameworks { DJANGO, SPRING, NEST, EXPRESS }
 ```
 
-와 같이 코드를 선언시 코드가 간결해진다. 그래서 위와 같이 선언했을 경우를 활용하는 코드를 작성하면,
+와 같이 코드를 선언시 코드가 간결해진다.  
+그래서 위와 같이 선언했을 경우를 활용하는 코드를 작성하면,
 
 ```java
 enum Seasons { SPRING, SUMMER, FALL, WINTER }
@@ -80,7 +84,8 @@ public class Main {
 }
 ```
 
-와 같이 활용할 수 있다. 위의 같은 경우에는 Seasons.SPRING으로 객체를 만들었기에 출력은 봄 이 나온다.
+와 같이 활용할 수 있다.  
+위의 같은 경우에는 Seasons.SPRING으로 객체를 만들었기에 출력은 봄 이 나온다.
 
 그래서 enum 을 일반화해서 보자면
 
@@ -93,7 +98,8 @@ enum 열거형이름 {
 }
 ```
 
-이 된다. 그렇다면 상수명 또는 정수값은 어떻게 따로따로 받을 수 있을까? 이는 method 형태로 만들어져 있으니 테이블을 통해서 알아보자.
+이 된다. 그렇다면 상수명 또는 정수값은 어떻게 따로따로 받을 수 있을까?  
+이는 method 형태로 만들어져 있으니 테이블을 통해서 알아보자.
 
 ![table-1.png](https://github.com/Sniij/chomanki.com/blob/main/content/blog/java-collection-enum-generic/table-1.png?raw=true)
 
@@ -109,7 +115,8 @@ enum 열거형이름 {
 
 ---
 
-Generic이라는 단어에서도 느낌이 온 것처럼, 원래 어떠한 method에선 parameter의 타입을 지정해줘야만 했다. 예를 들어
+Generic이라는 단어에서도 느낌이 온 것처럼,  
+원래 어떠한 method에선 parameter의 타입을 지정해줘야만 했다. 예를 들어
 
 ```java
 class Basket {
@@ -129,7 +136,8 @@ class Basket {
 }
 ```
 
-이처럼 Basket은 String 다입의 데이터만 받을 수 있었다. 하지만 제네릭을 사용한다면, Basket의 parameter를 모든 타입으로 받을 수 있다. 예를 들어
+이처럼 Basket은 String 다입의 데이터만 받을 수 있었다.  
+하지만 제네릭을 사용한다면, Basket의 parameter를 모든 타입으로 받을 수 있다. 예를 들어
 
 ```java
 class Basket<T> {
@@ -149,7 +157,8 @@ class Basket<T> {
 }
 ```
 
-이처럼 T 라는 키워드를 데이터 타입 자리에 넣어주면 사용하는 argument에 따라 데이터를 저장해준다. String이 들어오면 String으로, Integer가 들어오면 Integer로…
+이처럼 T 라는 키워드를 데이터 타입 자리에 넣어주면 사용하는 argument에 따라 데이터를 저장해준다.  
+String이 들어오면 String으로, Integer가 들어오면 Integer로…
 
 이 과정은 객체를 생성할 때 일어난다. 예를 들어
 
@@ -157,7 +166,8 @@ class Basket<T> {
 Basket<Integer> basket2 = new Basket<Integer>(1);
 ```
 
-이렇게 argument를 주기 위해 안에 데이터 타입을 넣어 준다. 위와 같이 객체를 생성하면 Basket`T` 클래스는 아래와 같이 코드가 변환한다.
+이렇게 argument를 주기 위해 안에 데이터 타입을 넣어 준다.  
+위와 같이 객체를 생성하면 Basket`T` 클래스는 아래와 같이 코드가 변환한다.
 
 ```java
 class Basket<Integer> {

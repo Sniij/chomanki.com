@@ -11,7 +11,7 @@ const components = {
 	h1: ({ className, ...props }) => (
 		<h1
 			className={clsx(
-				"text-gray-300 mt-2 scroll-m-20 text-4xl font-bold  tracking-tight",
+				"text-gray-300 mt-2 scroll-m-20 text-2xl sm:text-3xl font-bold  tracking-tight",
 				className,
 			)}
 			{...props}
@@ -20,7 +20,7 @@ const components = {
 	h2: ({ className, ...props }) => (
 		<h2
 			className={clsx(
-				"text-gray-300 mt-10 scroll-m-20 border-b border-b-zinc-300 pb-1 text-3xl font-bold  tracking-tight first:mt-0",
+				"text-gray-300 mt-10 scroll-m-20 border-b border-b-zinc-300 pb-1 text-xl sm:text-2xl font-bold  tracking-tight first:mt-0",
 				className,
 			)}
 			{...props}
@@ -29,7 +29,7 @@ const components = {
 	h3: ({ className, ...props }) => (
 		<h3
 			className={clsx(
-				"text-gray-300 mt-8 scroll-m-20 text-2xl font-bold  tracking-tight",
+				"text-gray-300 mt-8 scroll-m-20 text-lg sm:text-xl font-bold  tracking-tight",
 				className,
 			)}
 			{...props}
@@ -38,7 +38,7 @@ const components = {
 	h4: ({ className, ...props }) => (
 		<h4
 			className={clsx(
-				"text-gray-300 mt-8 scroll-m-20 text-xl font-bold tracking-tight",
+				"text-gray-300 mt-8 scroll-m-20 text-lg sm:text-xl font-bold tracking-tight",
 				className,
 			)}
 			{...props}
@@ -173,7 +173,7 @@ export function Mdx({ code }: MdxProps) {
 
 	return (
 		<div className="md:mx-2 mx-5">
-			<div className="mdx">
+			<div className="mdx text-sm md:text-base">
 				<Component components={components}/>
 			</div>
 		</div>

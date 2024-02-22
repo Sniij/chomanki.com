@@ -19,7 +19,7 @@ export default function Home() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-xl duration-500 text-zinc-500 hover:text-zinc-300"
+              className="text-xl duration-500 text-zinc-500 hover:text-zinc-300 font-display"
             >
               {item.name}
             </Link>
@@ -31,17 +31,14 @@ export default function Home() {
         className="absolute inset-0 -z-10 animate-fade-in"
         quantity={130}
       />
-      <h1 className="z-10 text-4xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-display sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text ">
-        Manki CHO
+      <h1 className="z-10 text-4xl text-transparent duration-1000 bg-white cursor-default text-edge-outline animate-title font-display sm:text-6xl md:text-9xl whitespace-nowrap bg-clip-text font-display">
+      Manki CHO
       </h1>
 
       <div className="hidden w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
-      <div className="my-16 text-center animate-fade-in">
-        <h2 className="text-sm text-zinc-500 ">
-        This space is where I strive to clarify my values.
-        </h2>
-        <h2 className="text-sm text-zinc-500 ">
-         Made By. Manki CHO
+      <div className="my-16 text-center animate-fade-in  font-display">
+        <h2 className="text-base text-zinc-500 ">
+        This space is where I strive to clarify my values. Made By. Manki CHO
         </h2>
       </div>
     </div>

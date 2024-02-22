@@ -181,8 +181,9 @@ export default function Comment({ slug }: CommentProps) {
                 };
                 setContent("");
                 //router.push(`/blog/`+slug+`page=`+page);
-                commentList.push(comment);
-                setCommentList(commentList);
+                //commentList.push(comment);
+                //setCommentList(commentList);
+                getCommentList(pageInfo.totalPages);
             } else {
                 alert("작성에 실패하였습니다.");
             }
@@ -207,8 +208,8 @@ export default function Comment({ slug }: CommentProps) {
 
 
     return (
-        <div className="text-gray-300 space-y-8">
-            <div className="text-xl font-bold"> Comments </div>
+        <div className="text-sm sm:text-base text-gray-300 space-y-8">
+            <div className="text-sm sm:text-xl font-bold"> Comments </div>
                 <div className="space-y-4 ">
                     {commentList.map((comment) => (
                             <CommentDetail key={comment.id} comment={comment} deleteComment={deleteComment}/>
@@ -249,7 +250,7 @@ export default function Comment({ slug }: CommentProps) {
                     </div>
                 <div>
                 <div className="relative duration-150 p-4 rounded-lg bg-zinc-900/50 text-gray-300 hover:bg-zinc-900">
-                    <div className="flex text-gray-300 my-4 ml-8 font-bold font-GSans tracking-tight sm:text-xl font-display">
+                    <div className="flex text-gray-300 my-4 ml-8 font-bold font-GSans tracking-tight text-lg sm:text-xl font-display">
                         Post comment  
                     </div>
                     { isLoggedIn && userProfile &&

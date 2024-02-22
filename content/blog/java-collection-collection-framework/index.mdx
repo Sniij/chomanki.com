@@ -16,7 +16,8 @@ date: 2024-01-19
 
 ---
 
-먼저 컬렉션은 여러 데이터들의 집합이다. 이런 컬렉션을 다루는 데에 있어 편리한 method들을 미리 정의해놓은 것을 컬렉션 프레임워크라고 한다.
+먼저 컬렉션은 여러 데이터들의 집합이다.  
+이런 컬렉션을 다루는 데에 있어 편리한 method들을 미리 정의해놓은 것을 컬렉션 프레임워크라고 한다.
 
 이런 컬렉션 프레임워크는 특정 자료 구조에 데이터를 추가, 삭제, 수정, 검색하기 편하게 한다.
 
@@ -44,7 +45,8 @@ date: 2024-01-19
 - 데이터의 순서가 유지되지 않으며, 키는 값을 식별하기 위해 사용되므로 중복 저장이 불가능하지만, 값은 중복 저장이 가능.
 - HashMap, HashTable, TreeMap, Properties 등
 
-List와 Set은 서로 공통점이 많아 위 그림과 같이 Collection이라는 인터페이스로 묶인다. 즉, 이 둘의 공통점이 추출되어 추상화된 것이 바로 Collection이라는 인터페이스입니다.
+List와 Set은 서로 공통점이 많아 위 그림과 같이 Collection이라는 인터페이스로 묶인다.  
+즉, 이 둘의 공통점이 추출되어 추상화된 것이 바로 Collection이라는 인터페이스입니다.
 
 ---
 
@@ -58,21 +60,24 @@ List와 Set은 서로 공통점이 많아 위 그림과 같이 Collection이라�
 
 ---
 
-## List
+### List
 
-List 인터페이스는 배열과 같이 객체를 일렬로 늘어놓은 구조이다. 객체를 배열처럼 index로 관리하기에 객체를 검색, 추가, 삭제할 수 있는 여러 기능을 제공한다.
-
-이 List 인터페이스를 구현한 클래스는 ArrayList, LinkedList, Vector, Stack 등이 있다.
-
+List 인터페이스는 배열과 같이 객체를 일렬로 늘어놓은 구조이다.  
+객체를 배열처럼 index로 관리하기에 객체를 검색, 추가, 삭제할 수 있는 여러 기능을 제공한다.
+  
+이 List 인터페이스를 구현한 클래스는 ArrayList, LinkedList, Vector, Stack 등이 있다.  
+  
  List 인터페이스에서 사용 가능한 method는 아래와 같다.
-
+  
 ![table-2.png](https://github.com/Sniij/chomanki.com/blob/main/content/blog/java-collection-collection-framework/table-2.png?raw=true)
 
 ---
 
-## ArrayList
+### ArrayList
 
-ArrayList에 객체를 추가하게되면 배열과 같이 인덱스로 관리된다. ArrayList는 List 인터페이스를 구현한 클래스이기 때문에 객체를 인스턴스로 생성한다. 사용 예시는 아래와 같다.
+ArrayList에 객체를 추가하게되면 배열과 같이 인덱스로 관리된다.  
+ArrayList는 List 인터페이스를 구현한 클래스이기 때문에 객체를 인스턴스로 생성한다.  
+사용 예시는 아래와 같다.
 
 ```java
 ArrayList<타입 매개변수> 객체명 = new ArrayList<타입 매개변수>(초기 저장 용량);
@@ -123,10 +128,11 @@ public class ArrayListExample {
 }
 ```
 
- 배열에서 배웠을지 모르겠지만, ArrayList는 인덱스를 통해 (0,1,2….) 객체가 저장되는데 인덱스는 데이터를 검색하기엔 빠르고 좋지만, 객체를 삭제, 추가 하기에는 주소를 계산하여야 하기때문에 LinkedList를 사용한다.
+ ArrayList는 인덱스를 통해 (0,1,2….) 객체가 저장되는데 인덱스는 데이터를 검색하기엔 빠르고 좋지만,  
+ 객체를 삭제, 추가 하기에는 주소를 계산하여야 하기때문에 LinkedList를 사용한다.
 
 ---
 
-## LinkedList
+### LinkedList
 
 앞서 말했듯이 ArrayList는 객체를 삭제, 추가, 변경하기엔 효율적이지 않기 때문에 LinkedList를 사용한다.

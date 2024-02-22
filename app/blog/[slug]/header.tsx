@@ -191,10 +191,10 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 			<div className="container mx-auto relative isolate overflow-hidden  py-24 sm:py-32">
 				<div className="mx-auto max-w-7xl px-6 lg:px-8 text-center flex flex-col items-center">
 					<div className="mx-auto max-w-2xl lg:mx-0">
-						<h1 className="text-4xl font-bold font-GSans tracking-tight text-white sm:text-5xl font-display">
+						<h1 className="text-3xl font-bold font-GSans tracking-tight text-white sm:text-4xl font-display">
 							{blog.title}
 						</h1>
-						<p className="mt-6 font-bold font-GSans text-lg leading-8 text-zinc-300">
+						<p className="mt-6 font-bold font-GSans text-sm sm:text-lg leading-8 text-zinc-300">
 							{blog.description}
 						</p>
 					</div>

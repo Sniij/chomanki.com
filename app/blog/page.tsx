@@ -44,7 +44,7 @@ export default async function BlogPage({ }) {
         );
 
 return (
-    <div className="relative pb-16">
+    <div className="relative pb-16 ">
         <Navigation/>
         <div className="px-6 pt-20 mx-auto space-y-8 max-w-7xl lg:px-8 md:space-y-16 md:pt-24 lg:pt-32">
         <Particles
@@ -52,22 +52,22 @@ return (
         quantity={100}
          />
             <div className="max-w-2xl mx-auto lg:mx-0">
-                <h2 className="text-3xl font-bold tracking-tight text-zinc-100 sm:text-4xl">
+                <h2 className="text-xl font-bold tracking-tight text-zinc-100 sm:text-4xl">
                 Blog
                 </h2>
-                <p className="font-GSans text-lg mt-4 text-zinc-400">
+                <p className="font-GSans text-sm sm:text-lg mt-4 text-zinc-400">
                 새로운 지식을 배우는 것은 또 다른 내가 되는 것, <br/>
                 배움은 타고난 운명을 거스르는 힘입니다.
                 </p>
             </div>
-                <div className="w-full h-px bg-zinc-800" />
+                <div className="w-full h-px bg-zinc-800 font-GSans" />
                     <div className="grid grid-cols-1 gap-8 mx-auto lg:grid-cols-2 ">
                         <Card>
                             <Link href={`/blog/${top1.slug}`}
                             >
                                 <article className="relative w-full h-full p-4 md:p-8">
-                                    <div className="flex items-center justify-between gap-2">
-                                        <div className="text-xs text-zinc-100">
+                                    <div className="flex text-xs items-center justify-between gap-2">
+                                        <div className="text-zinc-100">
                                             {top1.date ? (
                                             <time dateTime={new Date(top1.date).toISOString()}>
                                                 {Intl.DateTimeFormat(undefined, {
@@ -78,7 +78,7 @@ return (
                                             <span>SOON</span>
                                             )}
                                         </div>
-                                        <span className="flex items-center gap-1 text-xs text-zinc-500">
+                                        <span className="flex items-center gap-1 text-zinc-500">
                                             <Eye className="w-4 h-4" />{" "}
                                             {Intl.NumberFormat("en-US", { notation: "compact" }).format(
                                             views[top1.slug] ?? 0,
@@ -88,11 +88,11 @@ return (
 
                                     <h2
                                     id="featured-post"
-                                    className="mt-4 text-2xl font-bold text-zinc-100 group-hover:text-white md:text-4xl"
+                                    className="mt-4 text-xl sm:text-2xl font-bold text-zinc-100 group-hover:text-white"
                                     >
                                         {top1.title}
                                     </h2>
-                                    <p className="mt-4 leading-8 duration-150 text-zinc-400 group-hover:text-zinc-300">
+                                    <p className="mt-4 text-sm sm:text-base leading-8 duration-150 text-zinc-400 group-hover:text-zinc-300">
                                         {top1.description}
                                     </p>
                                         <div className="absolute bottom-4 md:bottom-8">
@@ -111,7 +111,7 @@ return (
                             ))}
                         </div>
                     </div>
-                        <div className="hidden w-full h-px md:block bg-zinc-800" />
+                        <div className="hidden md:block w-full h-px bg-zinc-800" />
                             <div className="grid grid-cols-1 gap-4 mx-auto lg:mx-0 md:grid-cols-3">
                             <div className="grid grid-cols-1 gap-4">
                                 {rest

@@ -30,10 +30,10 @@ export const Article: React.FC<Props> = ({ blog, views }) => {
 						{Intl.NumberFormat("en-US", { notation: "compact" }).format(views)}
 					</span>
 				</div>
-				<h4 className="z-20 mt-4 text-xl font-GSans font-bold duration-1000 text-zinc-200 group-hover:text-white">
+				<h4 className="z-20 mt-4 text-sm sm:text-base font-GSans font-bold duration-1000 text-zinc-200 group-hover:text-white">
 					{blog.title}
 				</h4>
-				<p className="z-20 mt-4 text-sm  duration-1000 text-zinc-400 group-hover:text-zinc-200">
+				<p className="z-20 mt-4 text-xs sm:text-sm duration-1000 text-zinc-400 group-hover:text-zinc-200">
 					{blog.description}
 				</p>
 			</article>
