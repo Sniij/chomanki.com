@@ -7,6 +7,7 @@ date: 2024-01-19
 
 
 # Inheritance
+: 기존의 클래스를 받아서 새롭게 작성하는 문법  
 
 ## GOALS:
 
@@ -17,9 +18,9 @@ date: 2024-01-19
 - super와 super()의 차이를 설명할 수 있다.
 - Object 클래스가 JAVA 클래스의 상속계층도에서 최상단에 위치한다는 사실을 이해할 수 있다.
 
-## : 기존의 클래스를 받아서 새롭게 작성하는 문법
 
- **따라서 상위 클래스를 inheritance받은 하위 클래스의 member개수는 상위 클래스의 그것과 비교했을 때 같거나 더 많을 수밖에 없다.**
+
+ `따라서 상위 클래스를 inheritance받은 하위 클래스의 member개수는 상위 클래스의 그것과 비교했을 때 같거나 더 많을 수밖에 없다.`
 
 그래서 사실 상위 클래스를 extends(확장)되었다는 표현이 더 어울리긴 한다.
 
@@ -106,9 +107,7 @@ public class test {
 
 ---
 
-## Method Overriding
-
-### Inheritance받은 method와 동일한 이름의 method를 재정의 하는 것.
+### Method Overriding: Inheritance받은 method와 동일한 이름의 method를 재정의 하는 것.  
 
 만약 inheritance받은 method를 그대로 사용하지 않고, 수정을 하고 싶을 수도 있다.  
 예를 들어 위의 예제 코드에서 Programmer가 singing도할 수 있으니 아래와 같이 구성할 수 있다.
@@ -162,17 +161,19 @@ public class test {
 
 ---
 
-## super 키워드와 super()
+### super 키워드와 super()
 
-앞서 this 와 this()를 this는 자신의 객체를 가리키고, this()method는 자신의 constructor 호출을 의미한다고 했다.
+앞서 this 와 this()를 this는 자신의 객체를 가리키고,  
+this()method는 자신의 constructor 호출을 의미한다고 했다.
 
-super와 super()도 이와 비슷하다. super는 상위 클래스의 객체를 가리키고, super()는 상위 클래스의 constructor를 호출하는 것이다.
+super와 super()도 이와 비슷하다.  
+super는 상위 클래스의 객체를 가리키고, super()는 상위 클래스의 constructor를 호출하는 것이다.
 
 ---
 
-## 클래스의 정점, Object 클래스
+### 클래스의 정점, Object 클래스
 
-**Object 클래스**는 자바의 최상위 클래스이다. 그래서 자바에서의 모든 클래느는 **Object 클래스로부터 확장된다.** 
+`Object 클래스`는 자바의 최상위 클래스이다. 그래서 자바에서의 모든 클래스는 `Object 클래스`로부터 확장된다.
 
 그래서 우리는 어떤 클래스를 만들기만 해도,
 toString(), equals(), hashCode(), wait(), notify()… 같은 method들을 정의하지 않고 사용할 수 있는 것이다.

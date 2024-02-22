@@ -125,6 +125,7 @@ class Worker {
  
 위와 같은 코드를 예시로 보자면  
 우리는 Worker 클래스를 이용하여 인스턴스 변수를 생성하여 해당 인스턴스에 나이, 이름, ID 등을 설정해서 읽어오고 싶은데,  
-Worker 클래스에선 변수들이 private으로 되어 있기에 해당 인스턴스에 setName, getName, setAge, getAge 등을 사용하여 데이터를 수정하고 사용하여야 한다.  
+Worker 클래스에선 변수들이 private으로 되어 있기에  
+해당 인스턴스에 setName, getName, setAge, getAge 등을 사용하여 데이터를 수정하고 사용하여야 한다.  
 이렇게까지 데이터를 보호하면서 `setter`와 `getter`를 사용하는 이유는 먼저 객체지향에 있고,  
 그리고 변수를 `private`으로 감싸지 않으면 다른 코드에서 동일하게 접근했다면 데이터의 reliable을 보장받을 수 없기 때문이다.
