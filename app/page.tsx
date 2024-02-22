@@ -4,15 +4,15 @@ import Particles from "./components/particles";
 
 const navigation = [
   { name: "Blog", href: "/blog" },
-  { name: "Portfolio", href: "https://www.chomanki.com" },
   { name: "Contact", href: "/contact" },
+  { name: "Portfolio", href: "https://www.chomanki.com" },
 ];
 
 
 export default function Home() {
 
   return (
-    <div className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/25 to-black">
+    <div className="flex flex-col items-center justify-center w-screen h-screen overflow-hidden bg-gradient-to-tl from-black via-zinc-600/25 to-black text-sm sm:text-base">
       <nav className="my-16 animate-fade-in">
         <ul className="flex items-center justify-center gap-10"> 
           {navigation.map((item) => (
@@ -36,9 +36,10 @@ export default function Home() {
       </h1>
 
       <div className="hidden w-screen h-px animate-glow md:block animate-fade-right bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
-      <div className="my-16 text-center animate-fade-in  font-display">
-        <h2 className="text-base text-zinc-500 ">
-        This space is where I strive to clarify my values. Made By. Manki CHO
+      <div className="my-16 text-center animate-fade-in font-display">
+        <h2 className=" text-zinc-500 ">
+        This space is where I strive to clarify my values. <br/>
+        Made By. Manki CHO
         </h2>
       </div>
     </div>

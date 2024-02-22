@@ -255,9 +255,8 @@ export default function Comment({ slug }: CommentProps) {
                     </div>
                     { isLoggedIn && userProfile &&
                             <div className="mx-8 flex">
-                            <h4 className="mr-5 mt-3 text-gray-300 text-sm font-bold"> {" Current Account | "} </h4>
-                            <Image className="mt-1 text-gray-300 rounded-lg border border-zinc-200" src={userProfile.imgUrl} alt={userProfile.nickname} width={25} height={25}/>
-                            <h4 className="duration-150 mt-2 mx-3 text-gray-300 text-base font-bold hover:text-blue-500">{userProfile.nickname} </h4>
+                            <Image className="mt-1 text-gray-300 rounded-lg border border-zinc-200 w-6 sm:w-7" src={userProfile.imgUrl} alt={userProfile.nickname} width={25} height={25}/>
+                            <h4 className="duration-150 mt-2 mx-3 text-gray-300 text-base sm:text-sm text-xs font-bold hover:text-blue-500">{userProfile.nickname} </h4>
                             </div>
                     }
 

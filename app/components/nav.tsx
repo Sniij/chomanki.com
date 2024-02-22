@@ -115,16 +115,16 @@ export default function Navigation() {
 							Blog
 						</Link>
 						<Link
-							href="https://www.chomanki.com"
-							className="duration-200 text-zinc-400 hover:text-zinc-100"
-						>
-							Portfolio
-						</Link>
-						<Link
 							href="/contact"
 							className="duration-200 text-zinc-400 hover:text-zinc-100"
 						>
 							Contact
+						</Link>
+						<Link
+							href="https://www.chomanki.com"
+							className="duration-200 text-zinc-400 hover:text-zinc-100"
+						>
+							Portfolio
 						</Link>
 						{ !accessToken &&
 							<Link
