@@ -1,11 +1,5 @@
 import Image from "next/image";
 
-type UserProfile = {
-    id:string;
-    nickname: string;
-    imgUrl: string;
-}
-
 type CommentProps = {
     comment: {
         id: string;

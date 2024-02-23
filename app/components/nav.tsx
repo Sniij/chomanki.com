@@ -4,17 +4,9 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams } from 'next/navigation'
-import { getCookies, getCookie, setCookie, deleteCookie } from 'cookies-next';
+import { getCookie, setCookie, deleteCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation'
 import { getAccessTokenByRefreshToken } from '@/service/blogservice'
-
-
-type UserProfile = {
-    id:string;
-    nickname: string;
-    imgUrl: string;
-}
-
 
 export default function Navigation() {
 	const ref = useRef<HTMLElement>(null);
@@ -22,7 +14,6 @@ export default function Navigation() {
 	const searchParams = useSearchParams();
 	const [accessToken, setAccessToken] = useState<string>();
 	const [refreshToken, setRefreshToken] = useState<string>();
-	const [expiresIn, setExpriesIn] = useState<number>(60);
 	const router = useRouter();
 	const [redirect, setRedirect] = useState<string>("/blog");
 
