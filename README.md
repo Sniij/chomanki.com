@@ -1,1 +1,1 @@
-### Chomanki.com
+# Sniij's Blog web
