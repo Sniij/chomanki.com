@@ -1,19 +1,15 @@
 const { withContentlayer } = require("next-contentlayer");
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const LOCAL_BASE_URL = process.env.NEXT_PUBLIC_LOCAL_BASE_URL;
+
 module.exports = withContentlayer({
     pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
     experimental: {
         mdxRs: true,
-    }
-});
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const LOCAL_BASE_URL = process.env.NEXT_PUBLIC_LOCAL_BASE_URL;
-
-
-const nextConfig = {
-	reactStrictMode: true,
-   	swcMinify: true,
+    },
+    reactStrictMode: true,
+    swcMinify: true,
     env: {
         redisUrl: '${process.env.UPSTASH_REDIS_REST_URL}',
         redisToken: '${process.env.UPSTASH_REDIS_REST_TOKEN}',
@@ -104,6 +100,4 @@ const nextConfig = {
             },
         ]
     }
-};
-
-module.exports = nextConfig;
+});
