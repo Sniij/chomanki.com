@@ -5,9 +5,12 @@ import axiosInstance from './axiosInstance';
 const LOCAL_BASE_URL = process.env.NEXT_PUBLIC_LOCAL_BASE_URL;
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
+const axiosClient2 = axios.create({
+    baseURL: BASE_URL,
+    withCredentials: true,
+});
 
 const axiosClient = axios.create({
-    baseURL: BASE_URL,
     withCredentials: true,
 });
 
@@ -42,7 +45,8 @@ interface CommentResponse {
 }
 
 export async function getPageRequest(URL: string, slug: string, page: number){
-    const response = await axiosClient.get(URL, {
+    const response = await axiosClient
+    .get("/api/blog"+URL, {
         params:{
             slug,
             page
@@ -57,10 +61,7 @@ export async function getPageRequest(URL: string, slug: string, page: number){
 export async function postRequest(URI: string, payload: CommentRequest, userId: string, accessToken:string) {
 
     const response = await axiosClient
-    .post<ServerResponse<CommentResponse>>(URI, payload,{
-        params:{
-            userId: userId
-        },
+    .post<ServerResponse<CommentResponse>>("/api/blog" + URI + "/post/" + userId, payload,{
         headers:{
             Authorization: "Bearer " + accessToken
         }
@@ -74,11 +75,9 @@ export async function postRequest(URI: string, payload: CommentRequest, userId: 
 export async function deleteRequest(URI: string, commentId: string, userId: string, accessToken:string){
 
     const response = await axiosClient
-    .delete<ServerStatusResponse>(URI, {
-        params:{
-            commentId: commentId,
-            userId: userId
-        },
+    .delete<ServerStatusResponse>("/api/blog"+URI+ "/delete/"
+    + commentId +"/"+ userId
+    , {
         headers:{
             Authorization: "Bearer " + accessToken
         }
@@ -91,7 +90,7 @@ export async function deleteRequest(URI: string, commentId: string, userId: stri
 export async function getUserProfile(accessToken: string){
 
     const response = await axiosClient
-    .get<ServerResponse<UserProfile>>("/user", {
+    .get<ServerResponse<UserProfile>>("/api/blog/user", {
         headers:{
             Authorization: "Bearer " + accessToken
         }
@@ -106,7 +105,7 @@ export async function getUserProfile(accessToken: string){
 export async function getAccessTokenByRefreshToken(refreshToken: string){
 
     const response = await axiosClient
-    .get<ServerResponse<RefreshResponse>>("/auth/refresh", {
+    .get<ServerResponse<RefreshResponse>>("/api/blog/auth/refresh", {
         headers:{
             Refresh: refreshToken
         }
