@@ -21,7 +21,41 @@ module.exports = withContentlayer({
     },
     async redirects() {
         return [
-
+            // Blog Login 관련
+            {
+                source: '/auth/login/google',
+                destination: BASE_URL+`/login/oauth2/authorization/google`,
+                permanent: false,
+            },
+            {
+                source: '/auth/login/github',
+                destination: BASE_URL+`/login/oauth2/authorization/github`,
+                permanent: false,
+            },
+            {
+                source: '/auth/login/google',
+                has: [
+                    {
+                        type: 'query',
+                        key: 'prevPage',
+                        value: '(?<prevPage>.*)',
+                    }
+                ],
+                destination: BASE_URL+`/login/oauth2/authorization/google?prevPage=:prevPage`,
+                permanent: false,
+            },
+            {
+                source: '/auth/login/github',
+                has: [
+                    {
+                        type: 'query',
+                        key: 'prevPage',
+                        value: '(?<prevPage>.*)',
+                    }
+                ],
+                destination: BASE_URL+`/login/oauth2/authorization/github?prevPage=:prevPage`,
+                permanent: false,
+            },
             
         ]
     },
@@ -60,43 +94,6 @@ module.exports = withContentlayer({
             {
                 source: '/api/blog/auth/refresh',
                 destination: BASE_URL+`/auth/refresh`
-            },
-
-
-
-
-
-
-            // Blog Login 관련
-            {
-                source: '/auth/login/google',
-                destination: BASE_URL+`/login/oauth2/authorization/google`,
-            },
-            {
-                source: '/auth/login/github',
-                destination: BASE_URL+`/login/oauth2/authorization/github`,
-            },
-            {
-                source: '/auth/login/google',
-                has: [
-                    {
-                        type: 'query',
-                        key: 'prevPage',
-                        value: '(?<prevPage>.*)',
-                    }
-                ],
-                destination: BASE_URL+`/login/oauth2/authorization/google?prevPage=:prevPage`,
-            },
-            {
-                source: '/auth/login/github',
-                has: [
-                    {
-                        type: 'query',
-                        key: 'prevPage',
-                        value: '(?<prevPage>.*)',
-                    }
-                ],
-                destination: BASE_URL+`/login/oauth2/authorization/github?prevPage=:prevPage`,
             },
         ]
     }
