@@ -1,5 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
-import axiosInstance from './axiosInstance';
+import axios from 'axios';
 
 
 const LOCAL_BASE_URL = process.env.NEXT_PUBLIC_LOCAL_BASE_URL;

@@ -6,7 +6,6 @@ export const ReportView: React.FC<{ slug: string }> = ({ slug }) => {
     
     useEffect(() => {  
 
-    const now = new Date();
     const visitedPages: { [key: string]: boolean } = JSON.parse(sessionStorage.getItem('visitedPages') || '{}');
 
         if (!visitedPages[slug]) {

@@ -1,14 +1,12 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import { usePathname } from 'next/navigation';
 import { getPageRequest, postRequest, deleteRequest, getUserProfile } from '@/service/blogservice'
 import CommentDetail from '@/app/components/commentdetail'
 import Image from "next/image";
-import { Card } from "@/app/components/card";
 import Link from "next/link";
 import { useRouter } from 'next/navigation'
-import { getCookie, setCookie,deleteCookie } from "cookies-next";
+import { getCookie } from "cookies-next";
 
 
 type UserProfile = {

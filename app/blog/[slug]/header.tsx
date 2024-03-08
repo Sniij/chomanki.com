@@ -3,8 +3,7 @@ import { ArrowLeft, Eye, Github } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams,useRouter } from 'next/navigation'
-import { getCookies, getCookie, setCookie, deleteCookie } from 'cookies-next';
-import Logout from "@/app/components/logout"
+import {  getCookie, setCookie, deleteCookie } from 'cookies-next';
 import { getAccessTokenByRefreshToken } from '@/service/blogservice'
 
 type Props = {
