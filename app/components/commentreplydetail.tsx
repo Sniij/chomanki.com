@@ -70,7 +70,7 @@ export default function CommentReplyDetail( {commentId, getCommentReplies, delet
         setVisible(true);
     }
     async function handleRefreshReplies() {
-        const getResponse = await getCommentReplies(commentId, 1);
+        const getResponse = await getCommentReplies(commentId, page-1);
         if(getResponse){
             const newReplies: CommentReply[] = getResponse.commentReplies;
             setCommentReplyList(newReplies);
