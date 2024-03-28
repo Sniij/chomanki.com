@@ -6,8 +6,8 @@ export const ReportView: React.FC<{ slug: string }> = ({ slug }) => {
     
     useEffect(() => {  
 
-    const visitedPages: { [key: string]: boolean } = JSON.parse(sessionStorage.getItem('visitedPages') || '{}');
-
+        const visitedPages: { [key: string]: boolean } = JSON.parse(sessionStorage.getItem('visitedPages') || '{}');
+        
         if (!visitedPages[slug]) {
             fetch('/api/incr', {
                 method: 'POST',

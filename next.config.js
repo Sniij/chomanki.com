@@ -2,7 +2,7 @@ const { withContentlayer } = require("next-contentlayer");
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const LOCAL_BASE_URL = process.env.NEXT_PUBLIC_LOCAL_BASE_URL;
-
+const API_KEY = process.env.API_KEY;
 module.exports = withContentlayer({
     pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
     experimental: {
@@ -75,7 +75,7 @@ module.exports = withContentlayer({
                         type: 'query',
                         key: 'page',
                         value: '(?<page>.*)',
-                    },
+                    }
                 ],
                 destination: BASE_URL+`/comment?slug=:slug&page=:page`
             },
@@ -87,6 +87,30 @@ module.exports = withContentlayer({
                 source: '/api/blog/comment/delete/:commentId/:userId',
                 destination: BASE_URL+`/comment?commentId=:commentId&userId=:userId`
             },
+
+            // Blog Comment Reply
+            {
+                source: '/api/blog/comment/:commentId',
+                has: [
+                    {
+                        type: 'query',
+                        key: 'page',
+                        value: '(?<page>.*)',
+                    }
+                ],
+                destination: BASE_URL+`/comment/:commentId?page=:page`
+            },
+            {
+                source: '/api/blog/comment/:commentId/:userId',
+                destination: BASE_URL+`/comment/:commentId?userId=:userId`
+            },
+            {
+                source: '/api/blog/comment/:commentId/:commentReplyId/:userId',
+                destination: BASE_URL+`/comment/:commentId?commentReplyId=:commentReplyId&userId=:userId`
+            },
+
+
+
             {
                 source: '/api/blog/user',
                 destination: BASE_URL+`/user`

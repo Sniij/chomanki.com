@@ -116,7 +116,7 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 			className="bg-bg-ex bg-cover relative isolate overflow-hidden"
 		>      
 			<div
-				className={`fixed inset-x-0 top-0 z-50 backdrop-blur-sm lg:backdrop-blur-sm duration-200 border-b lg:bg-transparent ${
+				className={`fixed inset-x-0 top-0 z-100 backdrop-blur-sm lg:backdrop-blur-sm duration-200 border-b lg:bg-transparent ${
 					isIntersecting
 						? "bg-zinc-900/0 border-transparent"
 						: "bg-white/10  border-zinc-200 lg:border-transparent"

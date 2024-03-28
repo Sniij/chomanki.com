@@ -13,6 +13,9 @@ const axiosClient = axios.create({
     withCredentials: true,
 });
 
+interface CommentReplyRequest {
+    content?: string;
+}
 interface CommentRequest {
     slug?: string;
     content?: string;
@@ -28,19 +31,23 @@ interface ServerStatusResponse {
 	status: number;
 }
 interface UserProfile {
-    userId:string;
+    id:string;
     nickname: string;
     imgUrl: string;
 }
-
 interface CommentResponse {
     id: string;
     slug: string;
     createdAt: string;
     content: string;
-    nickname: string;
-    imgUrl: string;
-    userId: string;
+    user: UserProfile;
+}
+interface CommentReplyResponse {
+    id: string;
+    parent: string;
+    createdAt: string;
+    content: string;
+    user: UserProfile;
 }
 
 export async function getPageRequest(URL: string, slug: string, page: number){
@@ -85,6 +92,48 @@ export async function deleteRequest(URI: string, commentId: string, userId: stri
 
     return response;
 }
+
+// Blog Comment Reply
+export async function getReplyPageRequest(URL: string, page: number){
+    const response = await axiosClient
+    .get(URL, {
+        params:{
+            page
+        }
+    })
+    .then(response=>response)
+    .catch(err=>err);
+
+    return response;
+}
+
+export async function postReplyRequest(URI: string, payload: CommentReplyRequest, accessToken:string) {
+
+    const response = await axiosClient
+    .post<ServerResponse<CommentReplyResponse>>(URI, payload,{
+        headers:{
+            Authorization: "Bearer " + accessToken
+        }
+    })
+    .catch(err =>err)
+
+    return response;
+}
+
+export async function deleteReplyRequest(URI: string, userId:string, replyId:string, accessToken:string){
+    // '/api/blog/comment/:commentId /:commentReplyId/:userId'
+    const response = await axiosClient
+    .delete<ServerStatusResponse>(URI+`/`+ replyId +`/`+ userId , {
+        headers:{
+            Authorization: "Bearer " + accessToken
+        }
+    })
+    .catch(err =>err)
+
+    return response;
+}
+
+
 
 export async function getUserProfile(accessToken: string){
 

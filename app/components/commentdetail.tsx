@@ -1,40 +1,37 @@
 import Image from "next/image";
+import CommentReplyDetail from "@/app/components/commentreplydetail";
+
+
+type UserProfile = {
+    userId:string;
+    nickname: string;
+    imgUrl: string;
+}
+
 
 type CommentProps = {
     comment: {
         id: string;
         content: string;
         createdAt: string;
-        userId: string;
-        imgUrl: string;
-        nickname: string;
         isMine: boolean;
+        user: UserProfile;
     };
     deleteComment: (id: string) => void;
 };
-    
+
+
+
 export default function CommentDetail({ comment, deleteComment }: CommentProps) {
 
-    comment.createdAt = comment.createdAt.slice(0,16).replaceAll("T","  ").replaceAll("-",".");
-    const options = {
-        year: "2-digit",
-        month: "short",
-        weekday: "short",
-        day: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-        hour12: false
-    }
-
     return (
-        <div className="p-4 rounded-lg duration-150 bg-zinc-900/50 text-gray-300 hover:bg-zinc-900">
+        <div className="text-gray-300 p-4 rounded-lg duration-150 bg-zinc-900 hover:bg-zinc-800/20">
             <div className="justify-start md:mx-8 mx-3 mb-0 flex text-pretty ">
                 <Image className="mt-3 rounded-lg border border-zinc-100 text-gray-300 w-6 sm:w-7" 
-                    src={comment.imgUrl} alt={comment.nickname} width={30} height={40}
+                    src={comment.user.imgUrl} alt={comment.user.nickname} width={30} height={40}
                 />
                 <h6 className="duration-150 ml-3 mr-1 mt-4 sm:text-base text-sm text-gray-300 text-base font-bold hover:text-blue-500 text-nowrap ">
-                    {comment.nickname}
+                    {comment.user.nickname}
                 </h6>
                 <h6 className="duration-150 text-right text-zinc-500 ml-3 mb-0 mt-5 text-xs font-bold hover:text-zinc-400">
                     {(
@@ -68,8 +65,6 @@ export default function CommentDetail({ comment, deleteComment }: CommentProps) 
                     {comment.content} 
                 </div>
             </div>
-
-
         </div>
     )
 }
