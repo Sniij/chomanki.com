@@ -13,17 +13,7 @@ export default function CommentDetail({ comment, deleteComment }: CommentDetailP
                 <h6 className="duration-150 ml-3 mr-1 mt-4 sm:text-base text-sm text-gray-300 text-base font-bold hover:text-blue-500 text-nowrap ">
                     {comment.user.nickname}
                 </h6>
-                <h6 className="duration-150 text-right text-zinc-500 ml-3 mb-0 mt-5 text-xs font-bold hover:text-zinc-400">
-                    {(
-                        <time dateTime={new Date(comment.createdAt).toISOString()}>
-                            {Intl.DateTimeFormat("en-US", { 
-                                dateStyle: "medium",
-                                timeStyle: "short"
-                            }).format(new Date(comment.createdAt))}
-                        </time>
-                    )}
-                </h6>
-                <h6 className="duration-150 text-right ml-1 mb-0 mt-5 text-xs font-bold ">
+                <h6 className="duration-150 text-right mb-0 mt-4 sm:text-base text-sm font-bold ">
                 {comment.isMine && (
                     <button className="duration-150  text-blue-500 hover:text-blue-300 ml-3 right"
                     onClick={ e => {
@@ -45,6 +35,16 @@ export default function CommentDetail({ comment, deleteComment }: CommentDetailP
                     {comment.content} 
                 </div>
             </div>
+            <h6 className="duration-150 text-right text-zinc-500 ml-3 mb-0 mt-5 text-xs font-bold hover:text-zinc-400">
+                    {(
+                        <time dateTime={new Date(comment.createdAt).toISOString()}>
+                            {Intl.DateTimeFormat("en-US", { 
+                                dateStyle: "medium",
+                                timeStyle: "short"
+                            }).format(new Date(comment.createdAt))}
+                        </time>
+                    )}
+                </h6>
         </div>
     )
 }
