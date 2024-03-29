@@ -13,43 +13,6 @@ const axiosClient = axios.create({
     withCredentials: true,
 });
 
-interface CommentReplyRequest {
-    content?: string;
-}
-interface CommentRequest {
-    slug?: string;
-    content?: string;
-}
-interface ServerResponse<T> {
-	status: number;
-	data: T;
-}
-interface RefreshResponse {
-    accessToken?: string;
-}
-interface ServerStatusResponse {
-	status: number;
-}
-interface UserProfile {
-    id:string;
-    nickname: string;
-    imgUrl: string;
-}
-interface CommentResponse {
-    id: string;
-    slug: string;
-    createdAt: string;
-    content: string;
-    user: UserProfile;
-}
-interface CommentReplyResponse {
-    id: string;
-    parent: string;
-    createdAt: string;
-    content: string;
-    user: UserProfile;
-}
-
 export async function getPageRequest(URL: string, slug: string, page: number){
     const response = await axiosClient
     .get("/api/blog"+URL, {

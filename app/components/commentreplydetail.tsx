@@ -2,52 +2,8 @@
 
 import Image from "next/image";
 //import CommentReplyPost from "@/app/components/commentpost"
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 import { CommentReplyPost } from "@/app/components/commentpost";
-
-
-interface PageInfo {
-    totalElements: number;
-    totalPages: number;
-}
-
-type UserProfile = {
-    userId:string;
-    nickname: string;
-    imgUrl: string;
-}
-
-type CommentReplyProps = {
-    commentId: string;
-    getCommentReplies: (commentId:string, page: number) => Promise<CommentReplyResponse | null>;
-    deleteCommentReply: (id: string, replyId:string) => Promise<ServerStatusResponse | null>;
-    postCommentReplyProps: PostCommentReplyProps;
-};
-
-type CommentReply = {
-    id: string;
-    parent: string;
-    createdAt: string;
-    content: string;
-    isMine: boolean;
-    user: UserProfile;
-}
-
-type CommentReplyResponse = {
-    commentReplies: CommentReply[];
-    pageInfo: PageInfo;
-}
-interface ServerStatusResponse {
-	status: number;
-}
-
-interface PostCommentReplyProps{
-    slug: string;
-    getUserProfileByComment: () => Promise<UserProfile | null>;
-    postCommentReply: (parent: string, content: string) => Promise<ServerStatusResponse | null>;
-    isLoggedIn: boolean;
-    parent:string;
-}
     
 export default function CommentReplyDetail( {commentId, getCommentReplies, deleteCommentReply, postCommentReplyProps} : CommentReplyProps) {
     const [page, setPage] = useState<number>(1);
@@ -100,7 +56,7 @@ export default function CommentReplyDetail( {commentId, getCommentReplies, delet
                 disabled={visible}  
                 className={`${visible ? 'hidden': "mx-2 my-2 text-sm duration-150 text-gray-300 hover:text-blue-500 right" }`}
             >
-            답글보기 ▼
+            Reply ▼
             </button>
             <div className={`${!visible ? 'hidden' : "space-y-2 "}`}>
                 {commentReplyList.map((commentReply) => (
@@ -152,7 +108,7 @@ export default function CommentReplyDetail( {commentId, getCommentReplies, delet
                             disabled={pageInfo.totalPages<page}  
                             className={`${pageInfo.totalPages<page ? 'hidden': "my-4 mx-10 text-sm duration-150 text-gray-300 hover:text-blue-500 right" }`}                    
                     >
-                        답글 더보기 
+                        More reply ▼
                     </button>               
                 </div>
 

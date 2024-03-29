@@ -1,64 +1,13 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { getPageRequest, postRequest, deleteRequest, getUserProfile } from '@/service/blogservice'
 import { getReplyPageRequest, postReplyRequest, deleteReplyRequest } from '@/service/blogservice'
 import CommentDetail from '@/app/components/commentdetail'
 import { useRouter } from 'next/navigation'
 import { getCookie } from "cookies-next";
 import CommentReplyDetail from "@/app/components/commentreplydetail";
-import { CommentPost, CommentReplyPost } from "@/app/components/commentpost";
-
-type UserProfile = {
-    userId:string;
-    nickname: string;
-    imgUrl: string;
-}
-
-interface CommentProps {
-    slug: string;
-}
-
-type Comment = {
-    id: string;
-    slug: string;
-    content: string;
-    createdAt: string;
-    isMine: boolean;
-    user: UserProfile;
-}
-
-
-type CommentReply = {
-    id: string;
-    parent: string;
-    createdAt: string;
-    content: string;
-    isMine: boolean;
-    user: UserProfile;
-}
-
-type CommentReplyResponse = {
-    commentReplies: CommentReply[];
-    pageInfo: PageInfo;
-}
-
-interface PageInfo {
-    totalElements: number;
-    totalPages: number;
-}
-
-interface CommentRequest {
-    slug?: string;
-    content?: string;
-}
-interface CommentReplyRequest {
-    content?: string;
-}
-
-interface ServerStatusResponse {
-	status: number;
-}
+import { CommentPost } from "@/app/components/commentpost";
 
 export async function getUser(accessToken: string){
     const response = await getUserProfile(accessToken);
@@ -85,6 +34,7 @@ export default function Comment({ slug }: CommentProps) {
                         userId: res.data.data.userId,
                         nickname: res.data.data.nickname,
                         imgUrl: res.data.data.imgUrl,
+                        role: res.data.data.role,
                     };
                     setUserProfile(user);
                     setIsLoggedIn(true);
@@ -280,14 +230,18 @@ export default function Comment({ slug }: CommentProps) {
                     {commentList.map((comment) => (
                         <div key={comment.id}> 
                             <CommentDetail comment={comment} deleteComment={deleteComment}/>
-                            <CommentReplyDetail commentId={comment.id} getCommentReplies={getCommentReplies} deleteCommentReply={deleteCommentReply} 
-                            postCommentReplyProps={{ 
-                                slug: slug, 
-                                getUserProfileByComment: getUserProfileByComment, 
-                                postCommentReply:postCommentReply, 
-                                isLoggedIn: isLoggedIn, 
-                                parent: comment.id
-                            }}/>
+                            <CommentReplyDetail 
+                                commentId={comment.id} 
+                                getCommentReplies={getCommentReplies} 
+                                deleteCommentReply={deleteCommentReply} 
+                                postCommentReplyProps={{ 
+                                    slug: slug, 
+                                    getUserProfileByComment: getUserProfileByComment, 
+                                    postCommentReply:postCommentReply, 
+                                    isLoggedIn: isLoggedIn, 
+                                    parent: comment.id
+                                }}
+                            />
                         </div>
                         ))}
                     {commentList.length === 0 && 

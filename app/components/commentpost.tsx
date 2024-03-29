@@ -4,31 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState, useRef } from "react";
 
-type UserProfile = {
-    userId:string;
-    nickname: string;
-    imgUrl: string;
-}
-
-interface CommentPostProps {
-    getUserProfileByComment: () => Promise<UserProfile | null>;
-    postComment: (content: string) => Promise<void>;
-    slug: string;
-    isLoggedIn: boolean;
-}
-
-interface CommentReplyPostProps {
-    getUserProfileByComment: () => Promise<UserProfile | null>;
-    postCommentReply: (parent: string, content: string) => Promise<ServerStatusResponse | null>;
-    refreshReplies: () => Promise<void>;
-    slug: string;
-    isLoggedIn: boolean;
-    parent: string;
-}
-interface ServerStatusResponse {
-	status: number;
-}
-
 export function CommentPost(commentPostProps: CommentPostProps ) {
     const [content, setContent] = useState<string>("");
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);

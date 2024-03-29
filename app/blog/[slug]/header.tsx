@@ -71,6 +71,7 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 			setAccessToken("");
 			setRefreshToken("");
 		}
+
 	}
 
 	useEffect(() => {
@@ -86,6 +87,8 @@ export const Header: React.FC<Props> = ({ blog, views }) => {
 			setRefreshToken(refreshtoken);
 		}else if(!accesstoken && refreshtoken){
 			getAccessToken(refreshtoken);
+			const current = getCookie("currentPage") ?? "/blog";
+			router.push(current);
 		}
 
 		if(searchParams){

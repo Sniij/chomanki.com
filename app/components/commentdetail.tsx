@@ -1,28 +1,8 @@
 import Image from "next/image";
-import CommentReplyDetail from "@/app/components/commentreplydetail";
-
-
-type UserProfile = {
-    userId:string;
-    nickname: string;
-    imgUrl: string;
-}
-
-
-type CommentProps = {
-    comment: {
-        id: string;
-        content: string;
-        createdAt: string;
-        isMine: boolean;
-        user: UserProfile;
-    };
-    deleteComment: (id: string) => void;
-};
 
 
 
-export default function CommentDetail({ comment, deleteComment }: CommentProps) {
+export default function CommentDetail({ comment, deleteComment }: CommentDetailProps) {
 
     return (
         <div className="text-gray-300 p-4 rounded-lg duration-150 bg-zinc-900 hover:bg-zinc-800/20">
