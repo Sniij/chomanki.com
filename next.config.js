@@ -88,6 +88,7 @@ module.exports = withContentlayer({
                 destination: BASE_URL+`/comment?commentId=:commentId&userId=:userId`
             },
 
+
             // Blog Comment Reply
             {
                 source: '/api/blog/comment/:commentId',
@@ -108,7 +109,6 @@ module.exports = withContentlayer({
                 source: '/api/blog/comment/:commentId/:commentReplyId/:userId',
                 destination: BASE_URL+`/comment/:commentId?commentReplyId=:commentReplyId&userId=:userId`
             },
-
 
 
             {

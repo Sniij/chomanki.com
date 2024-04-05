@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { getPageRequest, postRequest, deleteRequest, getUserProfile } from '@/service/blogservice'
+import { getCommentPageRequest, postCommentRequest, deleteCommentRequest, getUserProfile } from '@/service/blogservice'
 import { getReplyPageRequest, postReplyRequest, deleteReplyRequest } from '@/service/blogservice'
 import CommentDetail from '@/app/components/commentdetail'
 import { useRouter } from 'next/navigation'
@@ -89,7 +89,8 @@ export default function Comment({ slug }: CommentProps) {
 
     
     async function getCommentList(page: number){
-        const result = await getPageRequest(`/comment`, slug, page);
+        const result = await getCommentPageRequest(slug, page);
+
         if(result){
             if(result.status===200){
                 const comments: Comment[] = result.data.data;
@@ -121,7 +122,7 @@ export default function Comment({ slug }: CommentProps) {
                 slug: slug,
                 content: content
             };
-            const response = await postRequest(`/comment`, obj, userProfile?.userId, accessToken );
+            const response = await postCommentRequest( obj, userProfile?.userId, accessToken );
 
             if (response.status === 201) {
                 getCommentList(pageInfo.totalPages);
@@ -135,7 +136,7 @@ export default function Comment({ slug }: CommentProps) {
 
     async function deleteComment(id: string){
         if(accessToken && userProfile?.userId){
-            const response = await deleteRequest(`/comment`, id, userProfile?.userId, accessToken);
+            const response = await deleteCommentRequest(id, userProfile?.userId, accessToken);
             if (response.status === 204) {
                 setCommentList(commentList.filter(comment => comment.id !== id));
             }else{
@@ -153,7 +154,7 @@ export default function Comment({ slug }: CommentProps) {
             let obj: CommentReplyRequest = {
                 content: content
             };
-            const response:ServerStatusResponse = await postReplyRequest(`/api/blog/comment/`+ parent + `/` + userProfile.userId, obj, accessToken );
+            const response:ServerStatusResponse = await postReplyRequest(parent, userProfile.userId, obj, accessToken);
             return response;
 
         }else{
@@ -165,7 +166,7 @@ export default function Comment({ slug }: CommentProps) {
         // '/api/blog/comment/:commentId/:commentReplyId/:userId'
 
         if(accessToken && userProfile?.userId){
-            const response:ServerStatusResponse = await deleteReplyRequest(`/api/blog/comment/`+ commentId, userProfile.userId, replyId, accessToken);
+            const response:ServerStatusResponse = await deleteReplyRequest( commentId, userProfile.userId, replyId, accessToken);
             return response;
         }else{
             return null;
@@ -175,7 +176,7 @@ export default function Comment({ slug }: CommentProps) {
 
 
     async function getCommentReplyList(commentId: string, page: number){
-        const result = await getReplyPageRequest(`/api/blog/comment/`+commentId, page);
+        const result = await getReplyPageRequest(commentId, page);
 
         if(result){
             if(result.status===200){
