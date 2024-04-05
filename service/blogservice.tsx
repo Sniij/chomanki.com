@@ -15,7 +15,6 @@ const axiosClient = axios.create({
 });
 
 export async function getCommentPageRequest(slug: string, page: number){
-    console.log(API_KEY);
     const response = await axiosClient
     .get("/api/blog/comment", {
         params:{

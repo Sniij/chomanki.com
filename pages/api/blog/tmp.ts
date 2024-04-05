@@ -101,7 +101,6 @@ async function fetchComments(slug:string, page: number){
     })
     .then(response=>response)
     .catch(err=>err);
-    console.log("fetched comments")
     return response;
 }
 
