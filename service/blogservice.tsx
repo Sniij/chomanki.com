@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const LOCAL_BASE_URL = process.env.NEXT_PUBLIC_LOCAL_BASE_URL;
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const API_KEY = process.env.API_KEY;
+const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
 const axiosClient2 = axios.create({
     baseURL: BASE_URL,
@@ -15,7 +15,7 @@ const axiosClient = axios.create({
 });
 
 export async function getCommentPageRequest(slug: string, page: number){
-    
+    console.log(API_KEY);
     const response = await axiosClient
     .get("/api/blog/comment", {
         params:{
