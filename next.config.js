@@ -25,11 +25,25 @@ module.exports = withContentlayer({
             {
                 source: '/auth/login/google',
                 destination: BASE_URL+`/login/oauth2/authorization/google`,
+                has: [
+                    {
+                        type: 'header',
+                        key: 'X-Api-Key:',
+                        value: API_KEY,
+                    }
+                ],
                 permanent: false,
             },
             {
                 source: '/auth/login/github',
                 destination: BASE_URL+`/login/oauth2/authorization/github`,
+                has: [
+                    {
+                        type: 'header',
+                        key: 'X-Api-Key:',
+                        value: API_KEY,
+                    }
+                ],
                 permanent: false,
             },
             {
@@ -39,6 +53,11 @@ module.exports = withContentlayer({
                         type: 'query',
                         key: 'prevPage',
                         value: '(?<prevPage>.*)',
+                    },
+                    {
+                        type: 'header',
+                        key: 'X-Api-Key:',
+                        value: API_KEY,
                     }
                 ],
                 destination: BASE_URL+`/login/oauth2/authorization/google?prevPage=:prevPage`,
@@ -51,6 +70,11 @@ module.exports = withContentlayer({
                         type: 'query',
                         key: 'prevPage',
                         value: '(?<prevPage>.*)',
+                    },
+                    {
+                        type: 'header',
+                        key: 'X-Api-Key:',
+                        value: API_KEY,
                     }
                 ],
                 destination: BASE_URL+`/login/oauth2/authorization/github?prevPage=:prevPage`,

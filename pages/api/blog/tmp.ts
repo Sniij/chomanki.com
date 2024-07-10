@@ -8,11 +8,26 @@ const API_KEY = process.env.API_KEY;
 
 
 export const config = {
-    runtime: "edge",
+    runtime: "experimental-edge",
 };
 
 
-export default async function GET(req: NextRequest): Promise<NextResponse>{
+export default function handler(
+    req: NextRequest,
+    res: NextResponse
+) {
+    const method = req.method;
+
+    switch (method) {
+        case "GET": GET(req); break;
+        default: break;
+    }
+
+    return;
+
+}
+
+export async function GET(req: NextRequest): Promise<NextResponse>{
 
     try{
         const slug = req.nextUrl.searchParams.get('slug');
@@ -24,7 +39,6 @@ export default async function GET(req: NextRequest): Promise<NextResponse>{
         }else{
             return new NextResponse("Invalid parameter", { status: 400 });
         }
-        
         return NextResponse.json(fetchedComments);
     } catch(error) {
         console.error('Error fetching comments', error);
@@ -92,16 +106,17 @@ const axiosClient = axios.create({
 
 
 async function fetchComments(slug:string, page: number){
-    const response = await axiosClient
-    .get("/comment", {
-        params:{
-            slug,
-            page
-        }
-    })
-    .then(response=>response)
-    .catch(err=>err);
-    return response;
+
+    if(API_KEY){
+        const response = await fetch(`${BASE_URL}/comment?slug=${encodeURIComponent(slug)}&page=${page}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': API_KEY,
+            },
+        });
+        return await response.json();
+    }
 }
 
 
