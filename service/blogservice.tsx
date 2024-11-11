@@ -20,9 +20,6 @@ export async function getCommentPageRequest(slug: string, page: number){
         params:{
             slug,
             page
-        },
-        headers:{
-            "x-api-key": API_KEY,
         }
     })
     .then(response=>response)
@@ -36,7 +33,6 @@ export async function postCommentRequest(payload: CommentRequest, userId: string
     const response = await axiosClient
     .post<ServerResponse<CommentResponse>>("/api/blog/comment/post/" + userId, payload,{
         headers:{
-            "x-api-key": API_KEY,
             Authorization: "Bearer " + accessToken
         }
     })
@@ -51,7 +47,7 @@ export async function deleteCommentRequest(commentId: string, userId: string, ac
     const response = await axiosClient
     .delete<ServerStatusResponse>("/api/blog/comment/delete/"+ commentId +"/"+ userId, {
         headers:{
-            "x-api-key": API_KEY,
+
             Authorization: "Bearer " + accessToken
         }
     })
@@ -66,9 +62,6 @@ export async function getReplyPageRequest(commentId: string, page: number){
     .get("/api/blog/comment/"+commentId, {
         params:{
             page
-        },
-        headers:{
-            "x-api-key": API_KEY
         }
     })
     .then(response=>response)
@@ -82,8 +75,7 @@ export async function postReplyRequest(commentId: string, userId: string, payloa
     const response = await axiosClient
     .post<ServerResponse<CommentReplyResponse>>("/api/blog/comment/" + commentId + "/" + userId, payload,{
         headers:{
-            Authorization: "Bearer " + accessToken,
-            "x-api-key": API_KEY
+            Authorization: "Bearer " + accessToken
         }
     })
     .catch(err =>err)
@@ -96,8 +88,7 @@ export async function deleteReplyRequest(commentId: string, userId:string, reply
     const response = await axiosClient
     .delete<ServerStatusResponse>("/api/blog/comment/" + commentId +`/`+ replyId +`/`+ userId , {
         headers:{
-            Authorization: "Bearer " + accessToken,
-            "x-api-key": API_KEY
+            Authorization: "Bearer " + accessToken
         }
     })
     .catch(err =>err)
@@ -112,8 +103,7 @@ export async function getUserProfile(accessToken: string){
     const response = await axiosClient
     .get<ServerResponse<UserProfile>>("/api/blog/user", {
         headers:{
-            Authorization: "Bearer " + accessToken,
-            "x-api-key": API_KEY
+            Authorization: "Bearer " + accessToken
         }
     })
     .then(response => response)
@@ -128,8 +118,7 @@ export async function getAccessTokenByRefreshToken(refreshToken: string){
     const response = await axiosClient
     .get<ServerResponse<RefreshResponse>>("/api/blog/auth/refresh", {
         headers:{
-            Refresh: refreshToken,
-            "x-api-key": API_KEY
+            Refresh: refreshToken
         }
     })
     .then(response => response)
